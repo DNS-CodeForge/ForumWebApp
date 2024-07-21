@@ -36,9 +36,6 @@ public class Post {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private ApplicationUser user;
     private Instant createdDate;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "forum_id", referencedColumnName = "id")
-    private SubForum subForum;
 
     @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Comment> comments = new HashSet<>();
