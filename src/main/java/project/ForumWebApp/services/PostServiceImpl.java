@@ -5,14 +5,16 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import project.ForumWebApp.models.DTOs.PostSummaryDTO;
 import project.ForumWebApp.models.Post;
+import project.ForumWebApp.models.DTOs.PostCreateDTO;
 import project.ForumWebApp.models.DTOs.PostDTO;
+import project.ForumWebApp.models.DTOs.PostSummaryDTO;
 import project.ForumWebApp.repository.PostRepository;
 import project.ForumWebApp.repository.UserRepository;
 
@@ -33,9 +35,11 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public PostDTO createPost(PostDTO postDTO) {
+    public PostDTO createPost(PostCreateDTO postDTO){
         Post post = modelMapper.map(postDTO, Post.class);
-        post.setUser(userRepository.findByUsername(postDTO.getUser().getUsername())
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserName = authentication.getName();
+        post.setUser(userRepository.findByUsername(currentUserName)
                 .orElseThrow(() -> new RuntimeException("User not found"))); // Adjust error handling as needed
         post = postRepository.save(post);
         return modelMapper.map(post, PostDTO.class);
