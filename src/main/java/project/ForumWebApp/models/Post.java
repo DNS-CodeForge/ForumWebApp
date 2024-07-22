@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -28,9 +29,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "posts")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Integer id;
     private String title;
     private String description;
@@ -42,14 +45,15 @@ public class Post {
     @JsonManagedReference
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id")
-    private Set<Like> likes;
+    private Set<Like> likes = new HashSet<>();
 
     @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Comment> comments = new HashSet<>();
+
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "post_tags", 
-    joinColumns = {@JoinColumn(name = "post_id")},
-    inverseJoinColumns =  {@JoinColumn(name = "tag_id")}
+    @JoinTable(name = "post_tags",
+            joinColumns = {@JoinColumn(name = "post_id")},
+            inverseJoinColumns =  {@JoinColumn(name = "tag_id")}
     )
     private Set<Tag> tags = new HashSet<>();
 

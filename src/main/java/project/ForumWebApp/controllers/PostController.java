@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import project.ForumWebApp.models.DTOs.PostDTO;
+import project.ForumWebApp.models.DTOs.PostSummaryDTO;
 import project.ForumWebApp.models.Post;
 import project.ForumWebApp.services.PostServiceImpl;
 
@@ -24,12 +26,13 @@ public class PostController{
     }
      
     @GetMapping
-    public List<Post> getAllPosts() {
+    public List<PostSummaryDTO> getAllPosts() {
         return postService.getAllPosts();
     }
 
     @GetMapping("/{id}")
-    public Post getPostById(@PathVariable int id) {
+    public PostDTO getPostById(@PathVariable int id) {
         return postService.getPost(id).get();
     }
+
 }

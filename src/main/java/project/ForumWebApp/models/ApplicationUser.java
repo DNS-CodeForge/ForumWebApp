@@ -16,6 +16,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -29,6 +30,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class ApplicationUser implements UserDetails {
 
     static final int FIRST_NAME_MAX_LEN = 32;
@@ -40,6 +42,7 @@ public class ApplicationUser implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Integer id;
 
     @Column(name = "first_name")
@@ -55,6 +58,7 @@ public class ApplicationUser implements UserDetails {
     @Column(unique = true)
     @NotBlank(message = "Email is mandatory")
     @Size(max = 255, message = "Email should not be more than 255 characters")
+    @EqualsAndHashCode.Include
     private String email;
 
     @NotBlank(message = "Password is mandatory")
@@ -62,6 +66,7 @@ public class ApplicationUser implements UserDetails {
 
     @Column(unique = true)
     @NotBlank(message = "Username is mandatory")
+    @EqualsAndHashCode.Include
     private String username;
 
     @ManyToMany(fetch = FetchType.EAGER)

@@ -11,5 +11,5 @@ import project.ForumWebApp.models.Post;
 
 public interface PostRepository extends JpaRepository<Post, Integer>{
     @Query("SELECT p FROM Post p WHERE p.title LIKE %:title%")
-    public List<Post> findByTitle(@Param("title") String title);
+    public List<Post> findByTitleContaining(@Param("title") String title);
 }

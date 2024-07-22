@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -19,9 +20,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "tags")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Tag{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private int id;
     private String name;
     @ManyToMany(mappedBy = "tags")
