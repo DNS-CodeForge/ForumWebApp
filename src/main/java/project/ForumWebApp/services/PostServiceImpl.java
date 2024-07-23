@@ -46,21 +46,22 @@ public class PostServiceImpl implements PostService {
         post.setUser(userRepository.findByUsername(currentUserName)
                 .orElseThrow(() -> new RuntimeException("User not found")));
         Set<Tag> tags = new HashSet<>();
-
-        for (String tagName : postDTO.getTagNames()) {
-            Optional<Tag> tagOptional = tagService.findTagByName(tagName);
-            Tag tag;
-            if (!tagOptional.isPresent()) {
-                tag = tagService.createTagByName(tagName);
-                tag.getPosts().add(post);
-                tagService.updateTag(tag);
-            } else {
-                tag = tagService.addPostToTag(tagName, post);
+        if (postDTO.getTagNames() != null) {
+            for (String tagName : postDTO.getTagNames()) {
+                Optional<Tag> tagOptional = tagService.findTagByName(tagName);
+                Tag tag;
+                if (!tagOptional.isPresent()) {
+                    tag = tagService.createTagByName(tagName);
+                    tag.getPosts().add(post);
+                    tagService.updateTag(tag);
+                } else {
+                    tag = tagService.addPostToTag(tagName, post);
+                }
+                tags.add(tag);
             }
-            tags.add(tag);
-        }
 
-        post.setTags(tags);
+            post.setTags(tags);
+        }
         post = postRepository.save(post);
         return modelMapper.map(post, PostDTO.class);
     }
