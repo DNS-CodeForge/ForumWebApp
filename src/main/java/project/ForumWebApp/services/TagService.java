@@ -34,6 +34,13 @@ public class TagService {
         tag = tagRepository.save(tag);
         return tag;
     }
+
+    @Transactional
+    public Tag createTag(Tag tag) {
+        tag = tagRepository.save(tag);
+        return tag;
+    }
+
     public Tag addPostToTag(String name, Post post) {
         Optional<Tag> tagOptional = tagRepository.findTagByName(name);
         if (tagOptional.isPresent()) {
@@ -43,7 +50,20 @@ public class TagService {
         }
         throw new RuntimeException("Tag not found with name " + name);
     }
+
     public List<Tag> getAll() {
         return tagRepository.findAll();
+    }
+
+    public Tag get(int id) {
+        return tagRepository.findById(id).get();
+    }
+
+    public void deleteTag(Tag tag) {
+        tagRepository.delete(tag);
+    }
+
+    public void deleteTag(int id) {
+        tagRepository.deleteById(id);
     }
 }
