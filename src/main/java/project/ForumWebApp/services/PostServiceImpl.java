@@ -79,6 +79,13 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public void deletePost(int id) {
+        Optional<Post> post = postRepository.findById(id);
+        if(post.isPresent()) {
+            for(Tag tag : post.get().getTags()) {
+                tag.getPosts().remove(post.get());
+                tagService.updateTag(tag);
+            }
+        }
         postRepository.deleteById(id);
     }
 
