@@ -1,5 +1,7 @@
 package project.ForumWebApp.models.DTOs;
 
+import java.util.Set;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class PostCreateDTO {
     private String title;
     private String description;
+    private Set<String> tagNames;
 }

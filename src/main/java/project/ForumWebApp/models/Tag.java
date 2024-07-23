@@ -10,6 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,5 +30,6 @@ public class Tag{
     private int id;
     private String name;
     @ManyToMany(mappedBy = "tags")
+    @JsonBackReference
     private Set<Post> posts = new HashSet<>();
 }

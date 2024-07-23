@@ -1,7 +1,9 @@
 package project.ForumWebApp.services;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -11,13 +13,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import project.ForumWebApp.filterSpecifications.PostFilterSpecification;
 import project.ForumWebApp.models.Post;
+import project.ForumWebApp.models.Tag;
 import project.ForumWebApp.models.DTOs.PostCreateDTO;
 import project.ForumWebApp.models.DTOs.PostDTO;
 import project.ForumWebApp.models.DTOs.PostSummaryDTO;
 import project.ForumWebApp.repository.PostRepository;
 import project.ForumWebApp.repository.UserRepository;
-import project.ForumWebApp.filterSpecifications.PostFilterSpecification;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -25,12 +28,14 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private final TagService tagService;
 
     @Autowired
-    public PostServiceImpl(PostRepository postRepository, UserRepository userRepository, ModelMapper modelMapper) {
+    public PostServiceImpl(TagService tagService, PostRepository postRepository, UserRepository userRepository, ModelMapper modelMapper) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
+        this.tagService = tagService;
     }
 
     @Override
@@ -40,6 +45,22 @@ public class PostServiceImpl implements PostService {
         String currentUserName = SecurityContextHolder.getContext().getAuthentication().getName();
         post.setUser(userRepository.findByUsername(currentUserName)
                 .orElseThrow(() -> new RuntimeException("User not found")));
+        Set<Tag> tags = new HashSet<>();
+
+        for (String tagName : postDTO.getTagNames()) {
+            Optional<Tag> tagOptional = tagService.findTagByName(tagName);
+            Tag tag;
+            if (!tagOptional.isPresent()) {
+                tag = tagService.createTagByName(tagName);
+                tag.getPosts().add(post);
+                tagService.updateTag(tag);
+            } else {
+                tag = tagService.addPostToTag(tagName, post);
+            }
+            tags.add(tag);
+        }
+
+        post.setTags(tags);
         post = postRepository.save(post);
         return modelMapper.map(post, PostDTO.class);
     }
