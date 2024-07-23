@@ -17,5 +17,6 @@ public class PostSummaryDTO {
     private ApplicationUserDTO user;
     private Instant createdDate;
     private Integer likeCount;
+    private Integer commentCount;
     private Set<TagDTO> tags;
 }

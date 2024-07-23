@@ -17,7 +17,7 @@ import project.ForumWebApp.models.DTOs.PostDTO;
 import project.ForumWebApp.models.DTOs.PostSummaryDTO;
 import project.ForumWebApp.repository.PostRepository;
 import project.ForumWebApp.repository.UserRepository;
-import project.ForumWebApp.specifications.PostSpecification;
+import project.ForumWebApp.filterSpecifications.PostFilterSpecification;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -70,11 +70,15 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional(readOnly = true)
     public List<PostSummaryDTO> getPosts(String title, String description, String user, List<String> tags, String sort) {
-        Specification<Post> spec = PostSpecification.withFiltersAndSort(title, description, user, tags, sort);
+        Specification<Post> spec = PostFilterSpecification.withFiltersAndSort(title, description, user, tags, sort);
         List<Post> posts = postRepository.findAll(spec);
 
         return posts.stream()
-                .map(post -> modelMapper.map(post, PostSummaryDTO.class))
+                .map(post -> {
+                    PostSummaryDTO dto = modelMapper.map(post, PostSummaryDTO.class);
+                    dto.setCommentCount(post.getComments().size());
+                    return dto;
+                })
                 .collect(Collectors.toList());
     }
 }
