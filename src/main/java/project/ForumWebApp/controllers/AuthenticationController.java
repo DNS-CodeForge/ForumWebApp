@@ -1,8 +1,6 @@
 package project.ForumWebApp.controllers;
 
 
-
-
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +14,7 @@ import project.ForumWebApp.services.AuthenticationService;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin("*") 
+@CrossOrigin("*")
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
@@ -27,10 +25,14 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ApplicationUser addUser(@RequestBody RegistrationDTO registrationDTO) {
-        return authenticationService.registerUser(registrationDTO.getFirstName(), registrationDTO.getLastName(),registrationDTO.getEmail(), registrationDTO.getPassword(), registrationDTO.getUsername());
+
+        return authenticationService.registerUser(registrationDTO);
     }
+
     @PostMapping("/login")
-    public LoginResponseDTO loginUser(@RequestBody LoginDTO body){
-        return authenticationService.loginUser(body.getUsername(), body.getPassword());
+    public LoginResponseDTO loginUser(@RequestBody LoginDTO body) {
+        var response = authenticationService.loginUser(body.getUsername(), body.getPassword());
+        response.getUser().setPassword("*********");
+        return response;
     }
 }

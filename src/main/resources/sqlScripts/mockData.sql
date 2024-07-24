@@ -14,7 +14,7 @@ INSERT INTO tags (name) VALUES ('Java'), ('Spring'), ('Hibernate'), ('JPA'), ('S
 INSERT INTO users (first_name, last_name, email, password, username)
 VALUES
     ('John', 'Doe', 'john.doe@example.com', 'password123', 'johndoe'),
-    ('Brad', 'Doe', 'brad.doe@example.com', 'password123', 'Braddoe'),
+    ('Brad', 'Doe', 'brad.doe@example.com', 'password123', 'braddoe'),
     ('Jane', 'Smith', 'jane.smith@example.com', 'password123', 'janesmith'),
     ('Alice', 'Johnson', 'alice.johnson@example.com', 'password123', 'alicejohnson'),
     ('Bob', 'Brown', 'bob.brown@example.com', 'password123', 'bobbrown'),
@@ -70,17 +70,17 @@ VALUES
     (20, NOW(), 'Advanced SQL queries for data analysis.', 'Mastering SQL Queries');
 
 -- Insert mock data into comments
-INSERT INTO comments (post_id, content)
+INSERT INTO comments (post_id, content, user_id)
 VALUES
-    (1, 'Great overview of Java 16!'), (1, 'Very informative.'), (2, 'Spring Boot is awesome!'),
-    (3, 'Helpful article on Hibernate.'), (4, 'Good insights on JPA.'), (5, 'Nice comparison!'),
-    (6, 'Docker is a game changer.'), (7, 'Kubernetes is powerful!'), (8, 'Scalability is key.'),
-    (9, 'DevOps practices are essential.'), (10, 'Python is great for data analysis.'),
-    (11, 'JavaScript frameworks are evolving fast.'), (12, 'TypeScript improves productivity.'),
-    (13, 'React is my favorite UI library.'), (14, 'Angular is robust for large apps.'),
-    (15, 'Vue.js is very flexible.'), (16, 'HTML and CSS are foundational.'),
-    (17, 'NoSQL databases offer great performance.'), (18, 'Machine Learning is fascinating.'),
-    (19, 'AI will shape the future.'), (20, 'SQL queries can be very powerful.');
+    (1, 'Great overview of Java 16!', 2), (1, 'Very informative.', 3), (2, 'Spring Boot is awesome!', 4),
+    (3, 'Helpful article on Hibernate.', 5), (4, 'Good insights on JPA.', 6), (5, 'Nice comparison!', 7),
+    (6, 'Docker is a game changer.', 8), (7, 'Kubernetes is powerful!', 9), (8, 'Scalability is key.', 10),
+    (9, 'DevOps practices are essential.', 11), (10, 'Python is great for data analysis.', 12),
+    (11, 'JavaScript frameworks are evolving fast.', 13), (12, 'TypeScript improves productivity.', 14),
+    (13, 'React is my favorite UI library.', 15), (14, 'Angular is robust for large apps.', 16),
+    (15, 'Vue.js is very flexible.', 17), (16, 'HTML and CSS are foundational.', 18),
+    (17, 'NoSQL databases offer great performance.', 19), (18, 'Machine Learning is fascinating.', 20),
+    (19, 'AI will shape the future.', 2), (20, 'SQL queries can be very powerful.', 3);
 
 -- Insert mock data into likes
 INSERT INTO likes (post_id, user_id)

@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import project.ForumWebApp.config.AuthContextManager;
 import project.ForumWebApp.models.Comment;
 import project.ForumWebApp.models.DTOs.CommentDTO;
 import project.ForumWebApp.repository.CommentRepository;
@@ -18,11 +19,14 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
     private final ModelMapper modelMapper;
+    private final AuthContextManager authContextManager;
 
-    public CommentServiceImpl(CommentRepository commentRepository, ModelMapper modelMapper, PostRepository postRepository) {
+    public CommentServiceImpl(CommentRepository commentRepository, ModelMapper modelMapper,
+                              PostRepository postRepository,AuthContextManager authContextManager) {
         this.commentRepository = commentRepository;
         this.modelMapper = modelMapper;
         this.postRepository = postRepository;
+        this.authContextManager = authContextManager;
     }
 
     public List<CommentDTO> getCommentsByPostId(int postId) {
@@ -51,6 +55,7 @@ public class CommentServiceImpl implements CommentService {
     public CommentDTO createComment(CommentDTO commentDTO) {
         Comment comment = modelMapper.map(commentDTO, Comment.class);
         comment.setPost(postRepository.findById(commentDTO.getPostId()).get());
+        comment.setUser(authContextManager.getLoggedInUser());
         Comment savedComment = commentRepository.save(comment);
         return modelMapper.map(savedComment, CommentDTO.class);
     }

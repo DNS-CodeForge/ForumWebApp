@@ -9,10 +9,11 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import project.ForumWebApp.config.AuthContextManager;
 import project.ForumWebApp.filterSpecifications.PostFilterSpecification;
 import project.ForumWebApp.models.DTOs.post.PostUpdateDTO;
 import project.ForumWebApp.models.Post;
@@ -29,25 +30,25 @@ import project.ForumWebApp.services.TagService;
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
-    private final UserRepository userRepository;
+
     private final ModelMapper modelMapper;
     private final TagService tagService;
+    private final AuthContextManager authContextManager;
 
     @Autowired
-    public PostServiceImpl(TagService tagService, PostRepository postRepository, UserRepository userRepository, ModelMapper modelMapper) {
+    public PostServiceImpl(TagService tagService, PostRepository postRepository,  ModelMapper modelMapper,AuthContextManager authContextManager) {
         this.postRepository = postRepository;
-        this.userRepository = userRepository;
+
         this.modelMapper = modelMapper;
         this.tagService = tagService;
+        this.authContextManager = authContextManager;
     }
 
     @Override
     @Transactional
     public PostDTO createPost(PostCreateDTO postDTO) {
         Post post = modelMapper.map(postDTO, Post.class);
-        String currentUserName = SecurityContextHolder.getContext().getAuthentication().getName();
-        post.setUser(userRepository.findByUsername(currentUserName)
-                .orElseThrow(() -> new RuntimeException("User not found")));
+        post.setUser(authContextManager.getLoggedInUser());
         Set<Tag> tags = new HashSet<>();
         if (postDTO.getTagNames() != null) {
             for (String tagName : postDTO.getTagNames()) {
@@ -71,6 +72,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
+<<<<<<< Updated upstream
     public PostDTO updatePost(int id, PostUpdateDTO postUpdateDTO) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Post not found"));
@@ -107,6 +109,11 @@ public class PostServiceImpl implements PostService {
         }
 
 
+=======
+    public PostDTO updatePost(PostDTO postDTO) {
+        Post post = modelMapper.map(postDTO, Post.class);
+        post.setUser(authContextManager.getLoggedInUser());
+>>>>>>> Stashed changes
         post = postRepository.save(post);
         return modelMapper.map(post, PostDTO.class);
     }
