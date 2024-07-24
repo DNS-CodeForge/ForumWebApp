@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import project.ForumWebApp.filterSpecifications.PostFilterSpecification;
+import project.ForumWebApp.models.DTOs.PostUpdateDTO;
 import project.ForumWebApp.models.Post;
 import project.ForumWebApp.models.Tag;
 import project.ForumWebApp.models.DTOs.PostCreateDTO;
@@ -70,10 +71,42 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public PostDTO updatePost(PostDTO postDTO) {
-        Post post = modelMapper.map(postDTO, Post.class);
-        post.setUser(userRepository.findByUsername(postDTO.getUser().getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found")));
+    public PostDTO updatePost(int id, PostUpdateDTO postUpdateDTO) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+
+
+        post.setTitle(postUpdateDTO.getTitle());
+        post.setDescription(postUpdateDTO.getDescription());
+
+
+        Set<Tag> newTags = new HashSet<>();
+        if (postUpdateDTO.getTags() != null) {
+            for (String tagName : postUpdateDTO.getTags()) {
+                Optional<Tag> tagOptional = tagService.findTagByName(tagName);
+                Tag tag;
+                if (!tagOptional.isPresent()) {
+                    tag = tagService.createTagByName(tagName);
+                } else {
+                    tag = tagOptional.get();
+                }
+                tag.getPosts().add(post);
+                newTags.add(tag);
+                tagService.updateTag(tag);
+            }
+            Set<Tag> oldTags = new HashSet<>(post.getTags());
+            for (Tag oldTag : oldTags) {
+                if (!newTags.contains(oldTag)) {
+                    oldTag.getPosts().remove(post);
+                    tagService.updateTag(oldTag);
+                }
+            }
+
+
+            post.setTags(newTags);
+        }
+
+        // Save the updated post
         post = postRepository.save(post);
         return modelMapper.map(post, PostDTO.class);
     }
