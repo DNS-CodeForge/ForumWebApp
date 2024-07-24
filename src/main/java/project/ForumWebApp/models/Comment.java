@@ -29,14 +29,12 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "post_id", referencedColumnName = "id")
     private Post post;
-    //@PersistenceContext
-    //private transient EntityManager entityManager;
 
-    @PreRemove
+   @PreRemove
     private void preRemove() {
         if (post != null) {
             post.getComments().remove(this);
-//           entityManager.merge(post);  // Persist the change to the post entity
+
         }
     }
 }

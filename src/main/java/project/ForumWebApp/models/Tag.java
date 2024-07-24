@@ -3,11 +3,13 @@ package project.ForumWebApp.models;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.PreRemove;
 import jakarta.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -23,13 +25,23 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "tags")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Tag{
+public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private int id;
+
     private String name;
+
     @ManyToMany(mappedBy = "tags")
     @JsonBackReference
     private Set<Post> posts = new HashSet<>();
+
+    @PreRemove
+    private void removeAssociationsWithPosts() {
+        for (Post post : this.posts) {
+            post.getTags().remove(this);
+        }
+        this.posts.clear();
+    }
 }
