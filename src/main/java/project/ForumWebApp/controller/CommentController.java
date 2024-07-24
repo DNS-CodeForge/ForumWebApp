@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +16,7 @@ import project.ForumWebApp.models.DTOs.CommentDTO;
 import project.ForumWebApp.services.CommentService;
 
 @RestController
-@RequestMapping("/api/post/{postId}/comments")
+@RequestMapping("/api/comments")
 @CrossOrigin("*")
 public class CommentController {
     
@@ -29,29 +28,28 @@ public class CommentController {
     }
 
     @GetMapping
-    public List<CommentDTO> getAllCommentsByPostId(@PathVariable int postId) {
-        return commentService.getCommentsByPostId(postId);
+    public List<CommentDTO> getAllComments() {
+        return commentService.getAllComments();
     }
 
     @GetMapping("/{id}")
-    public CommentDTO getCommentById(@PathVariable int postId, @PathVariable int id) {
+    public CommentDTO getCommentById(@PathVariable int id) {
         return commentService.getCommentById(id);
     }
 
-    @PostMapping
+    @PostMapping("/post/{id}")
     public CommentDTO createComment(@PathVariable int postId, @RequestBody CommentDTO commentDTO) {
         commentDTO.setPostId(postId);
         return commentService.createComment(commentDTO);
     }
 
-    @PutMapping("/{id}")
-    public CommentDTO updateComment(@PathVariable int postId, @PathVariable int id, @RequestBody CommentDTO commentDTO) {
-        commentDTO.setPostId(postId);
+    @PostMapping("/{id}")
+    public CommentDTO updateComment(@PathVariable int id, @RequestBody CommentDTO commentDTO) {
         return commentService.updateComment(id, commentDTO);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteComment(@PathVariable int postId, @PathVariable int id) {
+    public void deleteComment(@PathVariable int id) {
         commentService.deleteComment(id);
     }
 }
