@@ -1,4 +1,4 @@
-package project.ForumWebApp.services;
+package project.ForumWebApp.services.Implementations;
 
 
 import java.util.HashSet;
@@ -19,6 +19,8 @@ import project.ForumWebApp.models.Role;
 import project.ForumWebApp.models.DTOs.LoginResponseDTO;
 import project.ForumWebApp.repository.RoleRepository;
 import project.ForumWebApp.repository.UserRepository;
+import project.ForumWebApp.services.AuthenticationService;
+import project.ForumWebApp.services.TokenService;
 
 
 @Service

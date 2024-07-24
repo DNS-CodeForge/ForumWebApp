@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.modelmapper.convention.MatchingStrategies;
 import org.modelmapper.spi.MappingContext;
 import org.springframework.context.annotation.Bean;
@@ -24,19 +25,16 @@ public class ModelMapperConfig {
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
 
 
-        Converter<Set<Like>, Integer> likesToLikeCount = new Converter<Set<Like>, Integer>() {
-            @Override
-            public Integer convert(MappingContext<Set<Like>, Integer> context) {
-                return context.getSource() == null ? 0 : context.getSource().size();
-            }
-        };
-        modelMapper.createTypeMap(Comment.class, CommentDTO.class).addMappings(mapper -> {
-            mapper.map(src -> src.getPost().getId(), CommentDTO::setPostId);
-        });
+        Converter<Set<Like>, Integer> likesToLikeCount = context ->
+                context.getSource() == null ? 0 : context.getSource().size();
 
-        modelMapper.createTypeMap(CommentDTO.class, Comment.class).addMappings(mapper -> {
-            mapper.skip(Comment::setPost);
-        });
+
+        TypeMap<Comment, CommentDTO> commentToCommentDtoTypeMap = modelMapper.createTypeMap(Comment.class, CommentDTO.class);
+        commentToCommentDtoTypeMap.addMappings(mapper -> mapper.map(src -> src.getPost().getId(), CommentDTO::setPostId));
+
+
+        TypeMap<CommentDTO, Comment> commentDtoToCommentTypeMap =
+                modelMapper.createTypeMap(CommentDTO.class, Comment.class);
 
         modelMapper.createTypeMap(Post.class, PostSummaryDTO.class)
                 .addMappings(mapper -> mapper.using(likesToLikeCount).map(Post::getLikes, PostSummaryDTO::setLikeCount));

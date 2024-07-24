@@ -1,60 +1,17 @@
 package project.ForumWebApp.services;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Service;
-
-import project.ForumWebApp.models.Comment;
 import project.ForumWebApp.models.DTOs.CommentDTO;
-import project.ForumWebApp.repository.CommentRepository;
-import project.ForumWebApp.repository.PostRepository;
 
-@Service
-public class CommentService {
-     
-    private final CommentRepository commentRepository;
-    private PostRepository postRepository;
-    private ModelMapper modelMapper;
+import java.util.List;
 
-    public CommentService(CommentRepository commentRepository, ModelMapper modelMapper, PostRepository postRepository) {
-        this.commentRepository = commentRepository;
-        this.modelMapper = modelMapper;
-        this.postRepository = postRepository;
-    }
+public interface CommentService {
+    List<CommentDTO> getAllComments();
 
-    public List<CommentDTO> getAllComments() {
-        List<Comment> comments = commentRepository.findAll();
-        return comments.stream()
-                       .map(comment -> modelMapper.map(comment, CommentDTO.class))
-                       .collect(Collectors.toList());
-    }
+    CommentDTO getCommentById(Integer id);
 
-    public CommentDTO getCommentById(Integer id) {
-        Comment comment = commentRepository.findById(id)
-                                           .orElseThrow(() -> new RuntimeException("Comment not found"));
-        return modelMapper.map(comment, CommentDTO.class);
-    }
+    CommentDTO createComment(CommentDTO commentDTO);
 
-    public CommentDTO createComment(CommentDTO commentDTO) {
-        Comment comment = modelMapper.map(commentDTO, Comment.class);
-        comment.setPost(postRepository.findById(commentDTO.getPostId()).get());
-        Comment savedComment = commentRepository.save(comment);
-        return modelMapper.map(savedComment, CommentDTO.class);
-    }
+    CommentDTO updateComment(Integer id, CommentDTO commentDTO);
 
-    public CommentDTO updateComment(Integer id, CommentDTO commentDTO) {
-        Comment existingComment = commentRepository.findById(id)
-                                                   .orElseThrow(() -> new RuntimeException("Comment not found"));
-        existingComment.setContent(commentDTO.getContent());
-        existingComment.setPost(postRepository.findById(commentDTO.getPostId()).get());
-        Comment updatedComment = commentRepository.save(existingComment);
-        return modelMapper.map(updatedComment, CommentDTO.class);
-    }
-
-    public void deleteComment(Integer id) {
-        commentRepository.deleteById(id);
-    }
-
+    void deleteComment(Integer id);
 }

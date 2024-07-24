@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import project.ForumWebApp.models.DTOs.PostCreateDTO;
 import project.ForumWebApp.models.DTOs.PostDTO;
 import project.ForumWebApp.models.DTOs.PostSummaryDTO;
-import project.ForumWebApp.services.PostServiceImpl;
+import project.ForumWebApp.services.Implementations.PostServiceImpl;
 
 @RestController
 @RequestMapping("/api/post")

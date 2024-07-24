@@ -1,4 +1,4 @@
-package project.ForumWebApp.services;
+package project.ForumWebApp.services.Implementations;
 
 import java.util.HashSet;
 import java.util.List;
@@ -21,6 +21,8 @@ import project.ForumWebApp.models.DTOs.PostDTO;
 import project.ForumWebApp.models.DTOs.PostSummaryDTO;
 import project.ForumWebApp.repository.PostRepository;
 import project.ForumWebApp.repository.UserRepository;
+import project.ForumWebApp.services.PostService;
+import project.ForumWebApp.services.TagService;
 
 @Service
 public class PostServiceImpl implements PostService {

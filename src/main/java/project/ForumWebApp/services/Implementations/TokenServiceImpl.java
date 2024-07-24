@@ -1,4 +1,4 @@
-package project.ForumWebApp.services;
+package project.ForumWebApp.services.Implementations;
 
 import java.time.Instant;
 import java.util.stream.Collectors;
@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
+import project.ForumWebApp.services.TokenService;
 
 @Service
 public class TokenServiceImpl implements TokenService {

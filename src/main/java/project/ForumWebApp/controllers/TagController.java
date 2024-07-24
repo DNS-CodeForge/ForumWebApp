@@ -16,7 +16,7 @@ import project.ForumWebApp.services.TagService;
 @RestController
 @RequestMapping("api/tag")
 public class TagController{
-    private TagService tagService;
+    private final TagService tagService;
 
     public TagController(TagService tagService) {
         this.tagService = tagService;
@@ -33,7 +33,7 @@ public class TagController{
     }
 
     @PostMapping
-    public Tag createPost(@RequestBody Tag tag) {
+    public Tag createTag(@RequestBody Tag tag) {
         return tagService.createTag(tag);
     }
 

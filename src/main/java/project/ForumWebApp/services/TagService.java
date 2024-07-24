@@ -1,69 +1,31 @@
 package project.ForumWebApp.services;
 
-import java.util.HashSet;
+import jakarta.transaction.Transactional;
+import project.ForumWebApp.models.Post;
+import project.ForumWebApp.models.Tag;
+
 import java.util.List;
 import java.util.Optional;
 
-import jakarta.transaction.Transactional;
+public interface TagService {
+    Tag createTagByName(String name);
 
-import org.springframework.stereotype.Service;
-
-import project.ForumWebApp.models.Post;
-import project.ForumWebApp.models.Tag;
-import project.ForumWebApp.repository.TagRepository;
-
-@Service
-public class TagService {
-    
-    private final TagRepository tagRepository;
-
-    public TagService(TagRepository tagRepository) {
-        this.tagRepository = tagRepository;
-    } 
-
-    public Tag createTagByName(String name) {
-        return new Tag(0, name, new HashSet());
-    }
-
-    public Optional<Tag> findTagByName(String name) {
-        return tagRepository.findTagByName(name);
-    }
+    Optional<Tag> findTagByName(String name);
 
     @Transactional
-    public Tag updateTag(Tag tag) {
-        tag = tagRepository.save(tag);
-        return tag;
-    }
+    Tag updateTag(Tag tag);
 
     @Transactional
-    public Tag createTag(Tag tag) {
-        tag = tagRepository.save(tag);
-        return tag;
-    }
+    Tag createTag(Tag tag);
 
-    public Tag addPostToTag(String name, Post post) {
-        Optional<Tag> tagOptional = tagRepository.findTagByName(name);
-        if (tagOptional.isPresent()) {
-            Tag tag = tagOptional.get();
-            tag.getPosts().add(post);
-            return tagRepository.save(tag);
-        }
-        throw new RuntimeException("Tag not found with name " + name);
-    }
+    Tag addPostToTag(String name, Post post);
 
-    public List<Tag> getAll() {
-        return tagRepository.findAll();
-    }
+    List<Tag> getAll();
 
-    public Tag get(int id) {
-        return tagRepository.findById(id).get();
-    }
+    Tag get(int id);
 
-    public void deleteTag(Tag tag) {
-        tagRepository.delete(tag);
-    }
+    void deleteTag(Tag tag);
 
-    public void deleteTag(int id) {
-        tagRepository.deleteById(id);
-    }
+    void deleteTag(int id);
 }
+
