@@ -1,4 +1,4 @@
-package project.ForumWebApp.controller;
+package project.ForumWebApp.controllers;
 
 import java.util.List;
 
