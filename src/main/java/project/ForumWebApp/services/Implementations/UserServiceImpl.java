@@ -2,6 +2,8 @@ package project.ForumWebApp.services.Implementations;
 
 
 
+import java.util.List;
+
 import jakarta.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
@@ -13,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import project.ForumWebApp.models.ApplicationUser;
+import project.ForumWebApp.models.DTOs.RegistrationDTO;
 import project.ForumWebApp.models.DTOs.UpdateUserDTO;
 import project.ForumWebApp.repository.UserRepository;
 import project.ForumWebApp.services.UserService;
@@ -53,5 +56,32 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
         return updateUserDTO;
+    }
+
+    @Override
+    public RegistrationDTO viewUserInfo() {
+        ApplicationUser user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get();
+        user.setPassword("*******");
+        return modelMapper.map(user, RegistrationDTO.class);
+    }
+
+    @Override
+    public ApplicationUser getUserById(int id) {
+        return userRepository.findById(id).get();
+    }
+
+    @Override
+    public ApplicationUser getUserByName(String name) {
+        return userRepository.findByUsername(name).get();
+    }
+
+    @Override
+    public List<ApplicationUser> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public void deleteUser(int id) {
+        userRepository.deleteById(id);
     }
 }

@@ -1,9 +1,13 @@
 package project.ForumWebApp.services;
 
+import java.util.List;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import project.ForumWebApp.models.ApplicationUser;
+import project.ForumWebApp.models.DTOs.RegistrationDTO;
 import project.ForumWebApp.models.DTOs.UpdateUserDTO;
 
 public interface UserService extends UserDetailsService {
@@ -11,5 +15,9 @@ public interface UserService extends UserDetailsService {
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 
     public UpdateUserDTO updateUserInfo(UpdateUserDTO updateUserDTO);
-
+    public RegistrationDTO viewUserInfo();
+    public ApplicationUser getUserById(int id);
+    public ApplicationUser getUserByName(String name);
+    public List<ApplicationUser> getAllUsers();
+    public void deleteUser(int id);
 }
