@@ -7,7 +7,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import project.ForumWebApp.models.Comment;
-import project.ForumWebApp.models.Post;
 import project.ForumWebApp.models.DTOs.CommentDTO;
 import project.ForumWebApp.repository.CommentRepository;
 import project.ForumWebApp.repository.PostRepository;
@@ -68,10 +67,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void deleteComment(Integer id) {
-        Comment comment = commentRepository.findById(id).get();
-        Post post = comment.getPost(); 
-        post.getComments().remove(comment);
-        postRepository.save(post);
-        commentRepository.delete(comment);
+        commentRepository.deleteById(id);
     }
 }
