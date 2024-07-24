@@ -37,7 +37,7 @@ public class CommentController {
         return commentService.getCommentById(id);
     }
 
-    @PostMapping("/post/{id}")
+    @PostMapping("/post/{postId}")
     public CommentDTO createComment(@PathVariable int postId, @RequestBody CommentDTO commentDTO) {
         commentDTO.setPostId(postId);
         return commentService.createComment(commentDTO);
