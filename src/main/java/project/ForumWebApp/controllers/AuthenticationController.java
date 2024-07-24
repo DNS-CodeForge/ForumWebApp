@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import project.ForumWebApp.models.ApplicationUser;
-import project.ForumWebApp.models.DTOs.LoginDTO;
-import project.ForumWebApp.models.DTOs.LoginResponseDTO;
-import project.ForumWebApp.models.DTOs.RegistrationDTO;
+import project.ForumWebApp.models.DTOs.user.LoginDTO;
+import project.ForumWebApp.models.DTOs.user.LoginResponseDTO;
+import project.ForumWebApp.models.DTOs.user.RegistrationDTO;
 import project.ForumWebApp.services.AuthenticationService;
 
 @RestController

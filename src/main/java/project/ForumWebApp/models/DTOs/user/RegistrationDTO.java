@@ -1,4 +1,4 @@
-package project.ForumWebApp.models.DTOs;
+package project.ForumWebApp.models.DTOs.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

@@ -1,4 +1,4 @@
-package project.ForumWebApp.models.DTOs;
+package project.ForumWebApp.models.DTOs.post;
 
 import java.util.Set;
 

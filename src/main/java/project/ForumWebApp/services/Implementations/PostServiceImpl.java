@@ -14,12 +14,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import project.ForumWebApp.filterSpecifications.PostFilterSpecification;
-import project.ForumWebApp.models.DTOs.PostUpdateDTO;
+import project.ForumWebApp.models.DTOs.post.PostUpdateDTO;
 import project.ForumWebApp.models.Post;
 import project.ForumWebApp.models.Tag;
-import project.ForumWebApp.models.DTOs.PostCreateDTO;
-import project.ForumWebApp.models.DTOs.PostDTO;
-import project.ForumWebApp.models.DTOs.PostSummaryDTO;
+import project.ForumWebApp.models.DTOs.post.PostCreateDTO;
+import project.ForumWebApp.models.DTOs.post.PostDTO;
+import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
 import project.ForumWebApp.repository.PostRepository;
 import project.ForumWebApp.repository.UserRepository;
 import project.ForumWebApp.services.PostService;
@@ -106,7 +106,7 @@ public class PostServiceImpl implements PostService {
             post.setTags(newTags);
         }
 
-        // Save the updated post
+
         post = postRepository.save(post);
         return modelMapper.map(post, PostDTO.class);
     }

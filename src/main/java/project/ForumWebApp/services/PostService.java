@@ -1,9 +1,9 @@
 package project.ForumWebApp.services;
 
-import project.ForumWebApp.models.DTOs.PostCreateDTO;
-import project.ForumWebApp.models.DTOs.PostDTO;
-import project.ForumWebApp.models.DTOs.PostSummaryDTO;
-import project.ForumWebApp.models.DTOs.PostUpdateDTO;
+import project.ForumWebApp.models.DTOs.post.PostCreateDTO;
+import project.ForumWebApp.models.DTOs.post.PostDTO;
+import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
+import project.ForumWebApp.models.DTOs.post.PostUpdateDTO;
 
 import java.util.List;
 import java.util.Optional;

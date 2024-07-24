@@ -6,7 +6,6 @@ import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.modelmapper.convention.MatchingStrategies;
-import org.modelmapper.spi.MappingContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,7 +13,7 @@ import project.ForumWebApp.models.Comment;
 import project.ForumWebApp.models.Like;
 import project.ForumWebApp.models.Post;
 import project.ForumWebApp.models.DTOs.CommentDTO;
-import project.ForumWebApp.models.DTOs.PostSummaryDTO;
+import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
 
 @Configuration
 public class ModelMapperConfig {

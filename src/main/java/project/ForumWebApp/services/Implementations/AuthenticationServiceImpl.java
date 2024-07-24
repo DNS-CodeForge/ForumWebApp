@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 import project.ForumWebApp.models.ApplicationUser;
 import project.ForumWebApp.models.Role;
-import project.ForumWebApp.models.DTOs.LoginResponseDTO;
+import project.ForumWebApp.models.DTOs.user.LoginResponseDTO;
 import project.ForumWebApp.repository.RoleRepository;
 import project.ForumWebApp.repository.UserRepository;
 import project.ForumWebApp.services.AuthenticationService;
