@@ -25,6 +25,13 @@ public class CommentServiceImpl implements CommentService {
         this.postRepository = postRepository;
     }
 
+    public List<CommentDTO> getCommentsByPostId(int postId) {
+        List<Comment> comments = commentRepository.findByPostId(postId);
+        return comments.stream()
+                       .map(comment -> modelMapper.map(comment, CommentDTO.class))
+                       .collect(Collectors.toList());
+    }
+
     @Override
     public List<CommentDTO> getAllComments() {
         List<Comment> comments = commentRepository.findAll();

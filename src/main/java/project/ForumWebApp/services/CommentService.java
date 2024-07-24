@@ -1,8 +1,8 @@
 package project.ForumWebApp.services;
 
-import project.ForumWebApp.models.DTOs.CommentDTO;
-
 import java.util.List;
+
+import project.ForumWebApp.models.DTOs.CommentDTO;
 
 public interface CommentService {
     List<CommentDTO> getAllComments();
@@ -14,4 +14,6 @@ public interface CommentService {
     CommentDTO updateComment(Integer id, CommentDTO commentDTO);
 
     void deleteComment(Integer id);
+
+    List<CommentDTO> getCommentsByPostId(int postId);
 }
