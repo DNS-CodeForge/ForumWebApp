@@ -2,6 +2,7 @@ package project.ForumWebApp.controllers;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +29,7 @@ public class UserController {
     }
 
     @PostMapping("/profile/info")
-    public UpdateUserDTO updateUserInfo(@RequestBody UpdateUserDTO updateUserDTO){
+    public UpdateUserDTO updateUserInfo(@RequestBody UpdateUserDTO updateUserDTO) {
         userService.updateUserInfo(updateUserDTO);
 
         return updateUserDTO;
@@ -39,16 +40,19 @@ public class UserController {
         return userService.viewUserInfo();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public ApplicationUser getUserById(@PathVariable int id) {
         return userService.getUserById(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping()
     public List<ApplicationUser> getAllUsers() {
         return userService.getAllUsers();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable int id) {
         userService.deleteUser(id);
