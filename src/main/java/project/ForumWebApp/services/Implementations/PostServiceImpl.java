@@ -1,9 +1,6 @@
 package project.ForumWebApp.services.Implementations;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -20,6 +17,8 @@ import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
 import project.ForumWebApp.models.DTOs.post.PostUpdateDTO;
 import project.ForumWebApp.models.Post;
 import project.ForumWebApp.models.Tag;
+import project.ForumWebApp.repository.CommentRepository;
+import project.ForumWebApp.repository.LikeRepository;
 import project.ForumWebApp.repository.PostRepository;
 import project.ForumWebApp.services.PostService;
 import project.ForumWebApp.services.TagService;
@@ -31,13 +30,17 @@ public class PostServiceImpl implements PostService {
     private final ModelMapper modelMapper;
     private final TagService tagService;
     private final AuthContextManager authContextManager;
+    private final CommentRepository commentRepository;
+    private final LikeRepository likeRepository;
 
     @Autowired
-    public PostServiceImpl(TagService tagService, PostRepository postRepository, ModelMapper modelMapper, AuthContextManager authContextManager) {
+    public PostServiceImpl(TagService tagService, PostRepository postRepository, ModelMapper modelMapper, AuthContextManager authContextManager, CommentRepository commentRepository, LikeRepository likeRepository) {
         this.postRepository = postRepository;
         this.modelMapper = modelMapper;
         this.tagService = tagService;
         this.authContextManager = authContextManager;
+        this.commentRepository = commentRepository;
+        this.likeRepository = likeRepository;
     }
 
     @Override
@@ -111,8 +114,12 @@ public class PostServiceImpl implements PostService {
                 tagService.updateTag(tag);
             }
         }
+        commentRepository.deleteByPostId(id);
+        likeRepository.deleteByPostId(id);
+
         postRepository.deleteById(id);
     }
+
 
     @Override
     @Transactional(readOnly = true)
