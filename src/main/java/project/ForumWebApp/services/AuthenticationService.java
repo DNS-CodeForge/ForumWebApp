@@ -1,12 +1,9 @@
 package project.ForumWebApp.services;
 
 import project.ForumWebApp.models.ApplicationUser;
-<<<<<<< Updated upstream
+
 import project.ForumWebApp.models.DTOs.user.LoginResponseDTO;
-=======
-import project.ForumWebApp.models.DTOs.LoginResponseDTO;
-import project.ForumWebApp.models.DTOs.RegistrationDTO;
->>>>>>> Stashed changes
+import project.ForumWebApp.models.DTOs.user.RegistrationDTO;
 
 public interface AuthenticationService {
     ApplicationUser registerUser(RegistrationDTO registrationDTO);

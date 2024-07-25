@@ -9,19 +9,18 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import project.ForumWebApp.config.AuthContextManager;
 import project.ForumWebApp.filterSpecifications.PostFilterSpecification;
+import project.ForumWebApp.models.DTOs.post.PostCreateDTO;
+import project.ForumWebApp.models.DTOs.post.PostDTO;
+import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
+import project.ForumWebApp.models.DTOs.post.PostUpdateDTO;
 import project.ForumWebApp.models.Post;
 import project.ForumWebApp.models.Tag;
-import project.ForumWebApp.models.DTOs.PostCreateDTO;
-import project.ForumWebApp.models.DTOs.PostDTO;
-import project.ForumWebApp.models.DTOs.PostSummaryDTO;
 import project.ForumWebApp.repository.PostRepository;
-import project.ForumWebApp.repository.UserRepository;
 import project.ForumWebApp.services.PostService;
 import project.ForumWebApp.services.TagService;
 
@@ -29,15 +28,13 @@ import project.ForumWebApp.services.TagService;
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
-
     private final ModelMapper modelMapper;
     private final TagService tagService;
     private final AuthContextManager authContextManager;
 
     @Autowired
-    public PostServiceImpl(TagService tagService, PostRepository postRepository,  ModelMapper modelMapper,AuthContextManager authContextManager) {
+    public PostServiceImpl(TagService tagService, PostRepository postRepository, ModelMapper modelMapper, AuthContextManager authContextManager) {
         this.postRepository = postRepository;
-
         this.modelMapper = modelMapper;
         this.tagService = tagService;
         this.authContextManager = authContextManager;
@@ -62,7 +59,6 @@ public class PostServiceImpl implements PostService {
                 }
                 tags.add(tag);
             }
-
             post.setTags(tags);
         }
         post = postRepository.save(post);
@@ -71,15 +67,12 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-
     public PostDTO updatePost(int id, PostUpdateDTO postUpdateDTO) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Post not found"));
 
-
         post.setTitle(postUpdateDTO.getTitle());
         post.setDescription(postUpdateDTO.getDescription());
-
 
         Set<Tag> newTags = new HashSet<>();
         if (postUpdateDTO.getTags() != null) {
@@ -102,16 +95,8 @@ public class PostServiceImpl implements PostService {
                     tagService.updateTag(oldTag);
                 }
             }
-
-
             post.setTags(newTags);
         }
-
-
-
-    public PostDTO updatePost(PostDTO postDTO) {
-        Post post = modelMapper.map(postDTO, Post.class);
-        post.setUser(authContextManager.getLoggedInUser());
         post = postRepository.save(post);
         return modelMapper.map(post, PostDTO.class);
     }
@@ -120,8 +105,8 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public void deletePost(int id) {
         Optional<Post> post = postRepository.findById(id);
-        if(post.isPresent()) {
-            for(Tag tag : post.get().getTags()) {
+        if (post.isPresent()) {
+            for (Tag tag : post.get().getTags()) {
                 tag.getPosts().remove(post.get());
                 tagService.updateTag(tag);
             }

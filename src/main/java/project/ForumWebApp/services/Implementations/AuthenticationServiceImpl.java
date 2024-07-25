@@ -16,7 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import project.ForumWebApp.models.ApplicationUser;
-import project.ForumWebApp.models.DTOs.RegistrationDTO;
+
+import project.ForumWebApp.models.DTOs.user.RegistrationDTO;
 import project.ForumWebApp.models.Role;
 import project.ForumWebApp.models.DTOs.user.LoginResponseDTO;
 import project.ForumWebApp.repository.RoleRepository;
