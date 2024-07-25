@@ -69,6 +69,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public CommentDTO updateComment(Integer id, CommentDTO commentDTO) {
         Comment existingComment = commentRepository.findById(id)
                                                    .orElseThrow(() -> new RuntimeException("Comment not found"));
