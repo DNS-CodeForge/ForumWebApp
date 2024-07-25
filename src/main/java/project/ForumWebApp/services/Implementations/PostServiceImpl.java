@@ -14,12 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import project.ForumWebApp.config.AuthContextManager;
 import project.ForumWebApp.filterSpecifications.PostFilterSpecification;
+import project.ForumWebApp.models.Post;
+import project.ForumWebApp.models.Tag;
 import project.ForumWebApp.models.DTOs.post.PostCreateDTO;
 import project.ForumWebApp.models.DTOs.post.PostDTO;
 import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
 import project.ForumWebApp.models.DTOs.post.PostUpdateDTO;
-import project.ForumWebApp.models.Post;
-import project.ForumWebApp.models.Tag;
+import project.ForumWebApp.repository.CommentRepository;
+import project.ForumWebApp.repository.LikeRepository;
 import project.ForumWebApp.repository.PostRepository;
 import project.ForumWebApp.services.PostService;
 import project.ForumWebApp.services.TagService;
@@ -31,13 +33,17 @@ public class PostServiceImpl implements PostService {
     private final ModelMapper modelMapper;
     private final TagService tagService;
     private final AuthContextManager authContextManager;
+    private final CommentRepository commentRepository;
+    private final LikeRepository likeRepository;
 
     @Autowired
-    public PostServiceImpl(TagService tagService, PostRepository postRepository, ModelMapper modelMapper, AuthContextManager authContextManager) {
+    public PostServiceImpl(TagService tagService, PostRepository postRepository, ModelMapper modelMapper, AuthContextManager authContextManager, CommentRepository commentRepository, LikeRepository likeRepository) {
         this.postRepository = postRepository;
         this.modelMapper = modelMapper;
         this.tagService = tagService;
         this.authContextManager = authContextManager;
+        this.commentRepository = commentRepository;
+        this.likeRepository = likeRepository;
     }
 
     @Override
@@ -111,8 +117,12 @@ public class PostServiceImpl implements PostService {
                 tagService.updateTag(tag);
             }
         }
+        commentRepository.deleteByPostId(id);
+        likeRepository.deleteByPostId(id);
+
         postRepository.deleteById(id);
     }
+
 
     @Override
     @Transactional(readOnly = true)
@@ -134,5 +144,18 @@ public class PostServiceImpl implements PostService {
                     return dto;
                 })
                 .collect(Collectors.toList());
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public List<PostSummaryDTO> getPosts(String title, String description, List<String> tags, String sort)
+    {
+        return getPosts(title, description, null, tags, sort);
+    }
+
+    @Override
+    public boolean isOwner(int postId) {
+        String currentUsername = authContextManager.getUsername();
+        Post post = postRepository.findById(postId).orElse(null);
+        return post != null && post.getUser().getUsername().equals(currentUsername);
     }
 }

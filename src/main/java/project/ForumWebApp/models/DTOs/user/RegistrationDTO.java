@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import project.ForumWebApp.constants.ValidationConstants;
 
 @Builder
 @Data
@@ -14,28 +15,45 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RegistrationDTO {
 
-    private static final String DEFAULT_PHOTO_URL = "https://plus.unsplash.com/premium_photo-1677094310899-02303289cadf?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-
-    @NotBlank(message = "First name is mandatory")
-    @Size(min = 4, max = 32, message = "First name must be between {min} and {max} characters.")
+    @NotBlank(message = ValidationConstants.FIRST_NAME_LENGTH_MESSAGE)
+    @Size(
+            min = ValidationConstants.FIRST_NAME_MIN_LEN,
+            max = ValidationConstants.FIRST_NAME_MAX_LEN,
+            message = ValidationConstants.FIRST_NAME_LENGTH_MESSAGE
+    )
     private String firstName;
 
-    @NotBlank(message = "Last name is mandatory")
-    @Size(min = 4, max = 32, message = "Last name must be between {min} and {max} characters.")
+    @NotBlank(message = ValidationConstants.LAST_NAME_LENGTH_MESSAGE)
+    @Size(
+            min = ValidationConstants.LAST_NAME_MIN_LEN,
+            max = ValidationConstants.LAST_NAME_MAX_LEN,
+            message = ValidationConstants.LAST_NAME_LENGTH_MESSAGE
+    )
     private String lastName;
 
-    @NotBlank(message = "Email is mandatory")
-    @Email(message = "Email should be valid")
-    @Size(max = 255, message = "Email should not be more than 255 characters")
+    @NotBlank(message = ValidationConstants.EMAIL_NOT_BLANK_MESSAGE)
+    @Email(message = ValidationConstants.EMAIL_VALID_MESSAGE)
+    @Size(
+            max = ValidationConstants.EMAIL_MAX_LEN,
+            message = ValidationConstants.EMAIL_LENGTH_MESSAGE
+    )
     private String email;
 
-    @NotBlank(message = "Password is mandatory")
+    @NotBlank(message = ValidationConstants.PASSWORD_NOT_BLANK_MESSAGE)
+    @Size(
+            min = ValidationConstants.PASSWORD_MIN_LEN,
+            message = ValidationConstants.PASSWORD_LENGTH_MESSAGE
+    )
     private String password;
 
-    @NotBlank(message = "Username is mandatory")
-    @Size(max = 255, message = "Username should not be more than 255 characters")
+    @NotBlank(message = ValidationConstants.USERNAME_NOT_BLANK_MESSAGE)
+    @Size(
+            min = ValidationConstants.USERNAME_MIN_LEN,
+            max = ValidationConstants.USERNAME_MAX_LEN,
+            message = ValidationConstants.USERNAME_LENGTH_MESSAGE
+    )
     private String username;
 
     @Builder.Default
-    private String photoUrl = DEFAULT_PHOTO_URL;
+    private String photoUrl = ValidationConstants.DEFAULT_PHOTO_URL;
 }

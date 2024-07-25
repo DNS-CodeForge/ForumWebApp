@@ -11,6 +11,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.PreRemove;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -18,6 +20,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import project.ForumWebApp.constants.ValidationConstants;
 
 @Entity
 @Data
@@ -31,6 +34,12 @@ public class Tag {
     @EqualsAndHashCode.Include
     private int id;
 
+    @NotBlank(message = ValidationConstants.NOT_BLANK_MESSAGE)
+    @Size(
+            min = ValidationConstants.TAG_MIN_LEN,
+            max = ValidationConstants.TAG_MAX_LEN,
+            message = ValidationConstants.TAG_LENGTH_MESSAGE
+    )
     private String name;
 
     @ManyToMany(mappedBy = "tags")

@@ -1,7 +1,7 @@
 USE forum;
 
 -- Insert mock data into roles
-INSERT INTO roles (authority) VALUES ('USER'), ('MODERATOR'), ('ADMIN');
+INSERT INTO roles (authority) VALUES ('USER'), ('MODERATOR'), ('ADMIN'), ('BANNED');
 
 -- Insert mock data into tags
 INSERT INTO tags (name) VALUES ('Java'), ('Spring'), ('Hibernate'), ('JPA'), ('SQL'),
@@ -13,31 +13,31 @@ INSERT INTO tags (name) VALUES ('Java'), ('Spring'), ('Hibernate'), ('JPA'), ('S
 -- Insert mock data into users
 INSERT INTO users (first_name, last_name, email, password, username)
 VALUES
-    ('John', 'Doe', 'john.doe@example.com', 'password123', 'johndoe'),
-    ('Brad', 'Doe', 'brad.doe@example.com', 'password123', 'braddoe'),
-    ('Jane', 'Smith', 'jane.smith@example.com', 'password123', 'janesmith'),
-    ('Alice', 'Johnson', 'alice.johnson@example.com', 'password123', 'alicejohnson'),
-    ('Bob', 'Brown', 'bob.brown@example.com', 'password123', 'bobbrown'),
-    ('Charlie', 'Davis', 'charlie.davis@example.com', 'password123', 'charliedavis'),
-    ('David', 'Wilson', 'david.wilson@example.com', 'password123', 'davidwilson'),
-    ('Eva', 'Moore', 'eva.moore@example.com', 'password123', 'evamoore'),
-    ('Frank', 'Taylor', 'frank.taylor@example.com', 'password123', 'franktaylor'),
-    ('Grace', 'Anderson', 'grace.anderson@example.com', 'password123', 'graceanderson'),
-    ('Hank', 'Thomas', 'hank.thomas@example.com', 'password123', 'hankthomas'),
-    ('Ivy', 'Jackson', 'ivy.jackson@example.com', 'password123', 'ivyjackson'),
-    ('Jack', 'White', 'jack.white@example.com', 'password123', 'jackwhite'),
-    ('Kathy', 'Harris', 'kathy.harris@example.com', 'password123', 'kathyharris'),
-    ('Leo', 'Martin', 'leo.martin@example.com', 'password123', 'leomartin'),
-    ('Mia', 'Clark', 'mia.clark@example.com', 'password123', 'miaclark'),
-    ('Nina', 'Lewis', 'nina.lewis@example.com', 'password123', 'ninalewis'),
-    ('Oscar', 'Walker', 'oscar.walker@example.com', 'password123', 'oscarwalker'),
-    ('Paul', 'Hall', 'paul.hall@example.com', 'password123', 'paulhall'),
-    ('Quinn', 'Allen', 'quinn.allen@example.com', 'password123', 'quinnallen');
+    ('John', 'Doe', 'john.doe@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'johndoe'),
+    ('Brad', 'Doe', 'brad.doe@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'braddoe'),
+    ('Jane', 'Smith', 'jane.smith@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'janesmith'),
+    ('Alice', 'Johnson', 'alice.johnson@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'alicejohnson'),
+    ('Bob', 'Brown', 'bob.brown@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'bobbrown'),
+    ('Charlie', 'Davis', 'charlie.davis@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'charliedavis'),
+    ('David', 'Wilson', 'david.wilson@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'davidwilson'),
+    ('Eva', 'Moore', 'eva.moore@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'evamoore'),
+    ('Frank', 'Taylor', 'frank.taylor@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'franktaylor'),
+    ('Grace', 'Anderson', 'grace.anderson@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'graceanderson'),
+    ('Hank', 'Thomas', 'hank.thomas@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'hankthomas'),
+    ('Ivy', 'Jackson', 'ivy.jackson@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'ivyjackson'),
+    ('Jack', 'White', 'jack.white@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'jackwhite'),
+    ('Kathy', 'Harris', 'kathy.harris@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'kathyharris'),
+    ('Leo', 'Martin', 'leo.martin@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'leomartin'),
+    ('Mia', 'Clark', 'mia.clark@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'miaclark'),
+    ('Nina', 'Lewis', 'nina.lewis@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'ninalewis'),
+    ('Oscar', 'Walker', 'oscar.walker@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'oscarwalker'),
+    ('Paul', 'Hall', 'paul.hall@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'paulhall'),
+    ('Quinn', 'Allen', 'quinn.allen@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'quinnallen');
 
 -- Assign roles to users
 INSERT INTO user_role_junction (role_id, user_id)
 VALUES
-    (1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6), (1, 7), (1, 8), (1, 9), (1, 10),
+    (1, 1), (4, 2), (1, 3), (1, 4), (1, 5), (1, 6), (1, 7), (1, 8), (1, 9), (1, 10),
     (1, 11), (1, 12), (1, 13), (1, 14), (1, 15), (1, 16), (1, 17), (1, 18),
     (1, 19), (1, 20);
 

@@ -18,6 +18,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -27,6 +29,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import project.ForumWebApp.constants.ValidationConstants;
 
 @Data
 @NoArgsConstructor
@@ -39,20 +42,37 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Integer id;
+
+    @NotBlank(message = ValidationConstants.NOT_BLANK_MESSAGE)
+    @Size(
+            min = ValidationConstants.TITLE_MIN_LENGTH,
+            max = ValidationConstants.TITLE_MAX_LENGTH,
+            message = ValidationConstants.TITLE_LENGTH_MESSAGE
+    )
     private String title;
+
+    @NotBlank(message = ValidationConstants.NOT_BLANK_MESSAGE)
+    @Size(
+            min = ValidationConstants.DESCRIPTION_MIN_LENGTH,
+            max = ValidationConstants.DESCRIPTION_MAX_LENGTH,
+            message = ValidationConstants.DESCRIPTION_LENGTH_MESSAGE
+    )
     private String description;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private ApplicationUser user;
+
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Instant createdDate;
+
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "post_id")
+    @OneToMany(mappedBy = "post")
     private Set<Like> likes = new HashSet<>();
 
-    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "post")
+    @JsonManagedReference
     private Set<Comment> comments = new HashSet<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -62,5 +82,4 @@ public class Post {
     )
     @JsonManagedReference
     private Set<Tag> tags = new HashSet<>();
-
 }
