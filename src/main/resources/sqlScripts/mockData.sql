@@ -13,26 +13,26 @@ INSERT INTO tags (name) VALUES ('Java'), ('Spring'), ('Hibernate'), ('JPA'), ('S
 -- Insert mock data into users
 INSERT INTO users (first_name, last_name, email, password, username)
 VALUES
-    ('John', 'Doe', 'john.doe@example.com', '$10$1Yh/dLIjvzfsQdh9cjVEH.BnaxWMNTP95P8fwTXYfHSEYgG0o0Kdu', 'johndoe'),
-    ('Brad', 'Doe', 'brad.doe@example.com', '$10$1Yh/dLIjvzfsQdh9cjVEH.BnaxWMNTP95P8fwTXYfHSEYgG0o0Kdu', 'braddoe'),
-    ('Jane', 'Smith', 'jane.smith@example.com', '$10$1Yh/dLIjvzfsQdh9cjVEH.BnaxWMNTP95P8fwTXYfHSEYgG0o0Kdu', 'janesmith'),
-    ('Alice', 'Johnson', 'alice.johnson@example.com', '$10$1Yh/dLIjvzfsQdh9cjVEH.BnaxWMNTP95P8fwTXYfHSEYgG0o0Kdu', 'alicejohnson'),
-    ('Bob', 'Brown', 'bob.brown@example.com', '$10$1Yh/dLIjvzfsQdh9cjVEH.BnaxWMNTP95P8fwTXYfHSEYgG0o0Kdu', 'bobbrown'),
-    ('Charlie', 'Davis', 'charlie.davis@example.com', '$10$1Yh/dLIjvzfsQdh9cjVEH.BnaxWMNTP95P8fwTXYfHSEYgG0o0Kdu', 'charliedavis'),
-    ('David', 'Wilson', 'david.wilson@example.com', '$10$1Yh/dLIjvzfsQdh9cjVEH.BnaxWMNTP95P8fwTXYfHSEYgG0o0Kdu', 'davidwilson'),
-    ('Eva', 'Moore', 'eva.moore@example.com', '$10$1Yh/dLIjvzfsQdh9cjVEH.BnaxWMNTP95P8fwTXYfHSEYgG0o0Kdu', 'evamoore'),
-    ('Frank', 'Taylor', 'frank.taylor@example.com', '$10$1Yh/dLIjvzfsQdh9cjVEH.BnaxWMNTP95P8fwTXYfHSEYgG0o0Kdu', 'franktaylor'),
-    ('Grace', 'Anderson', 'grace.anderson@example.com', '$10$1Yh/dLIjvzfsQdh9cjVEH.BnaxWMNTP95P8fwTXYfHSEYgG0o0Kdu', 'graceanderson'),
-    ('Hank', 'Thomas', 'hank.thomas@example.com', '$10$1Yh/dLIjvzfsQdh9cjVEH.BnaxWMNTP95P8fwTXYfHSEYgG0o0Kdu', 'hankthomas'),
-    ('Ivy', 'Jackson', 'ivy.jackson@example.com', '$10$1Yh/dLIjvzfsQdh9cjVEH.BnaxWMNTP95P8fwTXYfHSEYgG0o0Kdu', 'ivyjackson'),
-    ('Jack', 'White', 'jack.white@example.com', '$10$1Yh/dLIjvzfsQdh9cjVEH.BnaxWMNTP95P8fwTXYfHSEYgG0o0Kdu', 'jackwhite'),
-    ('Kathy', 'Harris', 'kathy.harris@example.com', '$10$1Yh/dLIjvzfsQdh9cjVEH.BnaxWMNTP95P8fwTXYfHSEYgG0o0Kdu', 'kathyharris'),
-    ('Leo', 'Martin', 'leo.martin@example.com', '$10$1Yh/dLIjvzfsQdh9cjVEH.BnaxWMNTP95P8fwTXYfHSEYgG0o0Kdu', 'leomartin'),
-    ('Mia', 'Clark', 'mia.clark@example.com', '$10$1Yh/dLIjvzfsQdh9cjVEH.BnaxWMNTP95P8fwTXYfHSEYgG0o0Kdu', 'miaclark'),
-    ('Nina', 'Lewis', 'nina.lewis@example.com', '$10$1Yh/dLIjvzfsQdh9cjVEH.BnaxWMNTP95P8fwTXYfHSEYgG0o0Kdu', 'ninalewis'),
-    ('Oscar', 'Walker', 'oscar.walker@example.com', '$10$1Yh/dLIjvzfsQdh9cjVEH.BnaxWMNTP95P8fwTXYfHSEYgG0o0Kdu', 'oscarwalker'),
-    ('Paul', 'Hall', 'paul.hall@example.com', '$10$1Yh/dLIjvzfsQdh9cjVEH.BnaxWMNTP95P8fwTXYfHSEYgG0o0Kdu', 'paulhall'),
-    ('Quinn', 'Allen', 'quinn.allen@example.com', '$10$1Yh/dLIjvzfsQdh9cjVEH.BnaxWMNTP95P8fwTXYfHSEYgG0o0Kdu', 'quinnallen');
+    ('John', 'Doe', 'john.doe@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'johndoe'),
+    ('Brad', 'Doe', 'brad.doe@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'braddoe'),
+    ('Jane', 'Smith', 'jane.smith@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'janesmith'),
+    ('Alice', 'Johnson', 'alice.johnson@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'alicejohnson'),
+    ('Bob', 'Brown', 'bob.brown@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'bobbrown'),
+    ('Charlie', 'Davis', 'charlie.davis@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'charliedavis'),
+    ('David', 'Wilson', 'david.wilson@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'davidwilson'),
+    ('Eva', 'Moore', 'eva.moore@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'evamoore'),
+    ('Frank', 'Taylor', 'frank.taylor@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'franktaylor'),
+    ('Grace', 'Anderson', 'grace.anderson@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'graceanderson'),
+    ('Hank', 'Thomas', 'hank.thomas@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'hankthomas'),
+    ('Ivy', 'Jackson', 'ivy.jackson@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'ivyjackson'),
+    ('Jack', 'White', 'jack.white@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'jackwhite'),
+    ('Kathy', 'Harris', 'kathy.harris@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'kathyharris'),
+    ('Leo', 'Martin', 'leo.martin@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'leomartin'),
+    ('Mia', 'Clark', 'mia.clark@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'miaclark'),
+    ('Nina', 'Lewis', 'nina.lewis@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'ninalewis'),
+    ('Oscar', 'Walker', 'oscar.walker@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'oscarwalker'),
+    ('Paul', 'Hall', 'paul.hall@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'paulhall'),
+    ('Quinn', 'Allen', 'quinn.allen@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'quinnallen');
 
 -- Assign roles to users
 INSERT INTO user_role_junction (role_id, user_id)
