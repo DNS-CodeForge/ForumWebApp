@@ -1,7 +1,7 @@
 USE forum;
 
 -- Insert mock data into roles
-INSERT INTO roles (authority) VALUES ('USER'), ('MODERATOR'), ('ADMIN');
+INSERT INTO roles (authority) VALUES ('USER'), ('MODERATOR'), ('ADMIN'), ('BANNED');
 
 -- Insert mock data into tags
 INSERT INTO tags (name) VALUES ('Java'), ('Spring'), ('Hibernate'), ('JPA'), ('SQL'),
