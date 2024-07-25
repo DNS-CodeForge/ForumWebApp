@@ -15,12 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import project.ForumWebApp.config.AuthContextManager;
 import project.ForumWebApp.filterSpecifications.PostFilterSpecification;
-import project.ForumWebApp.models.DTOs.post.PostUpdateDTO;
 import project.ForumWebApp.models.Post;
 import project.ForumWebApp.models.Tag;
-import project.ForumWebApp.models.DTOs.post.PostCreateDTO;
-import project.ForumWebApp.models.DTOs.post.PostDTO;
-import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
+import project.ForumWebApp.models.DTOs.PostCreateDTO;
+import project.ForumWebApp.models.DTOs.PostDTO;
+import project.ForumWebApp.models.DTOs.PostSummaryDTO;
 import project.ForumWebApp.repository.PostRepository;
 import project.ForumWebApp.repository.UserRepository;
 import project.ForumWebApp.services.PostService;
@@ -72,7 +71,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-<<<<<<< Updated upstream
+
     public PostDTO updatePost(int id, PostUpdateDTO postUpdateDTO) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Post not found"));
@@ -109,11 +108,10 @@ public class PostServiceImpl implements PostService {
         }
 
 
-=======
+
     public PostDTO updatePost(PostDTO postDTO) {
         Post post = modelMapper.map(postDTO, Post.class);
         post.setUser(authContextManager.getLoggedInUser());
->>>>>>> Stashed changes
         post = postRepository.save(post);
         return modelMapper.map(post, PostDTO.class);
     }
