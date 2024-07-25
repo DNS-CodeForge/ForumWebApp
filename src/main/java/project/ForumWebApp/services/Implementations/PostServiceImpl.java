@@ -1,6 +1,9 @@
 package project.ForumWebApp.services.Implementations;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -11,12 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import project.ForumWebApp.config.AuthContextManager;
 import project.ForumWebApp.filterSpecifications.PostFilterSpecification;
+import project.ForumWebApp.models.Post;
+import project.ForumWebApp.models.Tag;
 import project.ForumWebApp.models.DTOs.post.PostCreateDTO;
 import project.ForumWebApp.models.DTOs.post.PostDTO;
 import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
 import project.ForumWebApp.models.DTOs.post.PostUpdateDTO;
-import project.ForumWebApp.models.Post;
-import project.ForumWebApp.models.Tag;
 import project.ForumWebApp.repository.CommentRepository;
 import project.ForumWebApp.repository.LikeRepository;
 import project.ForumWebApp.repository.PostRepository;
@@ -147,5 +150,12 @@ public class PostServiceImpl implements PostService {
     public List<PostSummaryDTO> getPosts(String title, String description, List<String> tags, String sort)
     {
         return getPosts(title, description, null, tags, sort);
+    }
+
+    @Override
+    public boolean isOwner(int postId) {
+        String currentUsername = authContextManager.getUsername();
+        Post post = postRepository.findById(postId).orElse(null);
+        return post != null && post.getUser().getUsername().equals(currentUsername);
     }
 }

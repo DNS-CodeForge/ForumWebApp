@@ -1,12 +1,12 @@
 package project.ForumWebApp.services;
 
+import java.util.List;
+import java.util.Optional;
+
 import project.ForumWebApp.models.DTOs.post.PostCreateDTO;
 import project.ForumWebApp.models.DTOs.post.PostDTO;
 import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
 import project.ForumWebApp.models.DTOs.post.PostUpdateDTO;
-
-import java.util.List;
-import java.util.Optional;
 
 public interface PostService {
 
@@ -20,4 +20,6 @@ public interface PostService {
 
     List<PostSummaryDTO> getPosts(String title, String description, String user, List<String> tags, String sort);
     List<PostSummaryDTO> getPosts(String title, String description, List<String> tags, String sort);
+
+    boolean isOwner(int id);
 }
