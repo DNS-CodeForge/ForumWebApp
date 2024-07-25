@@ -3,6 +3,7 @@ package project.ForumWebApp.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import project.ForumWebApp.models.DTOs.post.PostCreateDTO;
@@ -27,11 +28,10 @@ public class PostController {
     public List<PostSummaryDTO> getAllPosts(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String description,
-            @RequestParam(required = false) String user,
             @RequestParam(required = false) List<String> tags,
             @RequestParam(required = false) String sort) {
 
-        return postService.getPosts(title, description, user, tags, sort);
+        return postService.getPosts(title, description, tags, sort);
     }
 
 
@@ -44,6 +44,7 @@ public class PostController {
     public PostDTO createPost(@RequestBody PostCreateDTO postDTO) {
         return postService.createPost(postDTO);
     }
+
     @PostMapping("/{id}")
     public PostDTO updatePost(@PathVariable int id, @RequestBody PostUpdateDTO postUpdateDTO) {
         return postService.updatePost(id, postUpdateDTO);

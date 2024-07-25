@@ -19,4 +19,5 @@ public interface PostService {
     Optional<PostDTO> getPost(int id);
 
     List<PostSummaryDTO> getPosts(String title, String description, String user, List<String> tags, String sort);
+    List<PostSummaryDTO> getPosts(String title, String description, List<String> tags, String sort);
 }

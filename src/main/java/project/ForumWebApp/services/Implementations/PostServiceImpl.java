@@ -135,4 +135,10 @@ public class PostServiceImpl implements PostService {
                 })
                 .collect(Collectors.toList());
     }
+    @Override
+    @Transactional(readOnly = true)
+    public List<PostSummaryDTO> getPosts(String title, String description, List<String> tags, String sort)
+    {
+        return getPosts(title, description, null, tags, sort);
+    }
 }
