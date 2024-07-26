@@ -130,11 +130,10 @@ public class PostServiceImpl implements PostService {
         postRepository.deleteById(id);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<PostDTO> getPost(int id) {
+    public PostDTO getPost(int id) {
         return postRepository.findById(id)
-                .map(post -> modelMapper.map(post, PostDTO.class));
+                .map(post -> modelMapper.map(post, PostDTO.class))
+                .orElseThrow(() -> new EntityNotFoundException(POST_WITH_PROVIDED_ID_DOES_NOT_EXIST));
     }
 
     @Override

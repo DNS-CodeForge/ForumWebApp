@@ -1,7 +1,7 @@
 # ForumWebApp
 
 ## Project Description
-ForumWebApp is a forum system where users can create posts, add comments, and upvote/downvote the content they like or dislike. This specific forum revolves around discussions on [your chosen topic, e.g., "crypto trading"]. Users can share their ideas, perspectives, and engage in meaningful discussions on the topic.
+ForumWebApp is a forum system where users can create posts, add comments, and like the content they like or dislike.
 ***
 #
 # APIs

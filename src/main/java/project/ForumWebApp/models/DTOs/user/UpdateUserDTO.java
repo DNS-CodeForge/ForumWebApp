@@ -8,13 +8,14 @@ import lombok.Data;
 import project.ForumWebApp.constants.ValidationConstants;
 
 @Data
-@Schema(name = "User Update")
+@Schema(name = "User Update", description = "DTO for updating user information")
 public class UpdateUserDTO {
     @NotBlank(message = ValidationConstants.PASSWORD_NOT_BLANK_MESSAGE)
     @Size(
             min = ValidationConstants.PASSWORD_MIN_LEN,
             message = ValidationConstants.PASSWORD_LENGTH_MESSAGE
     )
+    @Schema(description = "Password of the user", example = "newpassword123", required = true)
     private String password;
 
     @NotBlank(message = ValidationConstants.FIRST_NAME_LENGTH_MESSAGE)
@@ -23,6 +24,7 @@ public class UpdateUserDTO {
             max = ValidationConstants.FIRST_NAME_MAX_LEN,
             message = ValidationConstants.FIRST_NAME_LENGTH_MESSAGE
     )
+    @Schema(description = "First name of the user", example = "John", required = true)
     private String firstName;
 
     @NotBlank(message = ValidationConstants.LAST_NAME_LENGTH_MESSAGE)
@@ -31,5 +33,6 @@ public class UpdateUserDTO {
             max = ValidationConstants.LAST_NAME_MAX_LEN,
             message = ValidationConstants.LAST_NAME_LENGTH_MESSAGE
     )
+    @Schema(description = "Last name of the user", example = "Doe", required = true)
     private String lastName;
 }
