@@ -45,6 +45,7 @@ public class ValidationConstants {
     public static final String PASSWORD_NOT_BLANK_MESSAGE = "Password is mandatory";
     public static final String PASSWORD_LENGTH_MESSAGE = "Password must be at least 6 characters long";
     public static final int PASSWORD_MIN_LEN = 6;
+    public static final String INVALID_USERNAME_OR_PASSWORD = "Invalid username or password.";
 
     public static final int USERNAME_MAX_LEN = 20;
     public static final int USERNAME_MIN_LEN = 4;

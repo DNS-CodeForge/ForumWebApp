@@ -26,13 +26,13 @@ import project.ForumWebApp.repository.UserRepository;
 import project.ForumWebApp.services.AuthenticationService;
 import project.ForumWebApp.services.TokenService;
 
-import static project.ForumWebApp.constants.ValidationConstants.PROVIDED_USERNAME_DOES_NOT_EXIST;
-import static project.ForumWebApp.constants.ValidationConstants.ROLE_NOT_FOUND;
+import static project.ForumWebApp.constants.ValidationConstants.*;
 
 
 @Service
 @Transactional
 public class AuthenticationServiceImpl implements AuthenticationService {
+
 
 
     private final UserRepository userRepository;
@@ -77,19 +77,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public LoginResponseDTO loginUser(String username, String password) {
+            ApplicationUser user = userRepository.findByUsername(username)
+                    .orElseThrow(() -> new EntityNotFoundException(INVALID_USERNAME_OR_PASSWORD));
         try {
             Authentication auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, password)
             );
 
             String token = tokenService.generateJwt(auth);
-            ApplicationUser user = userRepository.findByUsername(username)
-                    .orElseThrow(() -> new EntityNotFoundException(PROVIDED_USERNAME_DOES_NOT_EXIST));
 
             return new LoginResponseDTO(user, token);
 
         } catch (AuthenticationException e) {
-            throw new AuthorizationException(ValidationConstants.PASSWORD_NOT_BLANK_MESSAGE);
+            throw new AuthorizationException(INVALID_USERNAME_OR_PASSWORD);
         }
     }
 }

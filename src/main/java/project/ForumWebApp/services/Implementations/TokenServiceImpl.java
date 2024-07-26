@@ -1,6 +1,7 @@
 package project.ForumWebApp.services.Implementations;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,8 @@ public class TokenServiceImpl implements TokenService {
     }
 
     public String generateJwt(Authentication auth){
-
         Instant now = Instant.now();
+        Instant expiry = now.plus(1, ChronoUnit.DAYS);
 
         String scope = auth.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -33,6 +34,7 @@ public class TokenServiceImpl implements TokenService {
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)
+                .expiresAt(expiry)
                 .subject(auth.getName())
                 .claim("roles", scope)
                 .build();

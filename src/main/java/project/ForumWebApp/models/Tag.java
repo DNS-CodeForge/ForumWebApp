@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.CascadeType;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -61,3 +61,4 @@ public class Tag {
         this.posts.clear();
     }
 }
+
