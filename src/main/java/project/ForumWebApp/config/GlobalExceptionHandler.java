@@ -1,26 +1,22 @@
 package project.ForumWebApp.config;
 
-import jakarta.persistence.EntityNotFoundException;
+import java.util.stream.Collectors;
+
 import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authorization.AuthorizationDeniedException;
-
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
-import jakarta.validation.ConstraintViolationException;
+import org.springframework.web.context.request.WebRequest;
 
 import project.ForumWebApp.exceptions.AuthorizationException;
-
-
-
-import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -42,12 +38,13 @@ public class GlobalExceptionHandler {
 
 
         if (isBanned) {
-             message =  "Access Denied.\nYou are banned and cannot perform this action.";
+
+             message =  "{\n\"error\": \"Access Denied\",\n \"message\": \"You are banned and cannot perform this action.\"\n}";
         } else {
-             message = "Access Denied.\nYou do not have the required authorization.";
+
+             message = "{\n\"error\": \"Access Denied\",\n \"message\": \"You do not have the required authorization.\"\n}";
         }
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);
-    }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);    }
 
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
