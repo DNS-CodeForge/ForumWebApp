@@ -9,7 +9,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,19 +18,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "phone_numbers")
-@Schema(description = "Entity representing a phone number")
-public class PhoneNumber {
+public class PhoneNumber{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "ID of the phone number", example = "1")
     private Integer id;
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    @Schema(description = "User associated with the phone number")
     private ApplicationUser user;
 
     @Column(name = "number")
-    @Schema(description = "Phone number", example = "+1234567890", required = true)
     private String number;
 }

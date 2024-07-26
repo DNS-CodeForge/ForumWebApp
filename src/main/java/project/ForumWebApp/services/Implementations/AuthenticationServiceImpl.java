@@ -29,7 +29,6 @@ import project.ForumWebApp.services.TokenService;
 import static project.ForumWebApp.constants.ValidationConstants.PROVIDED_USERNAME_DOES_NOT_EXIST;
 import static project.ForumWebApp.constants.ValidationConstants.ROLE_NOT_FOUND;
 
-
 @Service
 @Transactional
 public class AuthenticationServiceImpl implements AuthenticationService {

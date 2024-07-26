@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -38,12 +37,10 @@ import project.ForumWebApp.constants.ValidationConstants;
 @Entity
 @Table(name = "posts")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Schema(description = "Entity representing a post in the forum")
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    @Schema(description = "ID of the post", example = "1")
     private Integer id;
 
     @NotBlank(message = ValidationConstants.NOT_BLANK_MESSAGE)
@@ -52,7 +49,6 @@ public class Post {
             max = ValidationConstants.TITLE_MAX_LENGTH,
             message = ValidationConstants.TITLE_LENGTH_MESSAGE
     )
-    @Schema(description = "Title of the post", example = "Introduction to Java", required = true)
     private String title;
 
     @NotBlank(message = ValidationConstants.NOT_BLANK_MESSAGE)
@@ -61,27 +57,22 @@ public class Post {
             max = ValidationConstants.DESCRIPTION_MAX_LENGTH,
             message = ValidationConstants.DESCRIPTION_LENGTH_MESSAGE
     )
-    @Schema(description = "Description of the post", example = "This post provides an introduction to Java programming.", required = true)
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @Schema(description = "User who created the post")
     private ApplicationUser user;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @Schema(description = "Creation date of the post", example = "2024-07-26T15:30:00Z")
     private Instant createdDate;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "post")
-    @Schema(description = "Likes associated with the post")
     private Set<Like> likes = new HashSet<>();
 
     @OneToMany(mappedBy = "post")
     @JsonManagedReference
-    @Schema(description = "Comments associated with the post")
     private Set<Comment> comments = new HashSet<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -90,6 +81,5 @@ public class Post {
             inverseJoinColumns =  {@JoinColumn(name = "tag_id")}
     )
     @JsonManagedReference
-    @Schema(description = "Tags associated with the post")
     private Set<Tag> tags = new HashSet<>();
 }

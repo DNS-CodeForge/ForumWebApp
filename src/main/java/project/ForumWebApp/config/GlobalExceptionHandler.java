@@ -3,14 +3,10 @@ package project.ForumWebApp.config;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityExistsException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authorization.AuthorizationDeniedException;
-
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -19,35 +15,10 @@ import jakarta.validation.ConstraintViolationException;
 import project.ForumWebApp.exceptions.AuthorizationException;
 
 
-
 import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    private AuthContextManager authContextManager;
-
-    @Autowired
-    void setAuthContextManager(AuthContextManager authContextManager) {
-        this.authContextManager = authContextManager;
-    }
-    @ExceptionHandler(AuthorizationDeniedException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    @ResponseBody
-    public ResponseEntity<String> handleAccessDeniedException(AuthorizationDeniedException ex) {
-        String message;
-        boolean isBanned  = authContextManager.getLoggedInUser()
-                .getAuthorities()
-                .stream()
-                .anyMatch(authority -> authority.getAuthority().equals("BANNED"));
-
-
-        if (isBanned) {
-             message =  "Access Denied.\nYou are banned and cannot perform this action.";
-        } else {
-             message = "Access Denied.\nYou do not have the required authorization.";
-        }
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);
-    }
 
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -80,7 +51,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<String> handleGlobalException(Exception ex, WebRequest request) {
-        System.out.println(ex.toString());
         return new ResponseEntity<>("An unexpected error occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

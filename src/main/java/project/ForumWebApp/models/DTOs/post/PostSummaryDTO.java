@@ -14,7 +14,6 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema
 public class PostSummaryDTO {
     private Integer id;
     private String title;
