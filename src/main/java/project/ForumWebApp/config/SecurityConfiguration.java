@@ -40,10 +40,14 @@ public class SecurityConfiguration {
     private final RSAKeyProperties keys;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
+
     @Autowired
-    public SecurityConfiguration(RSAKeyProperties keys, CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {
+    public SecurityConfiguration(RSAKeyProperties keys, CustomAuthenticationEntryPoint customAuthenticationEntryPoint
+
+    ) {
         this.keys = keys;
         this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
+
     }
 
     @Bean
@@ -66,12 +70,14 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/api/auth/**").permitAll();
                     auth.requestMatchers("/swagger-ui/**").permitAll();
+                    auth.requestMatchers("/v3/api-docs/**").permitAll();
                     auth.requestMatchers("/admin/**").hasRole("ADMIN");
                     auth.anyRequest().authenticated();
                 })
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
                                 .jwtAuthenticationConverter(jwtAuthenticationConverter()))
+
                         .authenticationEntryPoint(customAuthenticationEntryPoint))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 

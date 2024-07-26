@@ -3,6 +3,7 @@ package project.ForumWebApp.models;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,10 +26,12 @@ import project.ForumWebApp.constants.ValidationConstants;
 @Table(name = "comments")
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Schema(description = "Entity representing a comment")
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
+    @Schema(description = "ID of the comment", example = "1")
     private Integer id;
 
     @NotBlank(message = ValidationConstants.NOT_BLANK_MESSAGE)
@@ -37,15 +40,18 @@ public class Comment {
             max = ValidationConstants.COMMENT_MAX_LEN,
             message = ValidationConstants.COMMENT_LENGTH_MESSAGE
     )
+    @Schema(description = "Content of the comment", example = "This is a comment", required = true)
     private String content;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @Schema(description = "User who made the comment")
     private ApplicationUser user;
 
     @ManyToOne
     @JoinColumn(name = "post_id", referencedColumnName = "id")
     @JsonBackReference
+    @Schema(description = "Post to which the comment belongs")
     private Post post;
 
     @PreRemove
