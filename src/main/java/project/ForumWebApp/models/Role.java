@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
 
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "Entity representing a role assigned to users")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Role implements GrantedAuthority {
 
     @Id
@@ -29,6 +31,7 @@ public class Role implements GrantedAuthority {
     private Integer roleId;
 
     @Schema(description = "Authority of the role", example = "ROLE_USER", required = true)
+    @EqualsAndHashCode.Include
     private String authority;
 
     public Role(String authority) {

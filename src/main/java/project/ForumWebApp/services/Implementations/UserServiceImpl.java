@@ -3,6 +3,8 @@ package project.ForumWebApp.services.Implementations;
 import static project.ForumWebApp.constants.ValidationConstants.USER_WITH_PROVIDED_ID_DOES_NOT_EXIST;
 import static project.ForumWebApp.constants.ValidationConstants.USER_WITH_PROVIDED_USERNAME_DOES_NOT_EXIST;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -10,6 +12,8 @@ import jakarta.persistence.EntityNotFoundException;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -106,24 +110,29 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public ApplicationUser setUserRole(int userId, String addedRoleName, String removedRoleName) {
-        ApplicationUser user = userRepository.findById(userId).get();
-        Set<Role> authorities = (Set<Role>) user.getAuthorities();
+        ApplicationUser user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-        if(addedRoleName != null || addedRoleName == "USER") {
-            Role addedRole = (Role) roleRepository.findByAuthority(addedRoleName).orElseThrow(() -> new EntityNotFoundException("Role " + addedRoleName + " does not exist!"));
+        Set<Role> authorities = user.getAuthoritySet();
+
+        if (addedRoleName != null) {
+            Role addedRole = roleRepository.findByAuthority(addedRoleName)
+                    .orElseThrow(() -> new EntityNotFoundException("Role " + addedRoleName + " does not exist!"));
             authorities.add(addedRole);
         }
 
-        if(removedRoleName != null  || addedRoleName == "USER") {
-            Object removedRole = roleRepository.findByAuthority(removedRoleName).orElseThrow(() -> new EntityNotFoundException("Role " + removedRoleName + " does not exist!"));
+        if (removedRoleName != null && !removedRoleName.equalsIgnoreCase("USER")) {
+            Role removedRole = roleRepository.findByAuthority(removedRoleName)
+                    .orElseThrow(() -> new EntityNotFoundException("Role " + removedRoleName + " does not exist!"));
             authorities.remove(removedRole);
         }
 
-        user.setAuthorities((Set<Role>)authorities);
+        user.setAuthorities(authorities);
         userRepository.save(user);
 
         return user;
     }
+
 
 
 }

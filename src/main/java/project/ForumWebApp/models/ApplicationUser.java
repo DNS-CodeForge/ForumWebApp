@@ -127,6 +127,9 @@ public class ApplicationUser implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.authorities;
     }
+    public Set<Role> getAuthoritySet() {
+        return this.authorities;
+    }
 
     @Override
     @Schema(description = "Indicates whether the user's account has expired", defaultValue = "true")
