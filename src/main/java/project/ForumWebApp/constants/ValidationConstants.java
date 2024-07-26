@@ -31,14 +31,35 @@ public class ValidationConstants {
     public static final int PASSWORD_MIN_LEN = 6;
 
     public static final int USERNAME_MAX_LEN = 20;
-    public static final int USERNAME_MIN_LEN = 4;     public static final String USERNAME_LENGTH_MESSAGE = "Username must be between " + USERNAME_MIN_LEN + " and " + USERNAME_MAX_LEN + " characters.";
+    public static final int USERNAME_MIN_LEN = 4;
+
+    public static final String POST_WITH_PROVIDED_ID_DOES_NOT_EXIST = "Post with provided ID does not exist";
+    public static final String COMMENT_WITH_PROVIDED_ID_DOES_NOT_EXIST = "Comment with provided ID does not exist.";
+    public static final String ROLE_NOT_FOUND = "Provided role does not exist found.";
+    public static final String NOT_UNIQUE_USERNAME_MESSAGE = "The provided username is already taken.";
+    public static final String NOT_UNIQUE_EMAIL_MESSAGE = "The provided username is already taken.";
+    public static final String USERNAME_LENGTH_MESSAGE = "Username must be between " + USERNAME_MIN_LEN + " and " + USERNAME_MAX_LEN + " characters.";
     public static final String USERNAME_NOT_BLANK_MESSAGE = "Username is mandatory";
+    public static final String PROVIDED_USERNAME_DOES_NOT_EXIST = "Provided username does not exist.";
 
     public static final int PHOTO_URL_MAX_LEN = 255;
     public static final String PHOTO_URL_LENGTH_MESSAGE = "Photo URL should not be more than " + PHOTO_URL_MAX_LEN + " characters.";
     public static final String PHOTO_URL_NOT_BLANK_MESSAGE = "Photo URL is mandatory";
 
     public static final String DEFAULT_PHOTO_URL = "https://plus.unsplash.com/premium_photo-1677094310899-02303289cadf?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+
+    public static final String POST_WITH_THIS_TITLE_ALREADY_EXISTS = "Post with this title already exists.";
+
+
+    public static final String TAG_WITH_PROVIDED_NAME_ALREADY_EXISTS = "Tag with provided name already exists.";
+    public static final String TAG_WITH_ID_DOES_NOT_EXIST = "Tag with ID does not exist.";
+    public static final String TAG_WITH_PROVIDED_NAME_DOES_NOT_EXIST = "Tag with provided name does not exist.";
+
+    public static final String USER_WITH_PROVIDED_ID_DOES_NOT_EXIST = "User with provided ID does not exist.";
+    public static final String USER_WITH_PROVIDED_USERNAME_DOES_NOT_EXIST = "User with provided username does not exist";
+
+    public static final String YOU_ARE_NOT_AUTHORIZED_TO_UPDATE_THIS_POST = "You are not authorized to update this post";
+    public static final String YOU_ARE_NOT_AUTHORIZED_TO_UPDATE_THIS_COMMENT = "You are not authorized to update this comment";
 
     // Constants for Tags
     public static final int TAG_MIN_LEN = 1;

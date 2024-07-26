@@ -13,7 +13,7 @@ import project.ForumWebApp.models.DTOs.user.RegistrationDTO;
 import project.ForumWebApp.services.AuthenticationService;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @CrossOrigin("*")
 public class AuthenticationController {
 

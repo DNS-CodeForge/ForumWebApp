@@ -11,7 +11,7 @@ import project.ForumWebApp.services.PostService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("api/admin")
 //@CrossOrigin
 public class AdminController {
     private final PostService postService;

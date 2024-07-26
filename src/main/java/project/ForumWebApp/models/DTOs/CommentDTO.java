@@ -1,5 +1,7 @@
 package project.ForumWebApp.models.DTOs;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -11,6 +13,7 @@ import project.ForumWebApp.constants.ValidationConstants;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class CommentDTO {
     private Integer id;
 

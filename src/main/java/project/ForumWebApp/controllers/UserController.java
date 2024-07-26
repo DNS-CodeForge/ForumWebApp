@@ -19,7 +19,7 @@ import project.ForumWebApp.models.DTOs.user.UpdateUserDTO;
 import project.ForumWebApp.services.UserService;
 
 @RestController
-@RequestMapping("user")
+@RequestMapping("api/user")
 @CrossOrigin("*")
 public class UserController {
     private final UserService userService;

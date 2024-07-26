@@ -1,5 +1,7 @@
 package project.ForumWebApp.models.DTOs.user;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -10,6 +12,8 @@ import project.ForumWebApp.constants.ValidationConstants;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(hidden = true)
+@Hidden
 public class ApplicationUserDTO {
     private Integer id;
 

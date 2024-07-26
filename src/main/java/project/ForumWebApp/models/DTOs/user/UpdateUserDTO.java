@@ -1,5 +1,6 @@
 package project.ForumWebApp.models.DTOs.user;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -7,6 +8,7 @@ import lombok.Data;
 import project.ForumWebApp.constants.ValidationConstants;
 
 @Data
+@Schema(name = "User Update")
 public class UpdateUserDTO {
     @NotBlank(message = ValidationConstants.PASSWORD_NOT_BLANK_MESSAGE)
     @Size(

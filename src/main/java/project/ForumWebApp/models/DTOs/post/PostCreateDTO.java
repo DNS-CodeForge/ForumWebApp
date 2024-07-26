@@ -2,6 +2,8 @@ package project.ForumWebApp.models.DTOs.post;
 
 import java.util.Set;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -12,6 +14,8 @@ import project.ForumWebApp.constants.ValidationConstants;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+
+
 public class PostCreateDTO {
     @NotBlank(message = ValidationConstants.NOT_BLANK_MESSAGE)
     @Size(

@@ -2,6 +2,7 @@ package project.ForumWebApp.services.Implementations;
 
 import java.util.List;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,14 +13,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import project.ForumWebApp.config.AuthContextManager;
 import project.ForumWebApp.models.ApplicationUser;
-
 import project.ForumWebApp.models.DTOs.user.RegistrationDTO;
 import project.ForumWebApp.models.DTOs.user.UpdateUserDTO;
 import project.ForumWebApp.repository.UserRepository;
 import project.ForumWebApp.services.UserService;
 
+import static project.ForumWebApp.constants.ValidationConstants.USER_WITH_PROVIDED_ID_DOES_NOT_EXIST;
+import static project.ForumWebApp.constants.ValidationConstants.USER_WITH_PROVIDED_USERNAME_DOES_NOT_EXIST;
+
 @Service
 public class UserServiceImpl implements UserService {
+
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
@@ -37,7 +41,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new EntityNotFoundException("User not found with username: " + username));
     }
 
     @Override
@@ -69,12 +73,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ApplicationUser getUserById(int id) {
-        return userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(USER_WITH_PROVIDED_ID_DOES_NOT_EXIST));
     }
 
     @Override
     public ApplicationUser getUserByName(String name) {
-        return userRepository.findByUsername(name).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return userRepository.findByUsername(name)
+                .orElseThrow(() -> new EntityNotFoundException(USER_WITH_PROVIDED_USERNAME_DOES_NOT_EXIST));
     }
 
     @Override
@@ -83,7 +89,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void deleteUser(int id) {
+        if (!userRepository.existsById(id)) {
+            throw new EntityNotFoundException(USER_WITH_PROVIDED_ID_DOES_NOT_EXIST);
+        }
         userRepository.deleteById(id);
     }
 }

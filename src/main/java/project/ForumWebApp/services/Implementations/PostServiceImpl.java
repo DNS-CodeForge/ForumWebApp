@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import project.ForumWebApp.config.AuthContextManager;
+import project.ForumWebApp.exceptions.AuthorizationException;
 import project.ForumWebApp.filterSpecifications.PostFilterSpecification;
 import project.ForumWebApp.models.Post;
 import project.ForumWebApp.models.Tag;
@@ -26,8 +29,11 @@ import project.ForumWebApp.repository.PostRepository;
 import project.ForumWebApp.services.PostService;
 import project.ForumWebApp.services.TagService;
 
+import static project.ForumWebApp.constants.ValidationConstants.*;
+
 @Service
 public class PostServiceImpl implements PostService {
+
 
     private final PostRepository postRepository;
     private final ModelMapper modelMapper;
@@ -49,6 +55,11 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public PostDTO createPost(PostCreateDTO postDTO) {
+        if (postRepository.findByTitle(postDTO.getTitle()).isPresent()) {
+
+            throw new EntityExistsException(POST_WITH_THIS_TITLE_ALREADY_EXISTS);
+        }
+
         Post post = modelMapper.map(postDTO, Post.class);
         post.setUser(authContextManager.getLoggedInUser());
         Set<Tag> tags = new HashSet<>();
@@ -56,13 +67,8 @@ public class PostServiceImpl implements PostService {
             for (String tagName : postDTO.getTagNames()) {
                 Optional<Tag> tagOptional = tagService.findTagByName(tagName);
                 Tag tag;
-                if (!tagOptional.isPresent()) {
-                    tag = tagService.createTagByName(tagName);
-                    tag.getPosts().add(post);
-                    tagService.updateTag(tag);
-                } else {
-                    tag = tagService.addPostToTag(tagName, post);
-                }
+                tag = tagOptional.orElseGet(() -> tagService.createTagByName(tagName));
+                tag.getPosts().add(post);
                 tags.add(tag);
             }
             post.setTags(tags);
@@ -75,7 +81,11 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public PostDTO updatePost(int id, PostUpdateDTO postUpdateDTO) {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+                .orElseThrow(() -> new EntityNotFoundException(POST_WITH_PROVIDED_ID_DOES_NOT_EXIST));
+
+        if (!post.getUser().getUsername().equals(authContextManager.getUsername())) {
+            throw new AuthorizationException(YOU_ARE_NOT_AUTHORIZED_TO_UPDATE_THIS_POST);
+        }
 
         post.setTitle(postUpdateDTO.getTitle());
         post.setDescription(postUpdateDTO.getDescription());
@@ -85,20 +95,14 @@ public class PostServiceImpl implements PostService {
             for (String tagName : postUpdateDTO.getTags()) {
                 Optional<Tag> tagOptional = tagService.findTagByName(tagName);
                 Tag tag;
-                if (!tagOptional.isPresent()) {
-                    tag = tagService.createTagByName(tagName);
-                } else {
-                    tag = tagOptional.get();
-                }
+                tag = tagOptional.orElseGet(() -> tagService.createTagByName(tagName));
                 tag.getPosts().add(post);
                 newTags.add(tag);
-                tagService.updateTag(tag);
             }
             Set<Tag> oldTags = new HashSet<>(post.getTags());
             for (Tag oldTag : oldTags) {
                 if (!newTags.contains(oldTag)) {
                     oldTag.getPosts().remove(post);
-                    tagService.updateTag(oldTag);
                 }
             }
             post.setTags(newTags);
@@ -110,19 +114,21 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public void deletePost(int id) {
-        Optional<Post> post = postRepository.findById(id);
-        if (post.isPresent()) {
-            for (Tag tag : post.get().getTags()) {
-                tag.getPosts().remove(post.get());
-                tagService.updateTag(tag);
-            }
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(POST_WITH_PROVIDED_ID_DOES_NOT_EXIST));
+
+        if (!post.getUser().getUsername().equals(authContextManager.getUsername())) {
+            throw new AuthorizationException(YOU_ARE_NOT_AUTHORIZED_TO_UPDATE_THIS_POST);
         }
+
+        for (Tag tag : post.getTags()) {
+            tag.getPosts().remove(post);
+        }
+
         commentRepository.deleteByPostId(id);
         likeRepository.deleteByPostId(id);
-
         postRepository.deleteById(id);
     }
-
 
     @Override
     @Transactional(readOnly = true)
@@ -145,17 +151,21 @@ public class PostServiceImpl implements PostService {
                 })
                 .collect(Collectors.toList());
     }
+
     @Override
     @Transactional(readOnly = true)
-    public List<PostSummaryDTO> getPosts(String title, String description, List<String> tags, String sort)
-    {
+    public List<PostSummaryDTO> getPosts(String title, String description, List<String> tags, String sort) {
         return getPosts(title, description, null, tags, sort);
     }
 
     @Override
     public boolean isOwner(int postId) {
         String currentUsername = authContextManager.getUsername();
-        Post post = postRepository.findById(postId).orElse(null);
-        return post != null && post.getUser().getUsername().equals(currentUsername);
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new EntityNotFoundException(POST_WITH_PROVIDED_ID_DOES_NOT_EXIST));
+        if (!post.getUser().getUsername().equals(currentUsername)) {
+            throw new AuthorizationException(YOU_ARE_NOT_AUTHORIZED_TO_UPDATE_THIS_POST);
+        }
+        return true;
     }
 }
