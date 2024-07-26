@@ -21,4 +21,5 @@ public interface UserService extends UserDetailsService {
     public ApplicationUser getUserByName(String name);
     public List<ApplicationUser> getAllUsers();
     public void deleteUser(int id);
+    public ApplicationUser setUserRole(int userId, String addedRole, String removedRole);
 }

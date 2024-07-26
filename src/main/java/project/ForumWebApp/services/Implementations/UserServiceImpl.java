@@ -1,8 +1,13 @@
 package project.ForumWebApp.services.Implementations;
 
+import static project.ForumWebApp.constants.ValidationConstants.USER_WITH_PROVIDED_ID_DOES_NOT_EXIST;
+import static project.ForumWebApp.constants.ValidationConstants.USER_WITH_PROVIDED_USERNAME_DOES_NOT_EXIST;
+
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.EntityNotFoundException;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,13 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import project.ForumWebApp.config.AuthContextManager;
 import project.ForumWebApp.models.ApplicationUser;
+import project.ForumWebApp.models.Role;
 import project.ForumWebApp.models.DTOs.user.RegistrationDTO;
 import project.ForumWebApp.models.DTOs.user.UpdateUserDTO;
+import project.ForumWebApp.repository.RoleRepository;
 import project.ForumWebApp.repository.UserRepository;
 import project.ForumWebApp.services.UserService;
-
-import static project.ForumWebApp.constants.ValidationConstants.USER_WITH_PROVIDED_ID_DOES_NOT_EXIST;
-import static project.ForumWebApp.constants.ValidationConstants.USER_WITH_PROVIDED_USERNAME_DOES_NOT_EXIST;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -29,13 +33,15 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final AuthContextManager authContextManager;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserServiceImpl(PasswordEncoder encoder, UserRepository userRepository, ModelMapper modelMapper, AuthContextManager authContextManager) {
+    public UserServiceImpl(RoleRepository roleRepository, PasswordEncoder encoder, UserRepository userRepository, ModelMapper modelMapper, AuthContextManager authContextManager) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.passwordEncoder = encoder;
         this.authContextManager = authContextManager;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -96,4 +102,28 @@ public class UserServiceImpl implements UserService {
         }
         userRepository.deleteById(id);
     }
+
+    @Override
+    @Transactional
+    public ApplicationUser setUserRole(int userId, String addedRoleName, String removedRoleName) {
+        ApplicationUser user = userRepository.findById(userId).get();
+        Set<Role> authorities = (Set<Role>) user.getAuthorities();
+
+        if(addedRoleName != null || addedRoleName == "USER") {
+            Role addedRole = (Role) roleRepository.findByAuthority(addedRoleName).orElseThrow(() -> new EntityNotFoundException("Role " + addedRoleName + " does not exist!"));
+            authorities.add(addedRole);
+        }
+
+        if(removedRoleName != null  || addedRoleName == "USER") {
+            Object removedRole = roleRepository.findByAuthority(removedRoleName).orElseThrow(() -> new EntityNotFoundException("Role " + removedRoleName + " does not exist!"));
+            authorities.remove(removedRole);
+        }
+
+        user.setAuthorities((Set<Role>)authorities);
+        userRepository.save(user);
+
+        return user;
+    }
+
+
 }

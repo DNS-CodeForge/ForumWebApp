@@ -1,5 +1,17 @@
 package project.ForumWebApp.controllers;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -7,15 +19,13 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import project.ForumWebApp.models.ApplicationUser;
 import project.ForumWebApp.models.DTOs.post.PostCreateDTO;
 import project.ForumWebApp.models.DTOs.post.PostDTO;
 import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
 import project.ForumWebApp.models.DTOs.post.PostUpdateDTO;
 import project.ForumWebApp.services.PostService;
-
-import java.util.List;
+import project.ForumWebApp.services.UserService;
 
 @RestController
 @RequestMapping("api/admin")
@@ -23,10 +33,13 @@ import java.util.List;
 public class AdminController {
 
     private final PostService postService;
+    private final UserService userService;
+
 
     @Autowired
-    public AdminController(PostService postService) {
+    public AdminController(PostService postService, UserService userService) {
         this.postService = postService;
+        this.userService = userService;
     }
 
     @Operation(summary = "Admin level access test endpoint")
@@ -59,6 +72,27 @@ public class AdminController {
     public PostDTO getPostById(@PathVariable int id) {
         return postService.getPost(id);
     }
+
+    @PostMapping("/user/{id}/roles")
+    public ApplicationUser setUserRole( @PathVariable("id") int userId,
+        @RequestParam(required = false, name = "addRole") String roleToAdd,
+        @RequestParam(required = false, name = "removeRole") String roleToRemove) {
+
+        return userService.setUserRole(userId,roleToAdd,roleToRemove);
+    }
+
+    @PostMapping("/user/{id}/ban")
+    public ApplicationUser banUserRole(@PathVariable("id") int userId) {
+
+        return userService.setUserRole(userId,"BANNED",null);
+    }
+
+    @PostMapping("/user/{id}/unban")
+    public ApplicationUser unbanUserRole(@PathVariable("id") int userId) {
+
+        return userService.setUserRole(userId,null,"BANNED");
+    }
+
 
     @Operation(summary = "Create a new post")
     @ApiResponses(value = {
