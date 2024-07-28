@@ -5,14 +5,8 @@ import java.util.List;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import project.ForumWebApp.models.Tag;
 import project.ForumWebApp.services.TagService;
@@ -48,7 +42,6 @@ public class TagController {
 
     @PostMapping
     @Operation(summary = "Create a new tag", description = "Creates a new tag")
-    @RequestBody(description = "Tag details to be created", required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Tag created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid request data")

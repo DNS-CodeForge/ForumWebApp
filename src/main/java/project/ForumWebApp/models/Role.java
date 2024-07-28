@@ -30,7 +30,7 @@ public class Role implements GrantedAuthority {
     @Schema(description = "ID of the role", example = "1")
     private Integer roleId;
 
-    @Schema(description = "Authority of the role", example = "ROLE_USER", required = true)
+    @Schema(description = "Authority of the role", example = "USER", required = true)
     @EqualsAndHashCode.Include
     private String authority;
 
