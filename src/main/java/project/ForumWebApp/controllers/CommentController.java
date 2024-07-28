@@ -2,10 +2,6 @@ package project.ForumWebApp.controllers;
 
 import java.util.List;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,10 +9,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import project.ForumWebApp.models.DTOs.CommentCreateDTO;
 import project.ForumWebApp.models.DTOs.CommentDTO;
 import project.ForumWebApp.services.CommentService;
@@ -55,7 +54,6 @@ public class CommentController {
     @PostMapping("/post/{postId}")
     @PreAuthorize("!hasRole('BANNED')")
     @Operation(summary = "Create a new comment", description = "Creates a new comment associated with the specified post")
-    @RequestBody(description = "Comment details to be created", required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Comment created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid request data")
@@ -67,7 +65,6 @@ public class CommentController {
     @PostMapping("/{id}")
     @PreAuthorize("@commentServiceImpl.isOwner(#id)")
     @Operation(summary = "Update an existing comment", description = "Updates the details of an existing comment based on the provided ID")
-    @RequestBody(description = "Updated comment details", required = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Comment updated successfully"),
             @ApiResponse(responseCode = "404", description = "Comment not found"),
