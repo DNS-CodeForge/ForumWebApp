@@ -1,75 +1,117 @@
-CREATE DATABASE IF NOT EXISTS forum;
+create database forum if not exis;
+create or replace table forum.`level-info`
 
-USE forum;
+(
+    id                int auto_increment
+        primary key,
+    current_exp       int not null,
+    currnet_level     int not null,
+    exp_to_next_level int not null
+);
 
-CREATE TABLE IF NOT EXISTS roles (
-                                     role_id INT AUTO_INCREMENT PRIMARY KEY,
-                                     authority VARCHAR(255) NULL
-    );
+create or replace table forum.roles
+(
+    role_id   int auto_increment
+        primary key,
+    authority varchar(255) null
+);
 
-CREATE TABLE IF NOT EXISTS tags (
-                                    id INT AUTO_INCREMENT PRIMARY KEY,
-                                    name VARCHAR(255) NULL
-    );
+create or replace table forum.tags
+(
+    id   int auto_increment
+        primary key,
+    name varchar(32) not null
+);
 
-CREATE TABLE IF NOT EXISTS users (
-                                     id INT AUTO_INCREMENT PRIMARY KEY,
-                                     first_name VARCHAR(32) NULL,
-    last_name VARCHAR(32) NULL,
-    email VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    username VARCHAR(255) NOT NULL,
-    photo_url VARCHAR(255) DEFAULT 'https://plus.unsplash.com/premium_photo-1677094310899-02303289cadf?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    CONSTRAINT UK_email UNIQUE (email),
-    CONSTRAINT UK_username UNIQUE (username)
-    );
+create or replace table forum.users
+(
+    id            int auto_increment
+        primary key,
+    first_name    varchar(32)                                                                                                                                                                                         null,
+    last_name     varchar(32)                                                                                                                                                                                         null,
+    email         varchar(255)                                                                                                                                                                                        not null,
+    password      varchar(255)                                                                                                                                                                                        not null,
+    username      varchar(20)                                                                                                                                                                                         not null,
+    photo_url     varchar(255) default 'https://plus.unsplash.com/premium_photo-1677094310899-02303289cadf?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' null,
+    level_info_id int                                                                                                                                                                                                 null,
+    constraint UK_email
+        unique (email),
+    constraint UK_username
+        unique (username),
+    constraint UKmmvaefewbrvfvqqgohqiyj6qg
+        unique (level_info_id),
+    constraint FKaqpyevuifjirnjl2xvqwk0pon
+        foreign key (level_info_id) references forum.`level-info` (id)
+);
 
-CREATE TABLE IF NOT EXISTS phone_numbers (
-                                             id INT AUTO_INCREMENT PRIMARY KEY,
-                                             user_id INT NULL,
-                                             number VARCHAR(255) NULL,
-    CONSTRAINT UK_user_id UNIQUE (user_id),
-    CONSTRAINT FK_phone_user FOREIGN KEY (user_id) REFERENCES users (id)
-    );
+create or replace table forum.phone_numbers
+(
+    id      int auto_increment
+        primary key,
+    user_id int          null,
+    number  varchar(255) null,
+    constraint UK_user_id
+        unique (user_id),
+    constraint FK_phone_user
+        foreign key (user_id) references forum.users (id)
+);
 
-CREATE TABLE IF NOT EXISTS posts (
-                                     id INT AUTO_INCREMENT PRIMARY KEY,
-                                     user_id INT NULL,
-                                     created_date DATETIME(6) NULL,
-    description VARCHAR(255) NULL,
-    title VARCHAR(255) NULL,
-    CONSTRAINT FK_post_user FOREIGN KEY (user_id) REFERENCES users (id)
-    );
+create or replace table forum.posts
+(
+    id           int auto_increment
+        primary key,
+    user_id      int           null,
+    created_date datetime(6)   null,
+    description  varchar(8192) not null,
+    title        varchar(64)   not null,
+    constraint FK_post_user
+        foreign key (user_id) references forum.users (id)
+);
 
-CREATE TABLE IF NOT EXISTS comments (
-                                        id INT AUTO_INCREMENT PRIMARY KEY,
-                                        post_id INT NULL,
-                                        content VARCHAR(255) NULL,
-    user_id INT NULL,
-    CONSTRAINT FK8omq0tc18jd43bu5tjh6jvraq FOREIGN KEY (user_id) REFERENCES users (id),
-    CONSTRAINT FK_comment_post FOREIGN KEY (post_id) REFERENCES posts (id)
-    );
+create or replace table forum.comments
+(
+    id      int auto_increment
+        primary key,
+    post_id int           null,
+    content varchar(1024) not null,
+    user_id int           null,
+    constraint FK8omq0tc18jd43bu5tjh6jvraq
+        foreign key (user_id) references forum.users (id),
+    constraint FK_comment_post
+        foreign key (post_id) references forum.posts (id)
+);
 
-CREATE TABLE IF NOT EXISTS likes (
-                                     id INT AUTO_INCREMENT PRIMARY KEY,
-                                     post_id INT NULL,
-                                     user_id INT NULL,
-                                     CONSTRAINT FK_like_post FOREIGN KEY (post_id) REFERENCES posts (id),
-    CONSTRAINT FK_like_user FOREIGN KEY (user_id) REFERENCES users (id)
-    );
+create or replace table forum.likes
+(
+    id      int auto_increment
+        primary key,
+    post_id int null,
+    user_id int null,
+    constraint FK_like_post
+        foreign key (post_id) references forum.posts (id),
+    constraint FK_like_user
+        foreign key (user_id) references forum.users (id)
+);
 
-CREATE TABLE IF NOT EXISTS post_tags (
-                                         post_id INT NOT NULL,
-                                         tag_id INT NOT NULL,
-                                         PRIMARY KEY (post_id, tag_id),
-    CONSTRAINT FK_post_tags_post FOREIGN KEY (post_id) REFERENCES posts (id),
-    CONSTRAINT FK_post_tags_tag FOREIGN KEY (tag_id) REFERENCES tags (id)
-    );
+create or replace table forum.post_tags
+(
+    post_id int not null,
+    tag_id  int not null,
+    primary key (post_id, tag_id),
+    constraint FK_post_tags_post
+        foreign key (post_id) references forum.posts (id),
+    constraint FK_post_tags_tag
+        foreign key (tag_id) references forum.tags (id)
+);
 
-CREATE TABLE IF NOT EXISTS user_role_junction (
-                                                  role_id INT NOT NULL,
-                                                  user_id INT NOT NULL,
-                                                  PRIMARY KEY (role_id, user_id),
-    CONSTRAINT FK_user_role_junction_role FOREIGN KEY (role_id) REFERENCES roles (role_id),
-    CONSTRAINT FK_user_role_junction_user FOREIGN KEY (user_id) REFERENCES users (id)
-    );
+create or replace table forum.user_role_junction
+(
+    role_id int not null,
+    user_id int not null,
+    primary key (role_id, user_id),
+    constraint FK_user_role_junction_role
+        foreign key (role_id) references forum.roles (role_id),
+    constraint FK_user_role_junction_user
+        foreign key (user_id) references forum.users (id)
+);
+

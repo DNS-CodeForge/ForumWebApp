@@ -1,4 +1,88 @@
+-- Create the database and tables
+CREATE DATABASE IF NOT EXISTS forum;
 USE forum;
+
+CREATE OR REPLACE TABLE forum.`level-info` (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    current_exp INT NOT NULL,
+    currnet_level INT NOT NULL,
+    exp_to_next_level INT NOT NULL
+);
+
+CREATE OR REPLACE TABLE forum.roles (
+    role_id INT AUTO_INCREMENT PRIMARY KEY,
+    authority VARCHAR(255) NULL
+);
+
+CREATE OR REPLACE TABLE forum.tags (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(32) NOT NULL
+);
+
+CREATE OR REPLACE TABLE forum.users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(32) NULL,
+    last_name VARCHAR(32) NULL,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    username VARCHAR(20) NOT NULL,
+    photo_url VARCHAR(255) DEFAULT 'https://plus.unsplash.com/premium_photo-1677094310899-02303289cadf?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' NULL,
+    level_info_id INT NULL,
+    CONSTRAINT UK_email UNIQUE (email),
+    CONSTRAINT UK_username UNIQUE (username),
+    CONSTRAINT UKmmvaefewbrvfvqqgohqiyj6qg UNIQUE (level_info_id),
+    CONSTRAINT FKaqpyevuifjirnjl2xvqwk0pon FOREIGN KEY (level_info_id) REFERENCES forum.`level-info` (id)
+);
+
+CREATE OR REPLACE TABLE forum.phone_numbers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NULL,
+    number VARCHAR(255) NULL,
+    CONSTRAINT UK_user_id UNIQUE (user_id),
+    CONSTRAINT FK_phone_user FOREIGN KEY (user_id) REFERENCES forum.users (id)
+);
+
+CREATE OR REPLACE TABLE forum.posts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NULL,
+    created_date DATETIME(6) NULL,
+    description VARCHAR(8192) NOT NULL,
+    title VARCHAR(64) NOT NULL,
+    CONSTRAINT FK_post_user FOREIGN KEY (user_id) REFERENCES forum.users (id)
+);
+
+CREATE OR REPLACE TABLE forum.comments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    post_id INT NULL,
+    content VARCHAR(1024) NOT NULL,
+    user_id INT NULL,
+    CONSTRAINT FK8omq0tc18jd43bu5tjh6jvraq FOREIGN KEY (user_id) REFERENCES forum.users (id),
+    CONSTRAINT FK_comment_post FOREIGN KEY (post_id) REFERENCES forum.posts (id)
+);
+
+CREATE OR REPLACE TABLE forum.likes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    post_id INT NULL,
+    user_id INT NULL,
+    CONSTRAINT FK_like_post FOREIGN KEY (post_id) REFERENCES forum.posts (id),
+    CONSTRAINT FK_like_user FOREIGN KEY (user_id) REFERENCES forum.users (id)
+);
+
+CREATE OR REPLACE TABLE forum.post_tags (
+    post_id INT NOT NULL,
+    tag_id INT NOT NULL,
+    PRIMARY KEY (post_id, tag_id),
+    CONSTRAINT FK_post_tags_post FOREIGN KEY (post_id) REFERENCES forum.posts (id),
+    CONSTRAINT FK_post_tags_tag FOREIGN KEY (tag_id) REFERENCES forum.tags (id)
+);
+
+CREATE OR REPLACE TABLE forum.user_role_junction (
+    role_id INT NOT NULL,
+    user_id INT NOT NULL,
+    PRIMARY KEY (role_id, user_id),
+    CONSTRAINT FK_user_role_junction_role FOREIGN KEY (role_id) REFERENCES forum.roles (role_id),
+    CONSTRAINT FK_user_role_junction_user FOREIGN KEY (user_id) REFERENCES forum.users (id)
+);
 
 -- Insert mock data into roles
 INSERT INTO roles (authority) VALUES ('USER'), ('MODERATOR'), ('ADMIN'), ('BANNED');
@@ -10,29 +94,36 @@ INSERT INTO tags (name) VALUES ('Java'), ('Spring'), ('Hibernate'), ('JPA'), ('S
                                ('Angular'), ('Vue'), ('HTML'), ('CSS'), ('NoSQL'),
                                ('Machine Learning'), ('AI');
 
+-- Insert mock data into level-info
+INSERT INTO `level-info` (current_exp, currnet_level, exp_to_next_level) VALUES
+                                                                             (100, 1, 200), (300, 2, 400), (500, 3, 600), (700, 4, 800), (900, 5, 1000),
+                                                                             (1100, 6, 1200), (1300, 7, 1400), (1500, 8, 1600), (1700, 9, 1800), (1900, 10, 2000),
+                                                                             (2100, 11, 2200), (2300, 12, 2400), (2500, 13, 2600), (2700, 14, 2800), (2900, 15, 3000),
+                                                                             (3100, 16, 3200), (3300, 17, 3400), (3500, 18, 3600), (3700, 19, 3800), (3900, 20, 4000);
+
 -- Insert mock data into users
-INSERT INTO users (first_name, last_name, email, password, username)
+INSERT INTO users (first_name, last_name, email, password, username, level_info_id)
 VALUES
-    ('John', 'Doe', 'john.doe@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'johndoe'),
-    ('Brad', 'Doe', 'brad.doe@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'braddoe'),
-    ('Jane', 'Smith', 'jane.smith@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'janesmith'),
-    ('Alice', 'Johnson', 'alice.johnson@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'alicejohnson'),
-    ('Bob', 'Brown', 'bob.brown@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'bobbrown'),
-    ('Charlie', 'Davis', 'charlie.davis@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'charliedavis'),
-    ('David', 'Wilson', 'david.wilson@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'davidwilson'),
-    ('Eva', 'Moore', 'eva.moore@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'evamoore'),
-    ('Frank', 'Taylor', 'frank.taylor@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'franktaylor'),
-    ('Grace', 'Anderson', 'grace.anderson@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'graceanderson'),
-    ('Hank', 'Thomas', 'hank.thomas@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'hankthomas'),
-    ('Ivy', 'Jackson', 'ivy.jackson@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'ivyjackson'),
-    ('Jack', 'White', 'jack.white@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'jackwhite'),
-    ('Kathy', 'Harris', 'kathy.harris@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'kathyharris'),
-    ('Leo', 'Martin', 'leo.martin@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'leomartin'),
-    ('Mia', 'Clark', 'mia.clark@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'miaclark'),
-    ('Nina', 'Lewis', 'nina.lewis@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'ninalewis'),
-    ('Oscar', 'Walker', 'oscar.walker@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'oscarwalker'),
-    ('Paul', 'Hall', 'paul.hall@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'paulhall'),
-    ('Quinn', 'Allen', 'quinn.allen@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'quinnallen');
+    ('John', 'Doe', 'john.doe@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'johndoe', 1),
+    ('Brad', 'Doe', 'brad.doe@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'braddoe', 2),
+    ('Jane', 'Smith', 'jane.smith@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'janesmith', 3),
+    ('Alice', 'Johnson', 'alice.johnson@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'alicejohnson', 4),
+    ('Bob', 'Brown', 'bob.brown@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'bobbrown', 5),
+    ('Charlie', 'Davis', 'charlie.davis@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'charliedavis', 6),
+    ('David', 'Wilson', 'david.wilson@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'davidwilson', 7),
+    ('Eva', 'Moore', 'eva.moore@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'evamoore', 8),
+    ('Frank', 'Taylor', 'frank.taylor@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'franktaylor', 9),
+    ('Grace', 'Anderson', 'grace.anderson@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'graceanderson', 10),
+    ('Hank', 'Thomas', 'hank.thomas@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'hankthomas', 11),
+    ('Ivy', 'Jackson', 'ivy.jackson@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'ivyjackson', 12),
+    ('Jack', 'White', 'jack.white@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'jackwhite', 13),
+    ('Kathy', 'Harris', 'kathy.harris@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'kathyharris', 14),
+    ('Leo', 'Martin', 'leo.martin@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'leomartin', 15),
+    ('Mia', 'Clark', 'mia.clark@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'miaclark', 16),
+    ('Nina', 'Lewis', 'nina.lewis@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'ninalewis', 17),
+    ('Oscar', 'Walker', 'oscar.walker@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'oscarwalker', 18),
+    ('Paul', 'Hall', 'paul.hall@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'paulhall', 19),
+    ('Quinn', 'Allen', 'quinn.allen@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'quinnallen', 20);
 
 -- Assign roles to users
 INSERT INTO user_role_junction (role_id, user_id)
