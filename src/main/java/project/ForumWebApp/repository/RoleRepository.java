@@ -10,5 +10,5 @@ import project.ForumWebApp.models.Role;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Integer> {
-    Optional<Object> findByAuthority(String authority);
+    Optional<Role> findByAuthority(String authority);
 }

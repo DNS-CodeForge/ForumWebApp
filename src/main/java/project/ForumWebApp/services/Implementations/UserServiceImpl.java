@@ -3,8 +3,8 @@ package project.ForumWebApp.services.Implementations;
 import static project.ForumWebApp.constants.ValidationConstants.USER_WITH_PROVIDED_ID_DOES_NOT_EXIST;
 import static project.ForumWebApp.constants.ValidationConstants.USER_WITH_PROVIDED_USERNAME_DOES_NOT_EXIST;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+
+
 import java.util.List;
 import java.util.Set;
 
@@ -12,8 +12,7 @@ import jakarta.persistence.EntityNotFoundException;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
