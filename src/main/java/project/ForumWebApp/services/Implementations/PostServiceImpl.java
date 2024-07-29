@@ -1,5 +1,9 @@
 package project.ForumWebApp.services.Implementations;
 
+import static project.ForumWebApp.constants.ValidationConstants.POST_WITH_PROVIDED_ID_DOES_NOT_EXIST;
+import static project.ForumWebApp.constants.ValidationConstants.POST_WITH_THIS_TITLE_ALREADY_EXISTS;
+import static project.ForumWebApp.constants.ValidationConstants.YOU_ARE_NOT_AUTHORIZED_TO_UPDATE_THIS_POST;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -8,6 +12,7 @@ import java.util.stream.Collectors;
 
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -28,8 +33,6 @@ import project.ForumWebApp.repository.LikeRepository;
 import project.ForumWebApp.repository.PostRepository;
 import project.ForumWebApp.services.PostService;
 import project.ForumWebApp.services.TagService;
-
-import static project.ForumWebApp.constants.ValidationConstants.*;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -59,7 +62,6 @@ public class PostServiceImpl implements PostService {
 
             throw new EntityExistsException(POST_WITH_THIS_TITLE_ALREADY_EXISTS);
         }
-
         Post post = modelMapper.map(postDTO, Post.class);
         post.setUser(authContextManager.getLoggedInUser());
         Set<Tag> tags = new HashSet<>();

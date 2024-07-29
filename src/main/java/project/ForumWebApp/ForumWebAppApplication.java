@@ -1,18 +1,18 @@
 package project.ForumWebApp;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import project.ForumWebApp.models.ApplicationUser;
 import project.ForumWebApp.models.Role;
 import project.ForumWebApp.repository.RoleRepository;
 import project.ForumWebApp.repository.UserRepository;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @SpringBootApplication
 public class ForumWebAppApplication {
@@ -24,9 +24,22 @@ public class ForumWebAppApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
 		return args -> {
+        	if (roleRepository.findByAuthority("USER").isEmpty()){
+				roleRepository.save(new Role("USER"));
+			}
+
+        	if (roleRepository.findByAuthority("MODERATOR").isEmpty()){
+				roleRepository.save(new Role("MODERATOR"));
+			}
+
 			if (roleRepository.findByAuthority("ADMIN").isEmpty()){
 				roleRepository.save(new Role("ADMIN"));
 			}
+
+			if (roleRepository.findByAuthority("BANNED").isEmpty()){
+				roleRepository.save(new Role("BANNED"));
+			}
+
 
 			if(!userRepository.findByUsername("admin").isPresent()) {
 				Set<Role> authorities = new HashSet<>();
