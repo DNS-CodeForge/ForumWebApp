@@ -67,7 +67,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         ApplicationUser user = modelMapper.map(registrationDTO, ApplicationUser.class);
         user.setPassword(encodedPassword);
 
-        Role userRole = (Role) roleRepository.findByAuthority("USER")
+        Role userRole = roleRepository.findByAuthority("USER")
                 .orElseThrow(() -> new EntityNotFoundException(ROLE_NOT_FOUND));
 
         Set<Role> authorities = new HashSet<>();

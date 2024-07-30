@@ -11,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import project.ForumWebApp.config.AuthContextManager;
 import project.ForumWebApp.models.ApplicationUser;
@@ -21,6 +20,7 @@ import project.ForumWebApp.models.Role;
 import project.ForumWebApp.repository.RoleRepository;
 import project.ForumWebApp.repository.UserRepository;
 import project.ForumWebApp.services.Implementations.UserServiceImpl;
+import project.ForumWebApp.services.LevelService;
 
 import java.util.HashSet;
 import java.util.List;
@@ -44,6 +44,9 @@ class UserServiceImplTest {
 
     @Mock
     private ModelMapper modelMapper;
+
+    @Mock
+    private LevelService levelService;
 
     @InjectMocks
     private UserServiceImpl userService;
@@ -77,6 +80,7 @@ class UserServiceImplTest {
         ApplicationUser userDetails = (ApplicationUser) userService.loadUserByUsername("testuser");
 
         assertEquals(applicationUser, userDetails);
+
     }
 
     @Test
@@ -177,7 +181,6 @@ class UserServiceImplTest {
         userRole.setAuthority("USER");
         Role newRole = new Role();
         newRole.setAuthority("ADMIN");
-
 
         Set<Role> authorities = new HashSet<>(applicationUser.getAuthoritySet());
         authorities.add(userRole);

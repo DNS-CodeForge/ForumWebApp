@@ -25,6 +25,7 @@ import project.ForumWebApp.models.DTOs.CommentDTO;
 import project.ForumWebApp.repository.CommentRepository;
 import project.ForumWebApp.repository.PostRepository;
 import project.ForumWebApp.services.Implementations.CommentServiceImpl;
+import project.ForumWebApp.services.LevelService;
 
 import static project.ForumWebApp.constants.ValidationConstants.*;
 
@@ -42,6 +43,9 @@ class CommentServiceImplTest {
 
     @Mock
     private AuthContextManager authContextManager;
+
+    @Mock
+    private LevelService levelService;
 
     @InjectMocks
     private CommentServiceImpl commentService;

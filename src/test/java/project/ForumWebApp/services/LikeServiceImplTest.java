@@ -6,13 +6,13 @@ import static org.mockito.Mockito.*;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import project.ForumWebApp.config.AuthContextManager;
 import project.ForumWebApp.models.ApplicationUser;
 import project.ForumWebApp.models.Like;
@@ -20,6 +20,7 @@ import project.ForumWebApp.models.Post;
 import project.ForumWebApp.repository.LikeRepository;
 import project.ForumWebApp.repository.PostRepository;
 import project.ForumWebApp.services.Implementations.LikeServiceImpl;
+import project.ForumWebApp.services.LevelService;
 
 @ExtendWith(MockitoExtension.class)
 class LikeServiceImplTest {
@@ -32,6 +33,9 @@ class LikeServiceImplTest {
 
     @Mock
     private AuthContextManager authContextManager;
+
+    @Mock
+    private LevelService levelService;
 
     @InjectMocks
     private LikeServiceImpl likeService;
@@ -66,6 +70,7 @@ class LikeServiceImplTest {
 
         verify(postRepository, times(1)).save(post);
         verify(likeRepository, times(1)).save(any(Like.class));
+        verify(levelService, times(1)).addExp(post.getUser(), 1);
     }
 
     @Test
@@ -78,6 +83,7 @@ class LikeServiceImplTest {
 
         verify(postRepository, times(1)).save(post);
         verify(likeRepository, times(1)).delete(like);
+        verify(levelService, times(1)).addExp(post.getUser(), -1);
     }
 
     @Test
