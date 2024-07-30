@@ -1,11 +1,15 @@
 package project.ForumWebApp.services.Implementations;
 
+import static project.ForumWebApp.constants.ValidationConstants.INVALID_USERNAME_OR_PASSWORD;
+import static project.ForumWebApp.constants.ValidationConstants.ROLE_NOT_FOUND;
+
 import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,8 +29,6 @@ import project.ForumWebApp.repository.RoleRepository;
 import project.ForumWebApp.repository.UserRepository;
 import project.ForumWebApp.services.AuthenticationService;
 import project.ForumWebApp.services.TokenService;
-
-import static project.ForumWebApp.constants.ValidationConstants.*;
 
 
 @Service
@@ -57,7 +59,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (userRepository.findByUsername(registrationDTO.getUsername()).isPresent()) {
             throw new EntityExistsException(ValidationConstants.NOT_UNIQUE_USERNAME_MESSAGE);
         }
-        if (userRepository.findByEmail(registrationDTO.getUsername()).isPresent()) {
+        if (userRepository.findByEmail(registrationDTO.getEmail()).isPresent()) {
             throw new EntityExistsException(ValidationConstants.NOT_UNIQUE_EMAIL_MESSAGE);
         }
 
