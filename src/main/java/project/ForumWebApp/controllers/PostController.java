@@ -63,23 +63,27 @@ public class PostController {
         Pageable pageable = PageRequest.of(page, size);
         Page<PostSummaryDTO> posts = postService.getPosts(title, description, null, tags, sort, pageable);
         var response = new CustomResponse();
-        response.getData().put("posts", posts);
-        response.getData().put("pageSize", size);
         response.getData().put("page", page);
+        response.getData().put("totalPages", posts.getTotalPages());
+        response.getData().put("pageSize", size);
+
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString())
+                .query(request.getQueryString());
+
         if (posts.hasNext()) {
-            UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString())
-                    .query(request.getQueryString());
             String nextPageUrl = uriBuilder.replaceQueryParam("page", page + 1).toUriString();
             response.getData().put("nextPage", nextPageUrl);
         }
         if (posts.hasPrevious()) {
-            UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString())
-                    .query(request.getQueryString());
-            String nextPageUrl = uriBuilder.replaceQueryParam("page", page - 1).toUriString();
-            response.getData().put("previousPage", nextPageUrl);
+            String previousPageUrl = uriBuilder.replaceQueryParam("page", page - 1).toUriString();
+            response.getData().put("previousPage", previousPageUrl);
         }
+        response.getData().put("posts", posts.getContent());
+
 
         return ResponseEntity.ok(response);
+
+
     }
 
     @Operation(summary = "Get a post by its ID")

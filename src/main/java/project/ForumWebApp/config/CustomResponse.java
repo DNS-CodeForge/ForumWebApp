@@ -3,7 +3,8 @@ package project.ForumWebApp.config;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
+
+import java.util.LinkedHashMap;
 import java.util.Map;
 @Data
 @Setter
@@ -14,7 +15,7 @@ public class CustomResponse {
     private LocalDateTime timestamp;
 
     public CustomResponse() {
-        this.data = new HashMap<String, Object>();
+        this.data = new LinkedHashMap<String, Object>();
         this.timestamp = LocalDateTime.now();
     }
 
