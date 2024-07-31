@@ -3,6 +3,8 @@ package project.ForumWebApp.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,9 +60,12 @@ public class AdminController {
             @Parameter(description = "Filter by description") @RequestParam(required = false) String description,
             @Parameter(description = "Filter by user") @RequestParam(required = false) String user,
             @Parameter(description = "Filter by tags") @RequestParam(required = false) List<String> tags,
-            @Parameter(description = "Sort by field") @RequestParam(required = false) String sort) {
-
-        return postService.getPosts(title, description, user, tags, sort);
+            @Parameter(description = "Sort by field") @RequestParam(required = false) String sort,
+            @Parameter(description = "Page number") @RequestParam(defaultValue = "0") int page,
+            @Parameter(description = "Page size") @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        return postService.getPosts(title, description, user, tags, sort, pageable);
     }
 
     @Operation(summary = "Get a post by its ID")
@@ -74,23 +79,23 @@ public class AdminController {
     }
 
     @PostMapping("/user/{id}/roles")
-    public ApplicationUser setUserRole( @PathVariable("id") int userId,
-        @RequestParam(required = false, name = "addRole") String roleToAdd,
-        @RequestParam(required = false, name = "removeRole") String roleToRemove) {
+    public ApplicationUser setUserRole(@PathVariable("id") int userId,
+                                       @RequestParam(required = false, name = "addRole") String roleToAdd,
+                                       @RequestParam(required = false, name = "removeRole") String roleToRemove) {
 
-        return userService.setUserRole(userId,roleToAdd,roleToRemove);
+        return userService.setUserRole(userId, roleToAdd, roleToRemove);
     }
 
     @PostMapping("/user/{id}/ban")
     public ApplicationUser banUserRole(@PathVariable("id") int userId) {
 
-        return userService.setUserRole(userId,"BANNED",null);
+        return userService.setUserRole(userId, "BANNED", null);
     }
 
     @PostMapping("/user/{id}/unban")
     public ApplicationUser unbanUserRole(@PathVariable("id") int userId) {
 
-        return userService.setUserRole(userId,null,"BANNED");
+        return userService.setUserRole(userId, null, "BANNED");
     }
 
 

@@ -15,6 +15,8 @@ import jakarta.persistence.EntityNotFoundException;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -139,10 +141,9 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<PostSummaryDTO> getPosts(String title, String description, String user, List<String> tags, String sort) {
+    public List<PostSummaryDTO> getPosts(String title, String description, String user, List<String> tags, String sort, Pageable pageable) {
         Specification<Post> spec = PostFilterSpecification.withFiltersAndSort(title, description, user, tags, sort);
-        List<Post> posts = postRepository.findAll(spec);
+        Page<Post> posts = postRepository.findAll(spec, pageable);
 
         return posts.stream()
                 .map(post -> {
@@ -154,9 +155,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<PostSummaryDTO> getPosts(String title, String description, List<String> tags, String sort) {
-        return getPosts(title, description, null, tags, sort);
+    public List<PostSummaryDTO> getPosts(String title, String description, List<String> tags, String sort, Pageable pageable) {
+        return getPosts(title, description, null, tags, sort, pageable);
     }
 
     @Override

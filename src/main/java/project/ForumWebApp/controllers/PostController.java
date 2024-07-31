@@ -3,6 +3,9 @@ package project.ForumWebApp.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +24,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import project.ForumWebApp.config.CustomResponse;
 import project.ForumWebApp.models.DTOs.post.PostCreateDTO;
 import project.ForumWebApp.models.DTOs.post.PostDTO;
 import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
@@ -43,13 +47,23 @@ public class PostController {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved posts", content = @Content(array = @ArraySchema(schema = @Schema(implementation = PostSummaryDTO.class))))
     })
     @GetMapping
-    public List<PostSummaryDTO> getAllPosts(
+    public ResponseEntity<CustomResponse> getAllPosts(
             @Parameter(description = "Filter by title") @RequestParam(required = false) String title,
             @Parameter(description = "Filter by description") @RequestParam(required = false) String description,
             @Parameter(description = "Filter by tags") @RequestParam(required = false) List<String> tags,
-            @Parameter(description = "Sort by field") @RequestParam(required = false) String sort) {
+            @Parameter(description = "Sort by field") @RequestParam(required = false) String sort,
+            @Parameter(description = "Page number") @RequestParam(defaultValue = "0") int page,
+            @Parameter(description = "Page size") @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        var posts = postService.getPosts(title, description, null, tags, sort, pageable);
+        var response = new CustomResponse();
+        response.getData().put("posts", posts);
+        response.getData().put("pageSize", size);
+        response.getData().put("page", page);
 
-        return postService.getPosts(title, description, tags, sort);
+
+        return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "Get a post by its ID")

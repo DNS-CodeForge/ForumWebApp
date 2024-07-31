@@ -19,6 +19,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import project.ForumWebApp.config.AuthContextManager;
 import project.ForumWebApp.exceptions.AuthorizationException;
@@ -65,6 +67,7 @@ class PostServiceImplTest {
     private PostCreateDTO postCreateDTO;
     private PostUpdateDTO postUpdateDTO;
     private ApplicationUser user;
+    private Pageable pageable;
 
     @BeforeEach
     void setUp() {
@@ -95,6 +98,9 @@ class PostServiceImplTest {
         postUpdateDTO.setTitle("Updated Title");
         postUpdateDTO.setDescription("Updated Description");
         postUpdateDTO.setTags(List.of("Tag1"));
+
+
+        pageable = PageRequest.of(0, 10);
     }
 
 
@@ -223,7 +229,7 @@ class PostServiceImplTest {
         when(postRepository.findAll(any(Specification.class))).thenReturn(posts);
         when(modelMapper.map(post, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
 
-        List<PostSummaryDTO> result = postService.getPosts("title", "description", "user", List.of("tag"), "sort");
+        List<PostSummaryDTO> result = postService.getPosts("title", "description", "user", List.of("tag"), "sort", pageable);
 
         assertNotNull(result);
         assertFalse(result.isEmpty());
@@ -235,7 +241,7 @@ class PostServiceImplTest {
         when(postRepository.findAll(any(Specification.class))).thenReturn(posts);
         when(modelMapper.map(post, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
 
-        List<PostSummaryDTO> result = postService.getPosts("title", "description", List.of("tag"), "sort");
+        List<PostSummaryDTO> result = postService.getPosts("title", "description", List.of("tag"), "sort", pageable);
 
         assertNotNull(result);
         assertFalse(result.isEmpty());
@@ -262,6 +268,7 @@ class PostServiceImplTest {
 
         assertTrue(result);
     }
+
     @Test
     void getPosts_NoFilters() {
         List<Post> posts = List.of(post, anotherPost);
@@ -305,7 +312,7 @@ class PostServiceImplTest {
         when(postRepository.findAll(any(Specification.class))).thenReturn(posts);
         when(modelMapper.map(post, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
 
-        List<PostSummaryDTO> result = postService.getPosts(null, null, "testuser", null, null);
+        List<PostSummaryDTO> result = postService.getPosts(null, null, "testuser", null, null, pageable);
 
         assertNotNull(result);
         assertEquals(1, result.size());
@@ -318,7 +325,7 @@ class PostServiceImplTest {
         when(postRepository.findAll(any(Specification.class))).thenReturn(posts);
         when(modelMapper.map(post, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
 
-        List<PostSummaryDTO> result = postService.getPosts(null, null, null, List.of("Tag1"), null);
+        List<PostSummaryDTO> result = postService.getPosts(null, null, null, List.of("Tag1"), null, pageable);
 
         assertNotNull(result);
         assertEquals(1, result.size());
@@ -331,7 +338,7 @@ class PostServiceImplTest {
         when(postRepository.findAll(any(Specification.class))).thenReturn(posts);
         when(modelMapper.map(post, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
 
-        List<PostSummaryDTO> result = postService.getPosts("Test", "Description", "testuser", List.of("Tag1"), null);
+        List<PostSummaryDTO> result = postService.getPosts("Test", "Description", "testuser", List.of("Tag1"), null, pageable);
 
         assertNotNull(result);
         assertEquals(1, result.size());
@@ -344,7 +351,7 @@ class PostServiceImplTest {
         when(modelMapper.map(post, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
         when(modelMapper.map(anotherPost, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
 
-        List<PostSummaryDTO> result = postService.getPosts(null, null, null, null, "commentsAsc");
+        List<PostSummaryDTO> result = postService.getPosts(null, null, null, null, "commentsAsc", pageable);
 
         assertNotNull(result);
         assertEquals(2, result.size());
@@ -357,7 +364,7 @@ class PostServiceImplTest {
         when(modelMapper.map(post, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
         when(modelMapper.map(anotherPost, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
 
-        List<PostSummaryDTO> result = postService.getPosts(null, null, null, null, "commentsDesc");
+        List<PostSummaryDTO> result = postService.getPosts(null, null, null, null, "commentsDesc", pageable);
 
         assertNotNull(result);
         assertEquals(2, result.size());
@@ -370,7 +377,7 @@ class PostServiceImplTest {
         when(modelMapper.map(post, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
         when(modelMapper.map(anotherPost, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
 
-        List<PostSummaryDTO> result = postService.getPosts(null, null, null, null, "dateAsc");
+        List<PostSummaryDTO> result = postService.getPosts(null, null, null, null, "dateAsc", pageable);
 
         assertNotNull(result);
         assertEquals(2, result.size());
@@ -383,7 +390,7 @@ class PostServiceImplTest {
         when(modelMapper.map(post, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
         when(modelMapper.map(anotherPost, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
 
-        List<PostSummaryDTO> result = postService.getPosts(null, null, null, null, "dateDesc");
+        List<PostSummaryDTO> result = postService.getPosts(null, null, null, null, "dateDesc", pageable);
 
         assertNotNull(result);
         assertEquals(2, result.size());
@@ -396,7 +403,7 @@ class PostServiceImplTest {
         when(modelMapper.map(post, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
         when(modelMapper.map(anotherPost, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
 
-        List<PostSummaryDTO> result = postService.getPosts(null, null, null, null, "likesAsc");
+        List<PostSummaryDTO> result = postService.getPosts(null, null, null, null, "likesAsc",pageable);
 
         assertNotNull(result);
         assertEquals(2, result.size());
@@ -409,7 +416,7 @@ class PostServiceImplTest {
         when(modelMapper.map(post, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
         when(modelMapper.map(anotherPost, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
 
-        List<PostSummaryDTO> result = postService.getPosts(null, null, null, null, "likesDesc");
+        List<PostSummaryDTO> result = postService.getPosts(null, null, null, null, "likesDesc", pageable);
 
         assertNotNull(result);
         assertEquals(2, result.size());
