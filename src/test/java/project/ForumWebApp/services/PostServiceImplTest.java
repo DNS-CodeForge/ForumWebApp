@@ -1,6 +1,8 @@
 package project.ForumWebApp.services;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 import java.util.HashSet;
@@ -19,6 +21,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -102,7 +106,6 @@ class PostServiceImplTest {
 
         pageable = PageRequest.of(0, 10);
     }
-
 
     @Test
     void createPost_PostExists() {
@@ -226,10 +229,11 @@ class PostServiceImplTest {
     @Test
     void getPosts_WithFilters() {
         List<Post> posts = List.of(post);
-        when(postRepository.findAll(any(Specification.class))).thenReturn(posts);
+        Page<Post> pagedPosts = new PageImpl<>(posts, pageable, posts.size());
+        when(postRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(pagedPosts);
         when(modelMapper.map(post, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
 
-        List<PostSummaryDTO> result = postService.getPosts("title", "description", "user", List.of("tag"), "sort", pageable);
+        Page<PostSummaryDTO> result = postService.getPosts("title", "description", "user", List.of("tag"), "sort", pageable);
 
         assertNotNull(result);
         assertFalse(result.isEmpty());
@@ -238,10 +242,11 @@ class PostServiceImplTest {
     @Test
     void getPosts_WithoutUser() {
         List<Post> posts = List.of(post);
-        when(postRepository.findAll(any(Specification.class))).thenReturn(posts);
+        Page<Post> pagedPosts = new PageImpl<>(posts, pageable, posts.size());
+        when(postRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(pagedPosts);
         when(modelMapper.map(post, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
 
-        List<PostSummaryDTO> result = postService.getPosts("title", "description", List.of("tag"), "sort", pageable);
+        Page<PostSummaryDTO> result = postService.getPosts("title", "description", List.of("tag"), "sort", pageable);
 
         assertNotNull(result);
         assertFalse(result.isEmpty());
@@ -272,153 +277,165 @@ class PostServiceImplTest {
     @Test
     void getPosts_NoFilters() {
         List<Post> posts = List.of(post, anotherPost);
-        when(postRepository.findAll(any(Specification.class))).thenReturn(posts);
+        Page<Post> pagedPosts = new PageImpl<>(posts, pageable, posts.size());
+        when(postRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(pagedPosts);
         when(modelMapper.map(post, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
         when(modelMapper.map(anotherPost, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
 
-        List<PostSummaryDTO> result = postService.getPosts(null, null, null, null, null);
+        Page<PostSummaryDTO> result = postService.getPosts(null, null, null, null, pageable);
 
         assertNotNull(result);
-        assertEquals(2, result.size());
+        assertEquals(2, result.getTotalElements());
     }
 
     @Test
     void getPosts_WithTitleFilter() {
         List<Post> posts = List.of(post);
-        when(postRepository.findAll(any(Specification.class))).thenReturn(posts);
+        Page<Post> pagedPosts = new PageImpl<>(posts, pageable, posts.size());
+        when(postRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(pagedPosts);
         when(modelMapper.map(post, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
 
-        List<PostSummaryDTO> result = postService.getPosts("Test", null, null, null, null);
+        Page<PostSummaryDTO> result = postService.getPosts("Test", null, null, null, pageable);
 
         assertNotNull(result);
-        assertEquals(1, result.size());
+        assertEquals(1, result.getTotalElements());
     }
 
     @Test
     void getPosts_WithDescriptionFilter() {
         List<Post> posts = List.of(post);
-        when(postRepository.findAll(any(Specification.class))).thenReturn(posts);
+        Page<Post> pagedPosts = new PageImpl<>(posts, pageable, posts.size());
+        when(postRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(pagedPosts);
         when(modelMapper.map(post, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
 
-        List<PostSummaryDTO> result = postService.getPosts(null, "Description", null, null, null);
+        Page<PostSummaryDTO> result = postService.getPosts(null, "Description", null, null, pageable);
 
         assertNotNull(result);
-        assertEquals(1, result.size());
+        assertEquals(1, result.getTotalElements());
     }
 
     @Test
     void getPosts_WithUserFilter() {
         List<Post> posts = List.of(post);
-        when(postRepository.findAll(any(Specification.class))).thenReturn(posts);
+        Page<Post> pagedPosts = new PageImpl<>(posts, pageable, posts.size());
+        when(postRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(pagedPosts);
         when(modelMapper.map(post, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
 
-        List<PostSummaryDTO> result = postService.getPosts(null, null, "testuser", null, null, pageable);
+        Page<PostSummaryDTO> result = postService.getPosts(null, null, "testuser", null, null, pageable);
 
         assertNotNull(result);
-        assertEquals(1, result.size());
+        assertEquals(1, result.getTotalElements());
     }
 
     @Test
     void getPosts_WithTagsFilter() {
         post.setTags(Set.of(tag));
         List<Post> posts = List.of(post);
-        when(postRepository.findAll(any(Specification.class))).thenReturn(posts);
+        Page<Post> pagedPosts = new PageImpl<>(posts, pageable, posts.size());
+        when(postRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(pagedPosts);
         when(modelMapper.map(post, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
 
-        List<PostSummaryDTO> result = postService.getPosts(null, null, null, List.of("Tag1"), null, pageable);
+        Page<PostSummaryDTO> result = postService.getPosts(null, null, null, List.of("Tag1"), null, pageable);
 
         assertNotNull(result);
-        assertEquals(1, result.size());
+        assertEquals(1, result.getTotalElements());
     }
 
     @Test
     void getPosts_WithMultipleFilters() {
         post.setTags(Set.of(tag));
         List<Post> posts = List.of(post);
-        when(postRepository.findAll(any(Specification.class))).thenReturn(posts);
+        Page<Post> pagedPosts = new PageImpl<>(posts, pageable, posts.size());
+        when(postRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(pagedPosts);
         when(modelMapper.map(post, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
 
-        List<PostSummaryDTO> result = postService.getPosts("Test", "Description", "testuser", List.of("Tag1"), null, pageable);
+        Page<PostSummaryDTO> result = postService.getPosts("Test", "Description", "testuser", List.of("Tag1"), null, pageable);
 
         assertNotNull(result);
-        assertEquals(1, result.size());
+        assertEquals(1, result.getTotalElements());
     }
 
     @Test
     void getPosts_SortByCommentsAsc() {
         List<Post> posts = List.of(post, anotherPost);
-        when(postRepository.findAll(any(Specification.class))).thenReturn(posts);
+        Page<Post> pagedPosts = new PageImpl<>(posts, pageable, posts.size());
+        when(postRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(pagedPosts);
         when(modelMapper.map(post, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
         when(modelMapper.map(anotherPost, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
 
-        List<PostSummaryDTO> result = postService.getPosts(null, null, null, null, "commentsAsc", pageable);
+        Page<PostSummaryDTO> result = postService.getPosts(null, null, null, null, "commentsAsc", pageable);
 
         assertNotNull(result);
-        assertEquals(2, result.size());
+        assertEquals(2, result.getTotalElements());
     }
 
     @Test
     void getPosts_SortByCommentsDesc() {
         List<Post> posts = List.of(post, anotherPost);
-        when(postRepository.findAll(any(Specification.class))).thenReturn(posts);
+        Page<Post> pagedPosts = new PageImpl<>(posts, pageable, posts.size());
+        when(postRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(pagedPosts);
         when(modelMapper.map(post, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
         when(modelMapper.map(anotherPost, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
 
-        List<PostSummaryDTO> result = postService.getPosts(null, null, null, null, "commentsDesc", pageable);
+        Page<PostSummaryDTO> result = postService.getPosts(null, null, null, null, "commentsDesc", pageable);
 
         assertNotNull(result);
-        assertEquals(2, result.size());
+        assertEquals(2, result.getTotalElements());
     }
 
     @Test
     void getPosts_SortByDateAsc() {
         List<Post> posts = List.of(post, anotherPost);
-        when(postRepository.findAll(any(Specification.class))).thenReturn(posts);
+        Page<Post> pagedPosts = new PageImpl<>(posts, pageable, posts.size());
+        when(postRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(pagedPosts);
         when(modelMapper.map(post, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
         when(modelMapper.map(anotherPost, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
 
-        List<PostSummaryDTO> result = postService.getPosts(null, null, null, null, "dateAsc", pageable);
+        Page<PostSummaryDTO> result = postService.getPosts(null, null, null, null, "dateAsc", pageable);
 
         assertNotNull(result);
-        assertEquals(2, result.size());
+        assertEquals(2, result.getTotalElements());
     }
 
     @Test
     void getPosts_SortByDateDesc() {
         List<Post> posts = List.of(post, anotherPost);
-        when(postRepository.findAll(any(Specification.class))).thenReturn(posts);
+        Page<Post> pagedPosts = new PageImpl<>(posts, pageable, posts.size());
+        when(postRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(pagedPosts);
         when(modelMapper.map(post, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
         when(modelMapper.map(anotherPost, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
 
-        List<PostSummaryDTO> result = postService.getPosts(null, null, null, null, "dateDesc", pageable);
+        Page<PostSummaryDTO> result = postService.getPosts(null, null, null, null, "dateDesc", pageable);
 
         assertNotNull(result);
-        assertEquals(2, result.size());
+        assertEquals(2, result.getTotalElements());
     }
 
     @Test
     void getPosts_SortByLikesAsc() {
         List<Post> posts = List.of(post, anotherPost);
-        when(postRepository.findAll(any(Specification.class))).thenReturn(posts);
+        Page<Post> pagedPosts = new PageImpl<>(posts, pageable, posts.size());
+        when(postRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(pagedPosts);
         when(modelMapper.map(post, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
         when(modelMapper.map(anotherPost, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
 
-        List<PostSummaryDTO> result = postService.getPosts(null, null, null, null, "likesAsc",pageable);
+        Page<PostSummaryDTO> result = postService.getPosts(null, null, null, null, "likesAsc", pageable);
 
         assertNotNull(result);
-        assertEquals(2, result.size());
+        assertEquals(2, result.getTotalElements());
     }
 
     @Test
     void getPosts_SortByLikesDesc() {
         List<Post> posts = List.of(post, anotherPost);
-        when(postRepository.findAll(any(Specification.class))).thenReturn(posts);
+        Page<Post> pagedPosts = new PageImpl<>(posts, pageable, posts.size());
+        when(postRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(pagedPosts);
         when(modelMapper.map(post, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
         when(modelMapper.map(anotherPost, PostSummaryDTO.class)).thenReturn(new PostSummaryDTO());
 
-        List<PostSummaryDTO> result = postService.getPosts(null, null, null, null, "likesDesc", pageable);
+        Page<PostSummaryDTO> result = postService.getPosts(null, null, null, null, "likesDesc", pageable);
 
         assertNotNull(result);
-        assertEquals(2, result.size());
+        assertEquals(2, result.getTotalElements());
     }
 }

@@ -16,6 +16,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -141,21 +142,23 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostSummaryDTO> getPosts(String title, String description, String user, List<String> tags, String sort, Pageable pageable) {
+    public Page<PostSummaryDTO> getPosts(String title, String description, String user, List<String> tags, String sort, Pageable pageable) {
         Specification<Post> spec = PostFilterSpecification.withFiltersAndSort(title, description, user, tags, sort);
         Page<Post> posts = postRepository.findAll(spec, pageable);
 
-        return posts.stream()
+        List<PostSummaryDTO> dtos = posts.stream()
                 .map(post -> {
                     PostSummaryDTO dto = modelMapper.map(post, PostSummaryDTO.class);
                     dto.setCommentCount(post.getComments().size());
                     return dto;
                 })
                 .collect(Collectors.toList());
+
+        return new PageImpl<>(dtos, pageable, posts.getTotalElements());
     }
 
     @Override
-    public List<PostSummaryDTO> getPosts(String title, String description, List<String> tags, String sort, Pageable pageable) {
+    public Page<PostSummaryDTO> getPosts(String title, String description, List<String> tags, String sort, Pageable pageable) {
         return getPosts(title, description, null, tags, sort, pageable);
     }
 

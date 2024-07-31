@@ -2,7 +2,9 @@ package project.ForumWebApp.controllers;
 
 import java.util.List;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -24,11 +26,13 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.web.util.UriComponentsBuilder;
 import project.ForumWebApp.config.CustomResponse;
 import project.ForumWebApp.models.DTOs.post.PostCreateDTO;
 import project.ForumWebApp.models.DTOs.post.PostDTO;
 import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
 import project.ForumWebApp.models.DTOs.post.PostUpdateDTO;
+import project.ForumWebApp.models.Post;
 import project.ForumWebApp.services.PostService;
 
 @RestController
@@ -53,15 +57,27 @@ public class PostController {
             @Parameter(description = "Filter by tags") @RequestParam(required = false) List<String> tags,
             @Parameter(description = "Sort by field") @RequestParam(required = false) String sort,
             @Parameter(description = "Page number") @RequestParam(defaultValue = "0") int page,
-            @Parameter(description = "Page size") @RequestParam(defaultValue = "10") int size
+            @Parameter(description = "Page size") @RequestParam(defaultValue = "10") int size,
+            HttpServletRequest request
     ) {
         Pageable pageable = PageRequest.of(page, size);
-        var posts = postService.getPosts(title, description, null, tags, sort, pageable);
+        Page<PostSummaryDTO> posts = postService.getPosts(title, description, null, tags, sort, pageable);
         var response = new CustomResponse();
         response.getData().put("posts", posts);
         response.getData().put("pageSize", size);
         response.getData().put("page", page);
-
+        if (posts.hasNext()) {
+            UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString())
+                    .query(request.getQueryString());
+            String nextPageUrl = uriBuilder.replaceQueryParam("page", page + 1).toUriString();
+            response.getData().put("nextPage", nextPageUrl);
+        }
+        if (posts.hasPrevious()) {
+            UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString())
+                    .query(request.getQueryString());
+            String nextPageUrl = uriBuilder.replaceQueryParam("page", page - 1).toUriString();
+            response.getData().put("previousPage", nextPageUrl);
+        }
 
         return ResponseEntity.ok(response);
     }

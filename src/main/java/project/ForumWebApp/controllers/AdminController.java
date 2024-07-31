@@ -3,6 +3,7 @@ package project.ForumWebApp.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -55,7 +56,7 @@ public class AdminController {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved posts", content = @Content(array = @ArraySchema(schema = @Schema(implementation = PostSummaryDTO.class))))
     })
     @GetMapping("/post")
-    public List<PostSummaryDTO> getAllPosts(
+    public Page<PostSummaryDTO> getAllPosts(
             @Parameter(description = "Filter by title") @RequestParam(required = false) String title,
             @Parameter(description = "Filter by description") @RequestParam(required = false) String description,
             @Parameter(description = "Filter by user") @RequestParam(required = false) String user,
