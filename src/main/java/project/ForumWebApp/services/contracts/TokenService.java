@@ -1,4 +1,4 @@
-package project.ForumWebApp.services;
+package project.ForumWebApp.services.contracts;
 
 import org.springframework.security.core.Authentication;
 

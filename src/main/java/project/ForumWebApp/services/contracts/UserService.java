@@ -1,4 +1,4 @@
-package project.ForumWebApp.services;
+package project.ForumWebApp.services.contracts;
 
 import java.util.List;
 

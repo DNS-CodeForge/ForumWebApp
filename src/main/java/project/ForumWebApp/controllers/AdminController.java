@@ -27,8 +27,8 @@ import project.ForumWebApp.models.DTOs.post.PostCreateDTO;
 import project.ForumWebApp.models.DTOs.post.PostDTO;
 import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
 import project.ForumWebApp.models.DTOs.post.PostUpdateDTO;
-import project.ForumWebApp.services.PostService;
-import project.ForumWebApp.services.UserService;
+import project.ForumWebApp.services.contracts.PostService;
+import project.ForumWebApp.services.contracts.UserService;
 
 @RestController
 @RequestMapping("api/admin")
@@ -37,7 +37,6 @@ public class AdminController {
 
     private final PostService postService;
     private final UserService userService;
-
 
     @Autowired
     public AdminController(PostService postService, UserService userService) {

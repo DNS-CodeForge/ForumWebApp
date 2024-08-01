@@ -24,7 +24,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import project.ForumWebApp.constants.ValidationConstants;
@@ -35,10 +34,12 @@ import project.ForumWebApp.models.DTOs.user.LoginResponseDTO;
 import project.ForumWebApp.models.DTOs.user.RegistrationDTO;
 import project.ForumWebApp.repository.RoleRepository;
 import project.ForumWebApp.repository.UserRepository;
-import project.ForumWebApp.services.Implementations.AuthenticationServiceImpl;
+import project.ForumWebApp.services.contracts.RestAuthenticationService;
+import project.ForumWebApp.services.contracts.TokenService;
+
 
 @ExtendWith(MockitoExtension.class)
-class AuthenticationServiceImplTest {
+class RestAuthenticationServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
@@ -54,7 +55,7 @@ class AuthenticationServiceImplTest {
     private ModelMapper modelMapper;
 
     @InjectMocks
-    private AuthenticationServiceImpl authenticationService;
+    private RestAuthenticationService authenticationService;
 
     private RegistrationDTO registrationDTO;
     private ApplicationUser user;

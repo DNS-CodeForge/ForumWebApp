@@ -34,8 +34,8 @@ import project.ForumWebApp.models.DTOs.post.PostUpdateDTO;
 import project.ForumWebApp.repository.CommentRepository;
 import project.ForumWebApp.repository.LikeRepository;
 import project.ForumWebApp.repository.PostRepository;
-import project.ForumWebApp.services.PostService;
-import project.ForumWebApp.services.TagService;
+import project.ForumWebApp.services.contracts.PostService;
+import project.ForumWebApp.services.contracts.TagService;
 
 @Service
 public class PostServiceImpl implements PostService {

@@ -25,7 +25,7 @@ import project.ForumWebApp.models.DTOs.CommentDTO;
 import project.ForumWebApp.repository.CommentRepository;
 import project.ForumWebApp.repository.PostRepository;
 import project.ForumWebApp.services.Implementations.CommentServiceImpl;
-import project.ForumWebApp.services.LevelService;
+import project.ForumWebApp.services.contracts.LevelService;
 
 import static project.ForumWebApp.constants.ValidationConstants.*;
 

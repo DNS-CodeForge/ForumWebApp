@@ -21,8 +21,8 @@ import project.ForumWebApp.models.DTOs.CommentCreateDTO;
 import project.ForumWebApp.models.DTOs.CommentDTO;
 import project.ForumWebApp.repository.CommentRepository;
 import project.ForumWebApp.repository.PostRepository;
-import project.ForumWebApp.services.CommentService;
-import project.ForumWebApp.services.LevelService;
+import project.ForumWebApp.services.contracts.CommentService;
+import project.ForumWebApp.services.contracts.LevelService;
 
 @Service
 public class CommentServiceImpl implements CommentService {

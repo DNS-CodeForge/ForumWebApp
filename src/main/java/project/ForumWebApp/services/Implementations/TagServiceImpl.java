@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import project.ForumWebApp.models.Post;
 import project.ForumWebApp.models.Tag;
 import project.ForumWebApp.repository.TagRepository;
-import project.ForumWebApp.services.TagService;
+import project.ForumWebApp.services.contracts.TagService;
 
 import static project.ForumWebApp.constants.ValidationConstants.*;
 

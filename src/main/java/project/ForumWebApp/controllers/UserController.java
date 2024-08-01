@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import project.ForumWebApp.models.ApplicationUser;
 import project.ForumWebApp.models.DTOs.user.RegistrationDTO;
 import project.ForumWebApp.models.DTOs.user.UpdateUserDTO;
-import project.ForumWebApp.services.UserService;
+import project.ForumWebApp.services.contracts.UserService;
 
 @RestController
 @RequestMapping("api/user")

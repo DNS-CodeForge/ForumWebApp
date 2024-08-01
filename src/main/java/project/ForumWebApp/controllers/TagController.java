@@ -9,7 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import project.ForumWebApp.models.Tag;
-import project.ForumWebApp.services.TagService;
+import project.ForumWebApp.services.contracts.TagService;
 
 @RestController
 @RequestMapping("api/tag")

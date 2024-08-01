@@ -39,7 +39,7 @@ import project.ForumWebApp.repository.CommentRepository;
 import project.ForumWebApp.repository.LikeRepository;
 import project.ForumWebApp.repository.PostRepository;
 import project.ForumWebApp.services.Implementations.PostServiceImpl;
-import project.ForumWebApp.services.TagService;
+import project.ForumWebApp.services.contracts.TagService;
 
 @ExtendWith(MockitoExtension.class)
 class PostServiceImplTest {

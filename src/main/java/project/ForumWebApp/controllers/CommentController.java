@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import project.ForumWebApp.models.DTOs.CommentCreateDTO;
 import project.ForumWebApp.models.DTOs.CommentDTO;
-import project.ForumWebApp.services.CommentService;
+import project.ForumWebApp.services.contracts.CommentService;
 
 @RestController
 @RequestMapping("/api/comments")

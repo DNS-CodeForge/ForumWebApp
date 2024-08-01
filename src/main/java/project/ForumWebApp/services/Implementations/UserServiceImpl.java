@@ -26,7 +26,7 @@ import project.ForumWebApp.models.DTOs.user.RegistrationDTO;
 import project.ForumWebApp.models.DTOs.user.UpdateUserDTO;
 import project.ForumWebApp.repository.RoleRepository;
 import project.ForumWebApp.repository.UserRepository;
-import project.ForumWebApp.services.UserService;
+import project.ForumWebApp.services.contracts.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {

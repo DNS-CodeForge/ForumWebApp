@@ -12,8 +12,8 @@ import project.ForumWebApp.models.Like;
 import project.ForumWebApp.models.Post;
 import project.ForumWebApp.repository.LikeRepository;
 import project.ForumWebApp.repository.PostRepository;
-import project.ForumWebApp.services.LevelService;
-import project.ForumWebApp.services.LikeService;
+import project.ForumWebApp.services.contracts.LevelService;
+import project.ForumWebApp.services.contracts.LikeService;
 
 @Service
 public class LikeServiceImpl implements LikeService{

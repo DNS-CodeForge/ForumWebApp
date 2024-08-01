@@ -32,8 +32,7 @@ import project.ForumWebApp.models.DTOs.post.PostCreateDTO;
 import project.ForumWebApp.models.DTOs.post.PostDTO;
 import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
 import project.ForumWebApp.models.DTOs.post.PostUpdateDTO;
-import project.ForumWebApp.models.Post;
-import project.ForumWebApp.services.PostService;
+import project.ForumWebApp.services.contracts.PostService;
 
 @RestController
 @RequestMapping("/api/post")

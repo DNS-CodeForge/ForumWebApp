@@ -1,5 +1,7 @@
-create database forum if not exis;
-create or replace table forum.`level-info`
+create
+database forum if not exis;
+create
+or replace table forum.`level-info`
 
 (
     id                int auto_increment
@@ -9,21 +11,24 @@ create or replace table forum.`level-info`
     exp_to_next_level int not null
 );
 
-create or replace table forum.roles
+create
+or replace table forum.roles
 (
     role_id   int auto_increment
         primary key,
     authority varchar(255) null
 );
 
-create or replace table forum.tags
+create
+or replace table forum.tags
 (
     id   int auto_increment
         primary key,
     name varchar(32) not null
 );
 
-create or replace table forum.users
+create
+or replace table forum.users
 (
     id            int auto_increment
         primary key,
@@ -44,7 +49,8 @@ create or replace table forum.users
         foreign key (level_info_id) references forum.`level-info` (id)
 );
 
-create or replace table forum.phone_numbers
+create
+or replace table forum.phone_numbers
 (
     id      int auto_increment
         primary key,
@@ -56,7 +62,8 @@ create or replace table forum.phone_numbers
         foreign key (user_id) references forum.users (id)
 );
 
-create or replace table forum.posts
+create
+or replace table forum.posts
 (
     id           int auto_increment
         primary key,
@@ -68,7 +75,8 @@ create or replace table forum.posts
         foreign key (user_id) references forum.users (id)
 );
 
-create or replace table forum.comments
+create
+or replace table forum.comments
 (
     id      int auto_increment
         primary key,
@@ -81,7 +89,8 @@ create or replace table forum.comments
         foreign key (post_id) references forum.posts (id)
 );
 
-create or replace table forum.likes
+create
+or replace table forum.likes
 (
     id      int auto_increment
         primary key,
@@ -93,7 +102,8 @@ create or replace table forum.likes
         foreign key (user_id) references forum.users (id)
 );
 
-create or replace table forum.post_tags
+create
+or replace table forum.post_tags
 (
     post_id int not null,
     tag_id  int not null,
@@ -104,7 +114,8 @@ create or replace table forum.post_tags
         foreign key (tag_id) references forum.tags (id)
 );
 
-create or replace table forum.user_role_junction
+create
+or replace table forum.user_role_junction
 (
     role_id int not null,
     user_id int not null,
@@ -114,4 +125,32 @@ create or replace table forum.user_role_junction
     constraint FK_user_role_junction_user
         foreign key (user_id) references forum.users (id)
 );
+
+CREATE TABLE SPRING_SESSION
+(
+    PRIMARY_ID            CHAR(36) NOT NULL,
+    SESSION_ID            CHAR(36) NOT NULL,
+    CREATION_TIME         BIGINT   NOT NULL,
+    LAST_ACCESS_TIME      BIGINT   NOT NULL,
+    MAX_INACTIVE_INTERVAL INT      NOT NULL,
+    EXPIRY_TIME           BIGINT   NOT NULL,
+    PRINCIPAL_NAME        VARCHAR(100),
+    CONSTRAINT SPRING_SESSION_PK PRIMARY KEY (PRIMARY_ID)
+) ENGINE=InnoDB ROW_FORMAT=DYNAMIC;
+
+CREATE UNIQUE INDEX SPRING_SESSION_IX1 ON SPRING_SESSION (SESSION_ID);
+CREATE INDEX SPRING_SESSION_IX2 ON SPRING_SESSION (EXPIRY_TIME);
+CREATE INDEX SPRING_SESSION_IX3 ON SPRING_SESSION (PRINCIPAL_NAME);
+
+CREATE TABLE SPRING_SESSION_ATTRIBUTES
+(
+    SESSION_PRIMARY_ID CHAR(36)     NOT NULL,
+    ATTRIBUTE_NAME     VARCHAR(200) NOT NULL,
+    ATTRIBUTE_BYTES    BLOB         NOT NULL,
+    CONSTRAINT SPRING_SESSION_ATTRIBUTES_PK PRIMARY KEY (SESSION_PRIMARY_ID, ATTRIBUTE_NAME),
+    CONSTRAINT SPRING_SESSION_ATTRIBUTES_FK FOREIGN KEY (SESSION_PRIMARY_ID) REFERENCES SPRING_SESSION (PRIMARY_ID) ON DELETE CASCADE
+) ENGINE=InnoDB ROW_FORMAT=DYNAMIC;
+
+CREATE INDEX SPRING_SESSION_ATTRIBUTES_IX1 ON SPRING_SESSION_ATTRIBUTES (SESSION_PRIMARY_ID);
+
 

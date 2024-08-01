@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import project.ForumWebApp.models.ApplicationUser;
 import project.ForumWebApp.models.LevelInfo;
 import project.ForumWebApp.repository.LevelRepository;
-import project.ForumWebApp.services.LevelService;
+import project.ForumWebApp.services.contracts.LevelService;
 
 @Service
 public class LevelServiceImpl implements LevelService{

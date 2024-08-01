@@ -17,16 +17,16 @@ import project.ForumWebApp.models.ApplicationUser;
 import project.ForumWebApp.models.DTOs.user.LoginDTO;
 import project.ForumWebApp.models.DTOs.user.LoginResponseDTO;
 import project.ForumWebApp.models.DTOs.user.RegistrationDTO;
-import project.ForumWebApp.services.AuthenticationService;
+import project.ForumWebApp.services.contracts.RestAuthenticationService;
 
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin("*")
 public class AuthenticationController {
 
-    private final AuthenticationService authenticationService;
+    private final RestAuthenticationService authenticationService;
 
-    public AuthenticationController(AuthenticationService authenticationService) {
+    public AuthenticationController(RestAuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
 

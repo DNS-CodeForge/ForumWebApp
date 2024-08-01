@@ -20,7 +20,7 @@ import project.ForumWebApp.models.Role;
 import project.ForumWebApp.repository.RoleRepository;
 import project.ForumWebApp.repository.UserRepository;
 import project.ForumWebApp.services.Implementations.UserServiceImpl;
-import project.ForumWebApp.services.LevelService;
+import project.ForumWebApp.services.contracts.LevelService;
 
 import java.util.HashSet;
 import java.util.List;

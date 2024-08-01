@@ -20,7 +20,7 @@ import project.ForumWebApp.models.Post;
 import project.ForumWebApp.repository.LikeRepository;
 import project.ForumWebApp.repository.PostRepository;
 import project.ForumWebApp.services.Implementations.LikeServiceImpl;
-import project.ForumWebApp.services.LevelService;
+import project.ForumWebApp.services.contracts.LevelService;
 
 @ExtendWith(MockitoExtension.class)
 class LikeServiceImplTest {
