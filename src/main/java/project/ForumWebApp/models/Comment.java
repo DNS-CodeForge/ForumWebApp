@@ -2,8 +2,6 @@ package project.ForumWebApp.models;
 
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,6 +12,10 @@ import jakarta.persistence.PreRemove;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

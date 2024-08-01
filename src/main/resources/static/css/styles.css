@@ -1,0 +1,124 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+.post-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    margin-top: 0;
+}
+
+.post-description {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.post-author {
+    font-style: italic;
+    margin: 10px 0;
+    font-size: 1em;
+}
+
+.comments-section {
+    margin-top: 20px;
+}
+
+.comments-section h3 {
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+}
+
+.comments-section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.comments-section li {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.comments-section li:last-child {
+    border-bottom: none;
+}
+
+.comments-section p {
+    margin: 0;
+    padding: 5px 0;
+}
+
+/* Like Button Styles */
+button {
+    background-color: #4CAF50; /* Green background */
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    padding: 10px 20px; /* Some padding */
+    text-align: center; /* Centered text */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Make the button inline */
+    font-size: 16px; /* Increase font size */
+    margin: 4px 2px; /* Add some margins */
+    cursor: pointer; /* Pointer cursor on hover */
+    border-radius: 5px; /* Rounded corners */
+}
+
+button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+nav {
+    background-color: #333;
+    overflow: hidden;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    float: left;
+}
+
+nav ul li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 18px;
+    text-decoration: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+nav ul li a:hover {
+    background-color: #111;
+}
+
+.postBox {
+    width: 800px;
+    height: 150;
+    background-color: #f4f4f4;
+    margin: 25px auto;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ddd;
+    transition: transform 0.3s, background-color 0.3s;
+    cursor: pointer;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.postBox:hover {
+    transform: scale(1.03);
+    background-color: #e0e0e0;
+}

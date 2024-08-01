@@ -1,4 +1,4 @@
-package project.ForumWebApp.controllers;
+package project.ForumWebApp.controllers.rest;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;

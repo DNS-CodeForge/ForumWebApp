@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${post.title}">Post Details</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <div th:replace="fragments/navbar :: navbar"></div>
+    <div class="post-container">
+        <p class="post-author">Posted by: <span th:text="${post.user.username}">Author Name</span></p>
+        <h2 th:text="${post.title}">Post Title</h2>
+        <p class="post-description" th:text="${post.description}">Post Description</p>
+        
+        <div class="comments-section">
+            <h3>Comments:</h3>
+            <ul>
+                <li th:each="comment : ${post.comments}">
+                    <p th:text="${comment.content}">Comment Text</p>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</body>
+</html>
+
