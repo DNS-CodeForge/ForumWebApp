@@ -49,15 +49,15 @@ public class Comment {
     private ApplicationUser user;
 
     @ManyToOne
-    @JoinColumn(name = "post_id", referencedColumnName = "id")
+    @JoinColumn(name = "post_id", referencedColumnName = "id", nullable = false)
     @JsonBackReference
     @Schema(description = "Post to which the comment belongs")
     private Post post;
 
-    @PreRemove
-    private void preRemove() {
-        if (Objects.nonNull(post)) {
-            post.getComments().remove(this);
-        }
-    }
+//    @PreRemove
+//    private void preRemove() {
+//        if (Objects.nonNull(post)) {
+//            post.getComments().remove(this);
+//        }
+//    }
 }

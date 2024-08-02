@@ -13,7 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import project.ForumWebApp.config.AuthContextManager;
+import project.ForumWebApp.config.security.AuthContextManager;
 import project.ForumWebApp.models.ApplicationUser;
 import project.ForumWebApp.models.Like;
 import project.ForumWebApp.models.Post;

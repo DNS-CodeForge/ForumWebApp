@@ -22,6 +22,7 @@ public interface PostService {
     Page<PostSummaryDTO> getPosts(String title, String description, String user, List<String> tags, String sort, Pageable pageable);
 
     Page<PostSummaryDTO> getPosts(String title, String description, List<String> tags, String sort, Pageable pageable);
+    Page<PostSummaryDTO> getPosts();
 
     boolean isOwner(int id);
 }

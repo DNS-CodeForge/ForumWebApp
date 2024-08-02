@@ -13,7 +13,7 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import project.ForumWebApp.config.AuthContextManager;
+import project.ForumWebApp.config.security.AuthContextManager;
 import project.ForumWebApp.exceptions.AuthorizationException;
 import project.ForumWebApp.models.Comment;
 import project.ForumWebApp.models.Post;

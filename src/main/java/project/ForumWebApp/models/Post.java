@@ -75,12 +75,12 @@ public class Post {
     private Instant createdDate;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     @Schema(description = "Likes associated with the post")
     private Set<Like> likes = new HashSet<>();
 
-    @OneToMany(mappedBy = "post")
     @JsonManagedReference
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     @Schema(description = "Comments associated with the post")
     private Set<Comment> comments = new HashSet<>();
 

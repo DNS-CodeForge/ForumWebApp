@@ -21,7 +21,9 @@ import project.ForumWebApp.constants.ValidationConstants;
 import project.ForumWebApp.exceptions.AuthorizationException;
 import project.ForumWebApp.models.ApplicationUser;
 import project.ForumWebApp.models.DTOs.user.RegistrationDTO;
+import project.ForumWebApp.models.LevelInfo;
 import project.ForumWebApp.models.Role;
+import project.ForumWebApp.repository.LevelRepository;
 import project.ForumWebApp.repository.RoleRepository;
 import project.ForumWebApp.repository.UserRepository;
 import project.ForumWebApp.services.contracts.MvcAuthenticationService;
@@ -41,6 +43,7 @@ public class MvcAuthenticationServiceImpl implements MvcAuthenticationService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final LevelRepository levelRepository;
 
     private final RoleRepository roleRepository;
 
@@ -48,13 +51,14 @@ public class MvcAuthenticationServiceImpl implements MvcAuthenticationService {
     public MvcAuthenticationServiceImpl(
             PasswordEncoder passwordEncoder,
             @Qualifier("mvcAuthenticationManager") AuthenticationManager authenticationManager,
-            UserRepository userRepository,
+            UserRepository userRepository, LevelRepository levelRepository,
             RoleRepository roleRepository
     ) {
 
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
+        this.levelRepository = levelRepository;
         this.roleRepository = roleRepository;
     }
 
@@ -73,13 +77,17 @@ public class MvcAuthenticationServiceImpl implements MvcAuthenticationService {
         user.setEmail(registrationDTO.getEmail());
         user.setPassword(encodedPassword);
 
+
+
         Role userRole = roleRepository.findByAuthority("USER")
                 .orElseThrow(() -> new EntityNotFoundException(ROLE_NOT_FOUND));
 
         Set<Role> authorities = new HashSet<>();
         authorities.add(userRole);
         user.setAuthorities(authorities);
-
+        var lvl = new LevelInfo();
+        lvl.setUserId(user.getId());
+        levelRepository.save(lvl);
         return userRepository.save(user);
     }
 

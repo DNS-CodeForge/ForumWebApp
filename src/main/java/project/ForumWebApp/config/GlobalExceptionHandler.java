@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 
+import project.ForumWebApp.config.security.AuthContextManager;
 import project.ForumWebApp.exceptions.AuthorizationException;
 
 @ControllerAdvice

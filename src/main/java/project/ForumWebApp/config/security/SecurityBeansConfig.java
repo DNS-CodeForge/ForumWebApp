@@ -1,4 +1,4 @@
-package project.ForumWebApp.config;
+package project.ForumWebApp.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

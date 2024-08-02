@@ -15,7 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
-import project.ForumWebApp.config.AuthContextManager;
+import project.ForumWebApp.config.security.AuthContextManager;
 import project.ForumWebApp.exceptions.AuthorizationException;
 import project.ForumWebApp.models.ApplicationUser;
 import project.ForumWebApp.models.Comment;

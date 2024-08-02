@@ -17,12 +17,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import project.ForumWebApp.config.AuthContextManager;
+import project.ForumWebApp.config.security.AuthContextManager;
 import project.ForumWebApp.exceptions.AuthorizationException;
 import project.ForumWebApp.filterSpecifications.PostFilterSpecification;
 import project.ForumWebApp.models.Post;
@@ -160,6 +161,11 @@ public class PostServiceImpl implements PostService {
     @Override
     public Page<PostSummaryDTO> getPosts(String title, String description, List<String> tags, String sort, Pageable pageable) {
         return getPosts(title, description, null, tags, sort, pageable);
+    }
+    @Override
+    public Page<PostSummaryDTO> getPosts() {
+        Pageable pageable = PageRequest.of(0, 10);
+        return getPosts(null, null, null, null, null, pageable);
     }
 
     @Override

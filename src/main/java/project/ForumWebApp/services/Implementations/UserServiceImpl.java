@@ -19,7 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import project.ForumWebApp.config.AuthContextManager;
+import project.ForumWebApp.config.security.AuthContextManager;
 import project.ForumWebApp.models.ApplicationUser;
 import project.ForumWebApp.models.Role;
 import project.ForumWebApp.models.DTOs.user.RegistrationDTO;

@@ -1,9 +1,9 @@
 package project.ForumWebApp.models;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -14,12 +14,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "level-info")
-public class LevelInfo{
+@Table(name = "level_info")
+public class LevelInfo {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private int currnetLevel = 1;
+    private int userId;
+
+    private int currentLevel = 1;
     private int currentExp = 0;
     private int expToNextLevel = 50;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private ApplicationUser user;
 }

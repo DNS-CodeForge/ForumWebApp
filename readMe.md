@@ -130,7 +130,7 @@ Deletes a user by ID.
 ***
 #
 # Models
-### **SQL Scripts for generating Database and Mock Data (dbCreation.sql & mockData.sql).**
+### **SQL Script for generating Database(dbCreation.sql).**
 ***
 ### User
 - **Attributes**:

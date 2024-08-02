@@ -12,7 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import project.ForumWebApp.config.AuthContextManager;
+import project.ForumWebApp.config.security.AuthContextManager;
 import project.ForumWebApp.models.ApplicationUser;
 import project.ForumWebApp.models.DTOs.user.RegistrationDTO;
 import project.ForumWebApp.models.DTOs.user.UpdateUserDTO;

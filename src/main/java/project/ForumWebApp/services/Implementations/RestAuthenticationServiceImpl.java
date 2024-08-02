@@ -5,7 +5,7 @@ import static project.ForumWebApp.constants.ValidationConstants.ROLE_NOT_FOUND;
 
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,11 +21,14 @@ import project.ForumWebApp.exceptions.AuthorizationException;
 import project.ForumWebApp.models.ApplicationUser;
 import project.ForumWebApp.models.DTOs.user.LoginResponseDTO;
 import project.ForumWebApp.models.DTOs.user.RegistrationDTO;
+import project.ForumWebApp.models.LevelInfo;
 import project.ForumWebApp.models.Role;
+import project.ForumWebApp.repository.LevelRepository;
 import project.ForumWebApp.repository.RoleRepository;
 import project.ForumWebApp.repository.UserRepository;
 import project.ForumWebApp.services.contracts.RestAuthenticationService;
 import project.ForumWebApp.services.contracts.TokenService;
+
 
 import java.util.HashSet;
 import java.util.Set;
@@ -37,17 +40,25 @@ public class RestAuthenticationServiceImpl implements RestAuthenticationService 
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final LevelRepository levelRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public RestAuthenticationServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, @Qualifier("restAuthenticationManager") AuthenticationManager authenticationManager, TokenService tokenService) {
+    public RestAuthenticationServiceImpl(
+            UserRepository userRepository, RoleRepository roleRepository,
+            LevelRepository levelRepository, PasswordEncoder passwordEncoder,
+            ModelMapper modelMapper, @Qualifier("restAuthenticationManager") AuthenticationManager authenticationManager,
+            TokenService tokenService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.levelRepository = levelRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.tokenService = tokenService;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -60,10 +71,9 @@ public class RestAuthenticationServiceImpl implements RestAuthenticationService 
         }
 
         String encodedPassword = passwordEncoder.encode(registrationDTO.getPassword());
-        ApplicationUser user = new ApplicationUser();
-        user.setUsername(registrationDTO.getUsername());
-        user.setEmail(registrationDTO.getEmail());
+        ApplicationUser user = modelMapper.map(registrationDTO, ApplicationUser.class);
         user.setPassword(encodedPassword);
+
 
         Role userRole = roleRepository.findByAuthority("USER")
                 .orElseThrow(() -> new EntityNotFoundException(ROLE_NOT_FOUND));
@@ -71,8 +81,13 @@ public class RestAuthenticationServiceImpl implements RestAuthenticationService 
         Set<Role> authorities = new HashSet<>();
         authorities.add(userRole);
         user.setAuthorities(authorities);
+        var lvl = new LevelInfo();
 
-        return userRepository.save(user);
+        var saveduser = userRepository.save(user);
+        lvl.setUserId(user.getId());
+        levelRepository.save(lvl);
+
+        return  saveduser;
     }
 
     @Override

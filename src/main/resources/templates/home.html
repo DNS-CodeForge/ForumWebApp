@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<div class="navbar">
+    <a href="/posts">Posts</a>
+    <a href="/top10s">Top 10s</a>
+    <a href="/profile">Profile</a>
+    <a href="/logout">Logout</a>
+</div>
+
+<div class="content">
+    <h1>Welcome to the Home Page</h1>
+    <p>You have successfully logged in!</p>
+
+
+    <div class="posts-container">
+        <div class="posts">
+            <h2>Recent Posts</h2>
+            <ul>
+                <li th:each="post : ${posts}">
+                    <div class="post-item">
+                        <div class="post-title">
+                            <a th:href="@{/posts/{id}(id=${post.id})}" th:text="${post.title}"></a>
+                        </div>
+                        <div class="post-description">
+                            <p th:text="${post.description}"></p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

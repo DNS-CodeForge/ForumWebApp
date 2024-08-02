@@ -1,4 +1,4 @@
-package project.ForumWebApp.security;
+package project.ForumWebApp.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,12 +16,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
-import project.ForumWebApp.config.CustomAuthenticationEntryPoint;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
-@Order(2)
 public class RestSecurityConfiguration {
 
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
@@ -51,8 +49,10 @@ public class RestSecurityConfiguration {
     }
 
     @Bean
+    @Order(1)
     public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
         http
+                .securityMatcher("/api/**")
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/api/auth/**").permitAll();
@@ -61,7 +61,6 @@ public class RestSecurityConfiguration {
                     auth.requestMatchers("/v3/api-docs/**").permitAll();
                     auth.requestMatchers("/admin/**").hasRole("ADMIN");
                     auth.requestMatchers("/api/**").authenticated();
-                    auth.anyRequest().permitAll();
                 })
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter))

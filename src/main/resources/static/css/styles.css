@@ -1,0 +1,124 @@
+
+body, h1, h2, h3, p, ul, li, a {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    list-style: none;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
+.navbar {
+    overflow: hidden;
+    background: linear-gradient(45deg, #4a90e2, #9013fe);
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar a {
+    float: left;
+    display: block;
+    color: #fff;
+    text-align: center;
+    padding: 14px 16px;
+    transition: background 0.3s ease;
+}
+
+.navbar a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+
+.content {
+    padding: 20px;
+    max-width: 800px;
+    margin: 20px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 50rem;
+    border-radius: 20px;
+    background: linear-gradient(45deg, #cefeff, #d9b0fa)
+}
+
+
+h1 {
+    color: #4a90e2;
+    margin-bottom: 20px;
+}
+
+
+.posts-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+
+.posts ul {
+    padding: 0;
+}
+
+.posts li {
+    margin-bottom: 20px;
+}
+
+.post-item {
+    background: #e0e0e0;
+    padding: 15px;
+    border-left: 5px solid #4a90e2;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.post-item:hover {
+    transform: scale(1.01);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background: #dad0d0;
+    border-left: 5px solid #4690e8;
+}
+
+.post-title a {
+    font-size: 1.2em;
+    color: #333;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.post-description p {
+    margin-top: 5px;
+    color: #777;
+}
+
+
+button {
+    background: #4a90e2;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: #357ab7;
+}

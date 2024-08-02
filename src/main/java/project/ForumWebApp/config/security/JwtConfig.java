@@ -1,4 +1,4 @@
-package project.ForumWebApp.config;
+package project.ForumWebApp.config.security;
 
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;

@@ -1,156 +1,149 @@
-create
-database forum if not exis;
-create
-or replace table forum.`level-info`
-
+create or replace table SPRING_SESSION
 (
-    id                int auto_increment
+    PRIMARY_ID            char(36)     not null
         primary key,
+    SESSION_ID            char(36)     not null,
+    CREATION_TIME         bigint       not null,
+    LAST_ACCESS_TIME      bigint       not null,
+    MAX_INACTIVE_INTERVAL int          not null,
+    EXPIRY_TIME           bigint       not null,
+    PRINCIPAL_NAME        varchar(100) null,
+    constraint SPRING_SESSION_IX1
+        unique (SESSION_ID)
+)
+    row_format = DYNAMIC;
+
+create or replace index SPRING_SESSION_IX2
+    on SPRING_SESSION (EXPIRY_TIME);
+
+create or replace index SPRING_SESSION_IX3
+    on SPRING_SESSION (PRINCIPAL_NAME);
+
+create or replace table SPRING_SESSION_ATTRIBUTES
+(
+    SESSION_PRIMARY_ID char(36)     not null,
+    ATTRIBUTE_NAME     varchar(200) not null,
+    ATTRIBUTE_BYTES    blob         not null,
+    primary key (SESSION_PRIMARY_ID, ATTRIBUTE_NAME),
+    constraint SPRING_SESSION_ATTRIBUTES_FK
+        foreign key (SESSION_PRIMARY_ID) references SPRING_SESSION (PRIMARY_ID)
+            on delete cascade
+)
+    row_format = DYNAMIC;
+
+create or replace index SPRING_SESSION_ATTRIBUTES_IX1
+    on SPRING_SESSION_ATTRIBUTES (SESSION_PRIMARY_ID);
+
+create or replace table level_info
+(
     current_exp       int not null,
-    currnet_level     int not null,
-    exp_to_next_level int not null
+    current_level     int not null,
+    exp_to_next_level int not null,
+    user_id           int not null
+        primary key
 );
 
-create
-or replace table forum.roles
+create or replace table roles
 (
     role_id   int auto_increment
         primary key,
     authority varchar(255) null
 );
 
-create
-or replace table forum.tags
+create or replace table tags
 (
     id   int auto_increment
         primary key,
     name varchar(32) not null
 );
 
-create
-or replace table forum.users
+create or replace table users
 (
-    id            int auto_increment
+    id         int auto_increment
         primary key,
-    first_name    varchar(32)                                                                                                                                                                                         null,
-    last_name     varchar(32)                                                                                                                                                                                         null,
-    email         varchar(255)                                                                                                                                                                                        not null,
-    password      varchar(255)                                                                                                                                                                                        not null,
-    username      varchar(20)                                                                                                                                                                                         not null,
-    photo_url     varchar(255) default 'https://plus.unsplash.com/premium_photo-1677094310899-02303289cadf?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' null,
-    level_info_id int                                                                                                                                                                                                 null,
-    constraint UK_email
+    username   varchar(20)  not null,
+    first_name varchar(32)  null,
+    last_name  varchar(32)  null,
+    email      varchar(255) not null,
+    password   varchar(255) not null,
+    photo_url  varchar(255) not null,
+    constraint UK6dotkott2kjsp8vw4d0m25fb7
         unique (email),
-    constraint UK_username
-        unique (username),
-    constraint UKmmvaefewbrvfvqqgohqiyj6qg
-        unique (level_info_id),
-    constraint FKaqpyevuifjirnjl2xvqwk0pon
-        foreign key (level_info_id) references forum.`level-info` (id)
+    constraint UKr43af9ap4edm43mmtq01oddj6
+        unique (username)
 );
 
-create
-or replace table forum.phone_numbers
+create or replace table phone_numbers
 (
-    id      int auto_increment
+    user_id int          not null
         primary key,
-    user_id int          null,
     number  varchar(255) null,
-    constraint UK_user_id
-        unique (user_id),
-    constraint FK_phone_user
-        foreign key (user_id) references forum.users (id)
+    constraint FKg077extnnxwv904qjw2kwinpg
+        foreign key (user_id) references users (id)
 );
 
-create
-or replace table forum.posts
+create or replace table posts
 (
     id           int auto_increment
         primary key,
     user_id      int           null,
     created_date datetime(6)   null,
-    description  varchar(8192) not null,
     title        varchar(64)   not null,
-    constraint FK_post_user
-        foreign key (user_id) references forum.users (id)
+    description  varchar(8192) not null,
+    constraint FK5lidm6cqbc7u4xhqpxm898qme
+        foreign key (user_id) references users (id)
 );
 
-create
-or replace table forum.comments
+create or replace table comments
 (
     id      int auto_increment
         primary key,
-    post_id int           null,
-    content varchar(1024) not null,
+    post_id int           not null,
     user_id int           null,
+    content varchar(1024) not null,
     constraint FK8omq0tc18jd43bu5tjh6jvraq
-        foreign key (user_id) references forum.users (id),
-    constraint FK_comment_post
-        foreign key (post_id) references forum.posts (id)
+        foreign key (user_id) references users (id),
+    constraint FKh4c7lvsc298whoyd4w9ta25cr
+        foreign key (post_id) references posts (id)
 );
 
-create
-or replace table forum.likes
+create or replace table likes
 (
     id      int auto_increment
         primary key,
     post_id int null,
     user_id int null,
-    constraint FK_like_post
-        foreign key (post_id) references forum.posts (id),
-    constraint FK_like_user
-        foreign key (user_id) references forum.users (id)
+    constraint FKnvx9seeqqyy71bij291pwiwrg
+        foreign key (user_id) references users (id),
+    constraint FKry8tnr4x2vwemv2bb0h5hyl0x
+        foreign key (post_id) references posts (id)
 );
 
-create
-or replace table forum.post_tags
+create or replace table post_tags
 (
     post_id int not null,
     tag_id  int not null,
     primary key (post_id, tag_id),
-    constraint FK_post_tags_post
-        foreign key (post_id) references forum.posts (id),
-    constraint FK_post_tags_tag
-        foreign key (tag_id) references forum.tags (id)
+    constraint FKkifam22p4s1nm3bkmp1igcn5w
+        foreign key (post_id) references posts (id),
+    constraint FKm6cfovkyqvu5rlm6ahdx3eavj
+        foreign key (tag_id) references tags (id)
 );
 
-create
-or replace table forum.user_role_junction
+create or replace table user_role_junction
 (
     role_id int not null,
     user_id int not null,
     primary key (role_id, user_id),
-    constraint FK_user_role_junction_role
-        foreign key (role_id) references forum.roles (role_id),
-    constraint FK_user_role_junction_user
-        foreign key (user_id) references forum.users (id)
+    constraint FK5aqfsa7i8mxrr51gtbpcvp0v1
+        foreign key (user_id) references users (id),
+    constraint FKhybpcwvq8snjhbxawo25hxous
+        foreign key (role_id) references roles (role_id)
 );
-
-CREATE TABLE SPRING_SESSION
-(
-    PRIMARY_ID            CHAR(36) NOT NULL,
-    SESSION_ID            CHAR(36) NOT NULL,
-    CREATION_TIME         BIGINT   NOT NULL,
-    LAST_ACCESS_TIME      BIGINT   NOT NULL,
-    MAX_INACTIVE_INTERVAL INT      NOT NULL,
-    EXPIRY_TIME           BIGINT   NOT NULL,
-    PRINCIPAL_NAME        VARCHAR(100),
-    CONSTRAINT SPRING_SESSION_PK PRIMARY KEY (PRIMARY_ID)
-) ENGINE=InnoDB ROW_FORMAT=DYNAMIC;
-
-CREATE UNIQUE INDEX SPRING_SESSION_IX1 ON SPRING_SESSION (SESSION_ID);
-CREATE INDEX SPRING_SESSION_IX2 ON SPRING_SESSION (EXPIRY_TIME);
-CREATE INDEX SPRING_SESSION_IX3 ON SPRING_SESSION (PRINCIPAL_NAME);
-
-CREATE TABLE SPRING_SESSION_ATTRIBUTES
-(
-    SESSION_PRIMARY_ID CHAR(36)     NOT NULL,
-    ATTRIBUTE_NAME     VARCHAR(200) NOT NULL,
-    ATTRIBUTE_BYTES    BLOB         NOT NULL,
-    CONSTRAINT SPRING_SESSION_ATTRIBUTES_PK PRIMARY KEY (SESSION_PRIMARY_ID, ATTRIBUTE_NAME),
-    CONSTRAINT SPRING_SESSION_ATTRIBUTES_FK FOREIGN KEY (SESSION_PRIMARY_ID) REFERENCES SPRING_SESSION (PRIMARY_ID) ON DELETE CASCADE
-) ENGINE=InnoDB ROW_FORMAT=DYNAMIC;
-
-CREATE INDEX SPRING_SESSION_ATTRIBUTES_IX1 ON SPRING_SESSION_ATTRIBUTES (SESSION_PRIMARY_ID);
+SET FOREIGN_KEY_CHECKS = 0;
+INSERT forum.roles VALUE (1, 'USER'), (2, 'MODERATOR'), (3, 'ADMIN'), (4, 'BANNED');
+INSERT forum.users VALUES (1, 'admin','admin','admin','admin@admin.com','$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto');
 
 
+INSERT forum.user_role_junction VALUE (1, 1), (1, 3);
+SET FOREIGN_KEY_CHECKS = 1;
