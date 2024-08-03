@@ -4,10 +4,26 @@
 <body>
     <!-- Navigation Bar Fragment -->
     <div th:fragment="navbar" class="navbar">
-        <a href="/posts">Posts</a>
-        <a href="/top10s">Top 10s</a>
-        <a href="/profile">Profile</a>
-        <a href="/logout">Logout</a>
+        <a href="/posts">Home</a>
+        <a href="/top10s">Popular</a>
+
+        <div class="search-container">
+            <input type="text" placeholder="Search...">
+        </div>
+
+        <div class="profile-container">
+            <img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQd1wdCm8EgtV8B0mj4d0PAUaVROGlc40GqIEfF8bex3RnM0Hwu" alt="Profile" class="profile-image">
+            <div class="dropdown-menu">
+                <a href="/view-profile">View Profile</a>
+                <a href="/edit-profile">Edit Profile</a>
+                <button id="toggle-dark-mode">Toggle Dark Mode</button>
+                <a href="/logout">Log Out</a>
+            </div>
+        </div>
+
     </div>
+
+    <script src="/js/dropdown.js"></script>
+
 </body>
 </html>

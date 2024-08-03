@@ -73,6 +73,7 @@ public class LoginController {
         try {
             Authentication auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, password)
+
             );
             return "redirect:/home";
         } catch (AuthenticationException e) {
@@ -89,6 +90,7 @@ public class LoginController {
         String lastName = request.getParameter("last-name");
         String email = request.getParameter("email");
         try {
+
             model.addAttribute("messege","Account registered successfully. Please login here.");
 
             mvcAuthenticationService.registerUser(new RegistrationDTO(firstName, lastName, email, password, username, "https://plus.unsplash.com/premium_photo-1677094310899-02303289cadf?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"));
@@ -105,6 +107,5 @@ public class LoginController {
         modelAndView.addObject("posts", posts);
         return modelAndView;
     }
-
 }
 
