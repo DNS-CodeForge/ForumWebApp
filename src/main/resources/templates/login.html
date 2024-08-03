@@ -5,19 +5,25 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-<h1>Login</h1>
-<form th:action="@{__${URL}__}" method="post">
-    <div>
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" />
-    </div>
-    <div>
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" />
-    </div>
-    <div>
+
+    <div th:insert="fragments/navbar :: navbar"></div>
+
+
+    <div class="authForm-container">
+    <h1 id="messege" th:text="${messege}"></h1>
+    <form class= "authForm" th:action="@{__${URL}__}" method="post">
+
+        <h1>Login</h1>
+        <div class="form-group">
+            <input type="text" id="username" name="username" placeholder="username" required />
+        </div>
+
+        <div class="form-group">
+            <input type="password" id="password" name="password" placeholder="password" required />
+        </div>
+
         <button type="submit">Login</button>
+    </form>
     </div>
-</form>
 </body>
 </html>

@@ -3,16 +3,23 @@ package project.ForumWebApp.services.Implementations;
 import static project.ForumWebApp.constants.ValidationConstants.INVALID_USERNAME_OR_PASSWORD;
 import static project.ForumWebApp.constants.ValidationConstants.ROLE_NOT_FOUND;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.WebUtils;
@@ -20,20 +27,13 @@ import org.springframework.web.util.WebUtils;
 import project.ForumWebApp.constants.ValidationConstants;
 import project.ForumWebApp.exceptions.AuthorizationException;
 import project.ForumWebApp.models.ApplicationUser;
-import project.ForumWebApp.models.DTOs.user.RegistrationDTO;
 import project.ForumWebApp.models.LevelInfo;
 import project.ForumWebApp.models.Role;
+import project.ForumWebApp.models.DTOs.user.RegistrationDTO;
 import project.ForumWebApp.repository.LevelRepository;
 import project.ForumWebApp.repository.RoleRepository;
 import project.ForumWebApp.repository.UserRepository;
 import project.ForumWebApp.services.contracts.MvcAuthenticationService;
-import project.ForumWebApp.services.contracts.UserService;
-
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import java.util.HashSet;
-import java.util.Set;
 
 @Service
 @Transactional
@@ -44,6 +44,7 @@ public class MvcAuthenticationServiceImpl implements MvcAuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final LevelRepository levelRepository;
+    private final ModelMapper modelMapper;
 
     private final RoleRepository roleRepository;
 
@@ -52,7 +53,9 @@ public class MvcAuthenticationServiceImpl implements MvcAuthenticationService {
             PasswordEncoder passwordEncoder,
             @Qualifier("mvcAuthenticationManager") AuthenticationManager authenticationManager,
             UserRepository userRepository, LevelRepository levelRepository,
-            RoleRepository roleRepository
+            RoleRepository roleRepository,
+            ModelMapper modelMapper
+
     ) {
 
         this.passwordEncoder = passwordEncoder;
@@ -60,6 +63,7 @@ public class MvcAuthenticationServiceImpl implements MvcAuthenticationService {
         this.userRepository = userRepository;
         this.levelRepository = levelRepository;
         this.roleRepository = roleRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -72,11 +76,8 @@ public class MvcAuthenticationServiceImpl implements MvcAuthenticationService {
         }
 
         String encodedPassword = passwordEncoder.encode(registrationDTO.getPassword());
-        ApplicationUser user = new ApplicationUser();
-        user.setUsername(registrationDTO.getUsername());
-        user.setEmail(registrationDTO.getEmail());
+        ApplicationUser user = modelMapper.map(registrationDTO, ApplicationUser.class);
         user.setPassword(encodedPassword);
-
 
 
         Role userRole = roleRepository.findByAuthority("USER")
@@ -86,11 +87,13 @@ public class MvcAuthenticationServiceImpl implements MvcAuthenticationService {
         authorities.add(userRole);
         user.setAuthorities(authorities);
         var lvl = new LevelInfo();
+
+        var saveduser = userRepository.save(user);
         lvl.setUserId(user.getId());
         levelRepository.save(lvl);
-        return userRepository.save(user);
-    }
 
+        return  saveduser;    
+    }
     @Override
     public ApplicationUser loginUser(String username, String password, HttpServletRequest request, HttpServletResponse response) {
         ApplicationUser user = userRepository.findByUsername(username)
