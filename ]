@@ -124,7 +124,7 @@ body {
     border-bottom-left-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 1001; /* Ensure it stays above other content */
-    min-width: 220px;
+    min-width: 280;
     justify-content: center;
 }
 

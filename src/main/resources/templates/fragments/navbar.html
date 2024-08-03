@@ -14,10 +14,25 @@
         <div class="profile-container">
             <img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQd1wdCm8EgtV8B0mj4d0PAUaVROGlc40GqIEfF8bex3RnM0Hwu" alt="Profile" class="profile-image">
             <div class="dropdown-menu">
-                <a href="/view-profile">View Profile</a>
-                <a href="/edit-profile">Edit Profile</a>
-                <button id="toggle-dark-mode">Toggle Dark Mode</button>
+                <div class="field-container">
+                    <img th:src="@{/images/profile2.png}" alt="">
+                    <a href="/view-profile">View Profile</a>
+                </div>
+                <div class="field-container">
+                    <img th:src="@{/images/profile.png}" alt="">
+                     <a href="/edit-profile">Edit Profile</a>
+                </div>
+                <div class="field-container">
+                 <label class="switch">
+                    <input type="checkbox" id="toggleSwitch">
+                    <span class="slider round"></span>
+                </label>
+                <p>Dark Mode</p>
+            </div>
+            <div class="field-container">
+                <img th:src="@{/images/log-out.png}" alt="">
                 <a href="/logout">Log Out</a>
+            </div>
             </div>
         </div>
 
