@@ -319,13 +319,28 @@ h1 {
     flex-direction: column;
 }
 
+.icon-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    top: -57px; 
+}
+
+.icon-container img {
+    width: 70px; 
+    height: 70px;
+    position: relative;
+    background: white;
+    margin-bottom: -55px;
+}
+
 .authForm {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 12px;
     width: 18rem;
     padding: 20px;
     background: white;
-    border: solid black;
+    border: 4.2px solid black;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -333,7 +348,7 @@ h1 {
 
 .authForm h1 {
     color: black;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     font-weight: bold;
     font-size: 35px;
 }

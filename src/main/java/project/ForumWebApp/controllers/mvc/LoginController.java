@@ -115,5 +115,10 @@ public class LoginController {
         modelAndView.addObject("posts", posts);
         return modelAndView;
     }
+    
+    @GetMapping("/post")
+    public String getSinglePost() {
+        return "postView";
+    }
 }
 
