@@ -15,12 +15,21 @@
             <ul>
                 <li th:each="post : ${posts}">
                     <div class="post-item">
+
                         <div class="post-title">
                             <a th:href="@{/posts/{id}(id=${post.id})}" th:text="${post.title}"></a>
                         </div>
+
                         <div class="post-description">
                             <p th:text="${post.description}"></p>
                         </div>
+
+                        <div class="post-tags">
+                            <p>
+                                <span th:each="tag : ${post.tags}" class="post-tag" th:text="${tag.name}"></span>
+                            </p>
+                        </div>
+
                     </div>
                 </li>
             </ul>
