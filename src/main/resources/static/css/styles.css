@@ -300,24 +300,21 @@ h1 {
     padding: 6px;
 }
 
-button {
-    background: #4a90e2;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-button:hover {
-    background: #357ab7;
+#messege {
+    position: absolute;
+    left: 50%; /* Center horizontally */
+    top: 15%; /* Position in the upper half */
+    transform: translate(-50%, -50%); /* Center horizontally and adjust vertical position */
+    font-size: 30px;
+    font-weight: bold;
+    color: black;
 }
 
 .authForm-container {
+    top: 25%;
     display: flex;
-    justify-content: center; 
-    align-items: center; 
+    position: absolute;
+    align-items: center;  
     width: 100%; 
     flex-direction: column;
 }
@@ -327,22 +324,25 @@ button:hover {
     border-radius: 12px;
     width: 18rem;
     padding: 20px;
-    background: linear-gradient(45deg, #4a90e2, #9013fe);
+    background: white;
+    border: solid black;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .authForm h1 {
-    color: grey;
+    color: black;
     margin-bottom: 20px;
+    font-weight: bold;
+    font-size: 35px;
 }
 
 .authForm input {
     background-color: rgba(255, 255, 255, 0.5);
-    border: 1px solid #ccc;
+    border: 2.2px solid black;
     border-radius: 12px;
-    width: 16rem;
+    width: 17rem;
     height: 1.5rem;
     padding: 3px;
     margin: 10px;
@@ -356,11 +356,12 @@ button:hover {
 }
 
 .authForm button {
+    background: #929AAB;
     width: 100px;
     height: 35px;
     border-radius: 12px;
-    background: #4a90e2;
-    color: #fff;
+    color: black;
+    font-weight: bold;
     border: none;
     cursor: pointer;
     transition: background 0.3s ease;
@@ -368,5 +369,48 @@ button:hover {
 }
 
 .authForm button:hover {
-    background: #357ab7;
+    background: #393E46;
 }
+
+
+/* Container for remember me and forgot password elements */
+.remember-forgot-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; /* Aligns items to the edges of the container */
+    align-items: center; /* Vertically centers items */
+    width: 100%; /* Ensures the container takes full width */
+    margin-bottom: 20px; /* Space below the container */
+    margin-top: 10px;
+}
+
+/* Container for remember me section */
+.remember-me {
+    display: flex; 
+    align-items: center; 
+}
+
+.remember-me input[type="checkbox"] {
+    accent-color: #929AAB; /* Custom checkbox color */
+    width: 1.2rem; /* Size of the checkbox */
+    height: 1.2rem; /* Size of the checkbox */
+    margin-right: 6px; /* Space between checkbox and label */
+    transform: translateY(-1px);
+}
+
+.remember-me label {
+    font-size: 0.8rem; /* Font size for the label */
+    color: black; /* Font color for the label */
+}
+
+.forgot-password {
+    font-size: 0.7rem; /* Slightly smaller font size */
+    color: black; /* Font color for the link */
+    text-decoration: none; /* Remove underline from the link */
+    transform: translateX(-6px);
+}
+
+.forgot-password:hover {
+    text-decoration: underline; /* Add underline on hover */
+}
+

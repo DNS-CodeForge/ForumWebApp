@@ -9,8 +9,9 @@
     <div th:insert="fragments/navbar :: navbar"></div>
 
 
-    <div class="authForm-container">
     <h1 id="messege" th:text="${messege}"></h1>
+
+    <div class="authForm-container">
     <form class= "authForm" th:action="@{__${URL}__}" method="post">
 
         <h1>Login</h1>
@@ -20,6 +21,15 @@
 
         <div class="form-group">
             <input type="password" id="password" name="password" placeholder="password" required />
+        </div>
+
+        <div class="remember-forgot-container">
+                <div class="remember-me">
+                 <input type="checkbox" id="remember" name="remember">
+                <label for="remember">Remember Me</label>
+                </div>
+
+                <a href="/" class="forgot-password">Forgot password?</a>
         </div>
 
         <button type="submit">Login</button>
