@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
 import project.ForumWebApp.models.DTOs.user.RegistrationDTO;
@@ -65,6 +66,14 @@ public class LoginController {
         return request.getRequestURI();
     }
 
+    @GetMapping("/logout")
+    public RedirectView logout(HttpServletRequest request, HttpServletResponse response) {
+
+        mvcAuthenticationService.logoutUser(request, response);
+
+        return new RedirectView("/home");
+    }
+
     @PostMapping("/login")
     public String login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
@@ -73,7 +82,6 @@ public class LoginController {
         try {
             Authentication auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, password)
-
             );
             return "redirect:/home";
         } catch (AuthenticationException e) {

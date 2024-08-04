@@ -8,12 +8,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+
 import project.ForumWebApp.services.contracts.UserService;
 
 @Configuration
@@ -46,7 +46,8 @@ public class MvcSecurityConfiguration {
         http.csrf(csrf -> csrf.ignoringRequestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api/**"))
 
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/login", "/register").permitAll();
+                    auth.requestMatchers("/css/**", "/js/**", "/images/**").permitAll();
+                    auth.requestMatchers("/login", "/register", "/home").permitAll();
                     auth.requestMatchers("/error").permitAll();
                     auth.anyRequest().authenticated();
                 })
@@ -56,7 +57,13 @@ public class MvcSecurityConfiguration {
                         .failureHandler(authenticationFailureHandler())
                         .permitAll()
                 )
-                .logout(LogoutConfigurer::permitAll)
+                .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/home")
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .permitAll()
+                )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(customAuthenticationEntryPoint)
                 )

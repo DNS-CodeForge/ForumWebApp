@@ -11,6 +11,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
@@ -20,6 +21,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.WebUtils;
@@ -94,6 +96,7 @@ public class MvcAuthenticationServiceImpl implements MvcAuthenticationService {
 
         return  saveduser;    
     }
+
     @Override
     public ApplicationUser loginUser(String username, String password, HttpServletRequest request, HttpServletResponse response) {
         ApplicationUser user = userRepository.findByUsername(username)
@@ -113,6 +116,29 @@ public class MvcAuthenticationServiceImpl implements MvcAuthenticationService {
 
         } catch (AuthenticationException e) {
             throw new AuthorizationException(INVALID_USERNAME_OR_PASSWORD);
+        }
+    }
+
+    @Override
+    public void logoutUser(HttpServletRequest request, HttpServletResponse response) {
+        // Invalidate the session
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
+        // Clear cookies
+        Cookie sessionCookie = new Cookie("SESSIONID", null);
+        sessionCookie.setHttpOnly(true);
+        sessionCookie.setSecure(true);
+        sessionCookie.setPath("/");
+        sessionCookie.setMaxAge(0); // Set to 0 to delete the cookie
+        response.addCookie(sessionCookie);
+
+        // Clear security context
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            SecurityContextHolder.getContext().setAuthentication(null);
         }
     }
 }

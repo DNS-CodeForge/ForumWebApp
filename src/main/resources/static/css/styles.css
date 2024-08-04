@@ -28,6 +28,7 @@ body {
     z-index: 1000; /* Ensure it stays above other content */
 }
 
+
 .navbar a {
     float: left;
     display: block;
@@ -36,6 +37,7 @@ body {
     padding: 20px 24px; /* Increase padding to make the container slightly bigger */
     text-decoration: none;
     position: relative;
+    margin-left: 13px;
     transition: color 0.3s ease, background 0.3s ease, transform 0.3s ease;
     font-weight: normal; /* Initial font weight */
     font-size: 18px; /* Slightly larger initial font size */
@@ -88,6 +90,10 @@ body {
 .search-container input[type="text"]:focus {
     width: 800px; 
     outline: none; /* Remove default focus outline */
+}
+
+.unauth-field-container {
+    margin-left: auto; /* Push to the right side */
 }
 
 .profile-container {
