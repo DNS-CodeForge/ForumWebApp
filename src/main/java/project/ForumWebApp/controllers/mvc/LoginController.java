@@ -111,6 +111,15 @@ public class LoginController {
     @GetMapping("/home")
     public ModelAndView home() {
         Page<PostSummaryDTO> posts = postService.getPosts();
+
+        // Truncate descriptions to a max length
+        int maxLength = 120; // Set your desired max length
+        posts.forEach(post -> {
+            if (post.getDescription().length() > maxLength) {
+                post.setDescription(post.getDescription().substring(0, maxLength) + "...");
+            }
+        });
+
         ModelAndView modelAndView = new ModelAndView("home");
         modelAndView.addObject("posts", posts);
         return modelAndView;
