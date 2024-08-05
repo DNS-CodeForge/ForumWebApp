@@ -30,6 +30,20 @@
                             </p>
                         </div>
 
+                        <div class="post-actions">
+
+                            <div class="post-action">
+                                <img src="/images/up-arrow.png" alt="Upvote" class="icon upvote-icon">
+                                <p th:text="${post.likeCount}"></p>
+                            </div>
+
+                            <div class="post-action">
+                                <img src="/images/comment.png" alt="Comment" class="icon comment-icon">
+                                <p th:text="${post.commentCount}"></p>
+                            </div>
+
+                        </div>
+
                     </div>
                 </li>
             </ul>
@@ -37,6 +51,8 @@
     </div>
 </div>
 
-    <script src="/js/dropdown.js"></script>
+<script src="/js/upvote.js"></script>
+<script src="/js/dropdown.js"></script>
+
 </body>
 </html>
