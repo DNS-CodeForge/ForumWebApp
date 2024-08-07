@@ -40,9 +40,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 textarea.value = ''; 
                 setTimeout(() => {
                     textarea.blur();
+                    textarea.style.height = '18px';
+                    resizeTextarea();
                 }, 100);
 
-                resizeTextarea();
             }
             if (buttonsDiv) {
                  setTimeout(() => {
