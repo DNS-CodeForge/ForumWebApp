@@ -17,13 +17,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import project.ForumWebApp.models.DTOs.CommentCreateDTO;
+import project.ForumWebApp.models.DTOs.post.PostDTO;
 import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
 import project.ForumWebApp.models.DTOs.user.RegistrationDTO;
+import project.ForumWebApp.services.contracts.CommentService;
 import project.ForumWebApp.services.contracts.MvcAuthenticationService;
 import project.ForumWebApp.services.contracts.PostService;
 
@@ -34,11 +38,13 @@ public class LoginController {
     private final AuthenticationFailureHandler authenticationFailureHandler;
     private final PostService postService;
     private final MvcAuthenticationService mvcAuthenticationService; 
+    private final CommentService commentService;
 
     public LoginController(@Qualifier("mvcAuthenticationManager") AuthenticationManager authenticationManager,
-                           AuthenticationFailureHandler authenticationFailureHandler, PostService postService, MvcAuthenticationService mvcAuthenticationService) {
+                           AuthenticationFailureHandler authenticationFailureHandler, PostService postService, MvcAuthenticationService mvcAuthenticationService, CommentService commentService) {
         this.authenticationManager = authenticationManager;
         this.authenticationFailureHandler = authenticationFailureHandler;
+        this.commentService = commentService;
         this.postService = postService;
         this.mvcAuthenticationService = mvcAuthenticationService;
     }
@@ -125,9 +131,22 @@ public class LoginController {
         return modelAndView;
     }
     
-    @GetMapping("/post")
-    public String getSinglePost() {
-        return "postView";
+    @GetMapping("/posts/{id}")
+    public String getPostDetail(@PathVariable Integer id, Model model) {
+        PostDTO post= postService.getPost(id);
+        try {
+             model.addAttribute("post", post);
+            return "postDetail";
+   
+        } catch (Exception e) {
+            return "redirect:/home";
+        }
+    }
+
+    @PostMapping("/posts/{id}/comments")
+    public String addComment(@PathVariable Integer id, HttpServletRequest request) {
+        String content = request.getParameter("content");
+        commentService.createComment(id, new CommentCreateDTO(content));
+        return "redirect:/posts/" + id;
     }
 }
-

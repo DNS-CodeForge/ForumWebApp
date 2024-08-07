@@ -246,13 +246,77 @@ h1 {
     margin-top: 50rem;
 }
 
+/* Post detail container styling */
+.post-detail-container {
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: -40rem;
+}
 
-.posts ul {
-    padding: 0;
+/* Post title styling */
+.post-detail-container h1 {
+    display:flex;
+    color: black;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+}
+
+/* Post description styling */
+.post-detail-container p {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #555;
 }
 
 .posts li {
-    margin-bottom: 20px;
+margin-bottom: 20px;
+}
+
+.commenting-section {
+    width: 100%;
+    border: solid;
+    border-radius: 12px;
+    border-color: black;
+    overflow: hidden; 
+}
+
+.comments-section textarea {
+    font-size: 16px;
+    height: 18px;
+    width: 100%;
+    outline: none;
+    box-sizing: border-box;
+    resize: none; /* Disable manual resizing */
+    overflow: hidden; /* Hide scrollbars */
+    border: none;
+}
+
+/* Button styling within comments section */
+.comments-section .buttons {
+    display: none;
+    justify-content: flex-end;
+}
+
+.comments-section button:hover {
+    background: #393E46;
+}
+
+.comments-section button {
+    background: #929AAB;
+    border-radius: 12px;
+    color: black;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+
+    margin: 5px;
+    margin-top: 2px;
+    padding: 8px;
+    font-size: 14px;
 }
 
 .post-item {
