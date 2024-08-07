@@ -75,8 +75,6 @@ public class CommentServiceImpl implements CommentService {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(POST_WITH_PROVIDED_ID_DOES_NOT_EXIST));
         Comment comment = modelMapper.map(commentDTO, Comment.class);
-        System.out.println(comment.getContent());
-        System.out.println(commentDTO.getContent());
         comment.setPost(post);
         comment.setUser(authContextManager.getLoggedInUser());
         Comment savedComment = commentRepository.save(comment);

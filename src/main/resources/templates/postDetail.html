@@ -35,6 +35,7 @@
         <ul>
             <li th:each="comment : ${post.comments}">
                 <div class="comment-item">
+                    <h3><strong th:text="${comment.creatorName}"></strong></h3>
                     <p th:text="${comment.content}"></p>
                 </div>
             </li>

@@ -17,7 +17,7 @@ public class LevelServiceImpl implements LevelService{
 
     @Override
     public void addExp(ApplicationUser applicationUser, int exp) {
-        LevelInfo levelInfo = levelRepository.getReferenceById(applicationUser.getId());
+        LevelInfo levelInfo = levelRepository.findById(applicationUser.getId()).get();
         levelInfo.setCurrentExp(levelInfo.getCurrentExp() + exp);
         if(levelInfo.getCurrentExp() >= levelInfo.getExpToNextLevel()) {
             levelInfo.setCurrentLevel(levelInfo.getCurrentLevel() + 1);

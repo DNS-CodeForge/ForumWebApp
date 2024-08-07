@@ -1,8 +1,9 @@
 package project.ForumWebApp.models.DTOs;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,4 +29,7 @@ public class CommentDTO {
 
     @Schema(description = "ID of the post this comment is associated with", example = "1")
     private Integer postId;
+
+    @Schema(description = "Name of the user who created the comment", example = "John Doe")
+    private String creatorName;
 }

@@ -30,7 +30,7 @@ public class ModelMapperConfig {
 
         TypeMap<Comment, CommentDTO> commentToCommentDtoTypeMap = modelMapper.createTypeMap(Comment.class, CommentDTO.class);
         commentToCommentDtoTypeMap.addMappings(mapper -> mapper.map(src -> src.getPost().getId(), CommentDTO::setPostId));
-
+        commentToCommentDtoTypeMap.addMappings(mapper -> mapper.map(src -> src.getUser().getUsername(), CommentDTO::setCreatorName));
 
         TypeMap<CommentDTO, Comment> commentDtoToCommentTypeMap =
                 modelMapper.createTypeMap(CommentDTO.class, Comment.class);
