@@ -104,6 +104,10 @@ body {
     display: flex;
 }
 
+#create-button {
+    margin-right: 20px;
+}
+
 .profile-image {
     width: 40px; /* Adjust based on your design needs */
     height: 40px; /* Adjust based on your design needs */

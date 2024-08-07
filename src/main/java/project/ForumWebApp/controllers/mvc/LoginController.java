@@ -143,6 +143,11 @@ public class LoginController {
         }
     }
 
+    @GetMapping("post")
+    public String getPostCreatePage(){
+        return "createPost";
+    }
+
     @PostMapping("/posts/{id}/comments")
     public String addComment(@PathVariable Integer id, HttpServletRequest request) {
         String content = request.getParameter("content");

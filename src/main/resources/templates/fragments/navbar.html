@@ -8,8 +8,8 @@
         <a href="/top10s">Popular</a>
 
         <div th:if="${#authentication.name == 'anonymousUser'}" class="unauth-field-container">
-            <a href="login">Log In</a>
-            <a href="register">Register</a>
+            <a href="/login">Log In</a>
+            <a href="/register">Register</a>
         </div>
 
         <div class="search-container">
@@ -17,6 +17,7 @@
         </div>
 
         <div th:if="${#authentication.name != 'anonymousUser'}" class="profile-container">
+            <a id="create-button" href="/post">+ Create</a>
             <img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQd1wdCm8EgtV8B0mj4d0PAUaVROGlc40GqIEfF8bex3RnM0Hwu" alt="Profile" class="profile-image">
             <div class="dropdown-menu">
                 <div class="field-container">
