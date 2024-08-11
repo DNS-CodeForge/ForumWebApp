@@ -3,56 +3,23 @@
 <head>
     <title>Home</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
 <div th:insert="fragments/navbar :: navbar"></div>
 
-<div class="content">
 
     <div class="posts-container">
-        <div class="posts">
-            <ul>
-                <li th:each="post : ${posts}">
-                    <div class="post-item">
-
-                        <div class="post-title">
-                            <a th:href="@{/posts/{id}(id=${post.id})}" th:text="${post.title}"></a>
-                        </div>
-
-                        <div class="post-description">
-                            <p th:text="${post.description}"></p>
-                        </div>
-
-                        <div class="post-tags">
-                            <p>
-                                <span th:each="tag : ${post.tags}" class="post-tag" th:text="${tag.name}"></span>
-                            </p>
-                        </div>
-
-                        <div class="post-actions">
-
-                            <div class="post-action">
-                                <img src="/images/up-arrow.png" alt="Upvote" class="icon upvote-icon">
-                                <p th:text="${post.likeCount}"></p>
-                            </div>
-
-                            <div class="post-action">
-                                <img src="/images/comment.png" alt="Comment" class="icon comment-icon">
-                                <p th:text="${post.commentCount}"></p>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </li>
-            </ul>
+        <div class="posts" id="posts">
+            <!-- Posts will be dynamically added here -->
         </div>
+        <div id="loading" style="display: none;">Loading more posts...</div>
     </div>
-</div>
 
 <script src="/js/upvote.js"></script>
 <script src="/js/dropdown.js"></script>
+<script src="/js/infiniteScroll.js"></script> 
 
 </body>
 </html>

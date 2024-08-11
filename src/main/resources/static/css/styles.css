@@ -28,7 +28,6 @@ body {
     z-index: 1000; /* Ensure it stays above other content */
 }
 
-
 .navbar a {
     float: left;
     display: block;
@@ -106,6 +105,13 @@ body {
 
 #create-button {
     margin-right: 20px;
+}
+
+#loading {
+    text-align: center;
+    padding: 20px;
+    font-size: 16px;
+    color: #666;
 }
 
 .profile-image {
@@ -233,7 +239,6 @@ input:checked + .slider:before {
     max-width: 1000px;
     margin: 20px auto;
     background: #fff;
-    margin-top: 32rem;
     border: none;
 }
 
@@ -243,11 +248,12 @@ h1 {
     margin-bottom: 20px;
 }
 
-
 .posts-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 50rem;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    padding-bottom: 20px; /* Add padding at the bottom */
 }
 
 /* Post detail container styling */
@@ -257,7 +263,7 @@ h1 {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin-top: -40rem;
+    margin-top: -300px;
 }
 
 /* Post title styling */

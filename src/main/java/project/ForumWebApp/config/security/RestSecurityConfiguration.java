@@ -55,6 +55,7 @@ public class RestSecurityConfiguration {
                 .securityMatcher("/api/**")
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
+                    auth.requestMatchers(HttpMethod.GET, "/api/post").permitAll();
                     auth.requestMatchers("/api/auth/**").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/api/post").permitAll();
                     auth.requestMatchers("/swagger-ui/**").permitAll();
