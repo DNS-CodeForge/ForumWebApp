@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const commentingSection = document.querySelector('.commenting-section');
 
     const resizeTextarea = () => {
+        if(textarea.value != "") {
+            textarea.style.height = 'auto';
+        }
         textarea.style.height = `${textarea.scrollHeight}px`; 
         if(textarea.focus()) {
         commentingSection.style.height = `${textarea.scrollHeight + 45}px`;
