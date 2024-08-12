@@ -42,31 +42,40 @@ body {
     font-size: 18px; /* Slightly larger initial font size */
 }
 
-.navbar a:hover {
-    color: black;
-    font-style: italic;
-    font-weight: bold; /* Make the text bold on hover */
-    transform: scale(1.1); /* Slightly enlarge the container on hover */
-}
-
-.navbar a::after {
+.navbar-item.active::after {
     content: '';
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0; /* Position the underline exactly at the bottom of the container */
-    height: 3px; /* Adjust the thickness */
+    height: 4px; /* Adjust the thickness */
     background-color: black; /* Adjust the color */
+    opacity: 1; /* Make it visible */
     transform: scaleX(1.1); /* Make it slightly bigger than the text */
     transition: opacity 0.3s ease, bottom 0.3s ease, height 0.3s ease;
-    opacity: 0;
 }
 
-.navbar a:hover::after {
-    height: 4px; /* Make it thicker on hover */
-    opacity: 1; /* Make it visible on hover */
-    font-weight: normal; /* Ensure the font weight is normal */
+.navbar-item:hover::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0; /* Position the underline exactly at the bottom of the container */
+    height: 4px; /* Adjust the thickness */
+    background-color: black; /* Adjust the color */
+    opacity: 1; /* Make it visible */
+    transform: scaleX(1.1); /* Make it slightly bigger than the text */
+    transition: opacity 0.3s ease, bottom 0.3s ease, height 0.3s ease;
 }
+
+.navbar-item.active,
+.navbar-item:hover {
+    color: black;
+    font-style: italic;
+    font-weight: bold; /* Make the text bold */
+    transform: scale(1.1); /* Slightly enlarge the container */
+}
+
 
 .search-container {
     flex: 0 0 auto; /* Prevent the search container from growing */
@@ -159,6 +168,8 @@ body {
     background: lightgray;
 }
 
+
+
 .dropdown-menu img{
     text-align: left;
     height: 30px;
@@ -237,6 +248,56 @@ input:checked + .slider {
 input:checked + .slider:before {
     transform: translateX(26px);
 }
+
+
+.sidebar {
+    position: fixed;
+    top: 55px;
+    left: 0;
+    width: 250px; 
+    height: 100vh; 
+    background-color: white;
+    color: black;
+    overflow-y: auto; 
+    padding-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: add a shadow for better visibility */
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-item {
+    margin : 5px;
+    margin-left : 11px;
+    margin-right : 11px;
+    border-radius: 12px;
+    margin: 0;
+}
+
+.menu-item a {
+    display: block;
+    color: black;
+    padding: 10px 20px;
+    transition: background 0.3s;
+}
+
+.menu-item.active,
+.menu-item:hover {
+    margin : 5px;
+    margin-left : 11px;
+    margin-right : 11px;
+    border-radius: 12px;
+    background-color: lightgray;
+}
+
+.menu-item.active {
+    font-style: italic;
+    font-weight: bold; 
+    transform: scale(1.1);
+}
+
 .content {
     padding: 20px;
     max-width: 1000px;
