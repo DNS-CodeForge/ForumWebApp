@@ -5,13 +5,13 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-<div th:insert="fragments/navbar :: navbar"></div>
-<div th:insert="fragments/sidebar:: sidebar"></div>
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+<div th:insert="~{fragments/sidebar :: sidebar}"></div>
 
 <div class="content">
     <div class="post-detail-container">
         <h1 th:text="${post.title}"></h1>
-       <p th:text="${post.description}"></p>
+        <p th:text="${post.description}"></p>
         <div class="post-actions">
             <div class="post-action">
                 <img src="/images/up-arrow.png" alt="Upvote" class="icon upvote-icon">
@@ -35,7 +35,7 @@
 
         <h2>Comments</h2>
         <ul>
-            <li th:each="comment : ${post.comments}">
+            <li th:each="comment : ${comments}">
                 <div class="comment-item">
                     <h3><strong th:text="${comment.creatorName}"></strong></h3>
                     <p th:text="${comment.content}"></p>
@@ -49,6 +49,6 @@
 <script src="/js/dropdown.js"></script>
 <script src="/js/comment.js"></script>
 <script src="/js/logo.js"></script>
-<script src="/js/routeStyleSwitcher.js"></script> 
+<script src="/js/routeStyleSwitcher.js"></script>
 </body>
 </html>

@@ -1,23 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Home</title>
+    <title>Create Post</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
 
 <div th:insert="fragments/navbar :: navbar"></div>
-<div th:insert="fragments/sidebar:: sidebar"></div>
+<div th:insert="fragments/sidebar :: sidebar"></div>
 
 <div class="create-post-container">
     <h1>Create Post</h1>
-    <input type="title" name="title" placeholder="Title">
-    <input type="description" name="description" placeholder="description">
+
+    <form th:action="@{/post}" th:object="${post}" method="post" class="create-post-form">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" id="title" th:field="*{title}" placeholder="Title" required>
+            <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title Error</div>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" th:field="*{description}" placeholder="Description" required></textarea>
+            <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description Error</div>
+        </div>
+
+        <div class="form-group">
+            <label for="tags">Tags (comma-separated)</label>
+            <input type="text" id="tags" th:field="*{tagNames}" placeholder="e.g. Java, Spring">
+        </div>
+
+        <button type="submit">Create Post</button>
+    </form>
 </div>
 
 <script src="/js/dropdown.js"></script>
 <script src="/js/logo.js"></script>
-<script src="/js/routeStyleSwitcher.js"></script> 
+<script src="/js/routeStyleSwitcher.js"></script>
 
 </body>
 </html>

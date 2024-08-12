@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import project.ForumWebApp.models.Comment;
 import project.ForumWebApp.models.DTOs.post.PostCreateDTO;
 import project.ForumWebApp.models.DTOs.post.PostDTO;
 import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
 import project.ForumWebApp.models.DTOs.post.PostUpdateDTO;
+import project.ForumWebApp.models.Post;
 
 public interface PostService {
 
@@ -23,6 +25,8 @@ public interface PostService {
 
     Page<PostSummaryDTO> getPosts(String title, String description, List<String> tags, String sort, Pageable pageable);
     Page<PostSummaryDTO> getPosts();
+    Post commentPost(int id, Comment comment);
+
 
     boolean isOwner(int id);
 }

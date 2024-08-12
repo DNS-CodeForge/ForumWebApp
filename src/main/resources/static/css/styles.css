@@ -464,6 +464,7 @@ margin-bottom: 20px;
     transition: transform 0.3s ease;
 }
 
+
 .post-action {
     padding-right: 6px;
     padding-top: 3px;
@@ -612,4 +613,85 @@ margin-bottom: 20px;
 .forgot-password:hover {
     text-decoration: underline; /* Add underline on hover */
 }
+.create-post-container {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 800px;
+    min-width: 400px;
+    margin: 50px auto;
+    border: 2px solid black;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 
+.create-post-container h1 {
+    font-size: 30px;
+    color: black;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.create-post-container .form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 20px;
+    text-align: left;
+    flex-shrink: 1;
+
+}
+
+.create-post-container label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: black;
+    flex-shrink: 0;
+}
+
+.create-post-container input,
+.create-post-container textarea {
+    /*width: 100%;  *!*/
+    padding: 10px;
+    border-radius: 12px;
+    border: 2px solid black;
+    font-size: 16px;
+    margin-top: 5px;
+    background-color: rgba(255, 255, 255, 0.5);
+    flex-shrink: 1;
+    flex-grow: 1;
+}
+
+.create-post-container button {
+    background: #929AAB;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+    /*width: 100%;*/
+    max-width: 800px;
+    margin-top: 15px;
+    flex-shrink: 1;
+}
+
+.create-post-container button:hover {
+    background: #393E46;
+    transform: translateY(-2px);
+}
+
+.create-post-container .form-group textarea {
+    height: 100px;
+    resize: none;
+    flex-shrink: 1;
+}

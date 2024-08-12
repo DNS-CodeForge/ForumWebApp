@@ -26,6 +26,9 @@ import org.springframework.transaction.annotation.Transactional;
 import project.ForumWebApp.config.security.AuthContextManager;
 import project.ForumWebApp.exceptions.AuthorizationException;
 import project.ForumWebApp.filterSpecifications.PostFilterSpecification;
+import project.ForumWebApp.models.Comment;
+import project.ForumWebApp.models.DTOs.CommentCreateDTO;
+import project.ForumWebApp.models.DTOs.CommentDTO;
 import project.ForumWebApp.models.Post;
 import project.ForumWebApp.models.Tag;
 import project.ForumWebApp.models.DTOs.post.PostCreateDTO;
@@ -166,6 +169,14 @@ public class PostServiceImpl implements PostService {
     public Page<PostSummaryDTO> getPosts() {
         Pageable pageable = PageRequest.of(0, 10);
         return getPosts(null, null, null, null, null, pageable);
+    }
+
+    @Override
+    public Post commentPost(int id, Comment comment) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(POST_WITH_PROVIDED_ID_DOES_NOT_EXIST));
+        post.getComments().add(comment);
+        return postRepository.save(post);
     }
 
     @Override

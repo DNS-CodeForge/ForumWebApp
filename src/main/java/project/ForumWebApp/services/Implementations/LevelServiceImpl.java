@@ -28,4 +28,11 @@ public class LevelServiceImpl implements LevelService{
         }
         levelRepository.save(levelInfo);
     }
+
+    @Override
+    public LevelInfo getLevelById(int id) {
+        return levelRepository.findById(id).get();
+    }
+
+
 }

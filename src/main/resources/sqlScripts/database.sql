@@ -247,6 +247,6 @@ VALUES (1, 1), -- Java
        (9, 10);-- React
 
 -- Reset foreign key checks
-               INSERT INTO level_info VALUES
+INSERT forum.level_info VALUE (50,5, 500, 1);
 SET
 FOREIGN_KEY_CHECKS = 1;

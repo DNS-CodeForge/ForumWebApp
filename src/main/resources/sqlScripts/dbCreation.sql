@@ -146,4 +146,5 @@ INSERT forum.users VALUES (1, 'admin','admin','admin','admin@admin.com','$2a$10$
 
 
 INSERT forum.user_role_junction VALUE (1, 1), (1, 3);
+INSERT forum.level_info VALUE (50,5, 500, 1);
 SET FOREIGN_KEY_CHECKS = 1;
