@@ -4,8 +4,7 @@
 <body>
     <!-- Navigation Bar Fragment -->
     <div th:fragment="navbar" class="navbar">
-        <a href="/home">Home</a>
-        <a href="/top10s">Popular</a>
+        <img th:src="@{/images/logo.png}"  alt="" id="logo">
 
         <div th:if="${#authentication.name == 'anonymousUser'}" class="unauth-field-container">
             <a href="/login">Log In</a>
@@ -44,6 +43,7 @@
 
     </div>
 
+    <script src="/js/logo.js"></script>
     <script src="/js/dropdown.js"></script>
 
 </body>

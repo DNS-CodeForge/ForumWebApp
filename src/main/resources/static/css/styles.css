@@ -439,6 +439,13 @@ margin-bottom: 20px;
     top: -57px; 
 }
 
+#logo {
+    margin-left: 20px;
+    height: 72px;
+    width: 128px;
+}
+
+
 .icon-container img {
     width: 70px; 
     height: 70px;
