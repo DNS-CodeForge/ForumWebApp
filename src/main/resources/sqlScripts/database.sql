@@ -151,16 +151,26 @@ VALUES (3, 1),
 
 -- Insert other users
 INSERT INTO users (username, first_name, last_name, email, password, photo_url)
-VALUES ('jdoe', 'John', 'Doe', 'johndoe@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto'),
-       ('asmith', 'Alice', 'Smith', 'alicesmith@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto'),
-       ('bwilliams', 'Bob', 'Williams', 'bobwilliams@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto'),
-       ('cjohnson', 'Carol', 'Johnson', 'caroljohnson@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto'),
-       ('dwhite', 'David', 'White', 'davidwhite@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto'),
-       ('emiller', 'Eva', 'Miller', 'evamiller@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto'),
-       ('fjackson', 'Frank', 'Jackson', 'frankjackson@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto'),
-       ('gthompson', 'Grace', 'Thompson', 'gracethompson@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto'),
-       ('hgarcia', 'Hank', 'Garcia', 'hankgarcia@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto'),
-       ('banneduser', 'Banned', 'User', 'banneduser@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto');
+VALUES ('jdoe', 'John', 'Doe', 'johndoe@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly',
+        'NoPhoto'),
+       ('asmith', 'Alice', 'Smith', 'alicesmith@example.com',
+        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto'),
+       ('bwilliams', 'Bob', 'Williams', 'bobwilliams@example.com',
+        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto'),
+       ('cjohnson', 'Carol', 'Johnson', 'caroljohnson@example.com',
+        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto'),
+       ('dwhite', 'David', 'White', 'davidwhite@example.com',
+        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto'),
+       ('emiller', 'Eva', 'Miller', 'evamiller@example.com',
+        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto'),
+       ('fjackson', 'Frank', 'Jackson', 'frankjackson@example.com',
+        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto'),
+       ('gthompson', 'Grace', 'Thompson', 'gracethompson@example.com',
+        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto'),
+       ('hgarcia', 'Hank', 'Garcia', 'hankgarcia@example.com',
+        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto'),
+       ('banneduser', 'Banned', 'User', 'banneduser@example.com',
+        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto');
 
 -- Insert roles for other users
 INSERT INTO user_role_junction (role_id, user_id)
@@ -173,7 +183,8 @@ VALUES (1, 2),  -- USER role
        (1, 8),  -- USER role
        (1, 9),  -- USER role
        (1, 10), -- USER role
-       (4, 11);-- BANNED role
+       (4, 11);
+-- BANNED role
 
 -- Insert posts
 INSERT INTO posts (user_id, created_date, title, description)
@@ -244,9 +255,22 @@ VALUES (1, 1), -- Java
        (6, 7), -- GraphQL
        (7, 8), -- Kubernetes
        (8, 9), -- Python
-       (9, 10);-- React
+       (9, 10);
+-- React
 
+INSERT
+forum.level_info
+VALUES (50,5, 500, 1),
+       (50,4, 400, 2),
+       (50,3, 300, 3),
+       (50,2, 200, 4),
+       (50,1, 100, 5),
+       (50,5, 500, 6),
+       (50,5, 500, 7),
+       (50,5, 500, 8),
+       (50,5, 500, 9),
+       (50,5, 500, 10),
+       (50,5, 500, 11);
 -- Reset foreign key checks
-INSERT forum.level_info VALUE (50,5, 500, 1);
 SET
 FOREIGN_KEY_CHECKS = 1;

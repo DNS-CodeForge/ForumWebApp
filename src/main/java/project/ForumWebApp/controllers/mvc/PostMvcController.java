@@ -39,7 +39,6 @@ public class PostMvcController {
 
     @GetMapping("/post")
     public String getPostCreatePage(Model model) {
-        // Initialize a new PostCreateDTO and add it to the model
         model.addAttribute("post", new PostCreateDTO());
         return "createPost";
     }
@@ -50,7 +49,7 @@ public class PostMvcController {
                              RedirectAttributes redirectAttributes,
                              Model model) {
         if (bindingResult.hasErrors()) {
-            // If there are validation errors, return the user to the form with error messages
+
             return "createPost";
         }
 

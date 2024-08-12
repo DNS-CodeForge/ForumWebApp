@@ -23,15 +23,15 @@ import project.ForumWebApp.services.contracts.MvcAuthenticationService;
 import java.io.IOException;
 
 @Controller
-public class LoginController {
+public class AuthMvcController {
 
     private final AuthenticationManager authenticationManager;
     private final AuthenticationFailureHandler authenticationFailureHandler;
     private final MvcAuthenticationService mvcAuthenticationService;
 
-    public LoginController(@Qualifier("mvcAuthenticationManager") AuthenticationManager authenticationManager,
-                           AuthenticationFailureHandler authenticationFailureHandler,
-                           MvcAuthenticationService mvcAuthenticationService) {
+    public AuthMvcController(@Qualifier("mvcAuthenticationManager") AuthenticationManager authenticationManager,
+                             AuthenticationFailureHandler authenticationFailureHandler,
+                             MvcAuthenticationService mvcAuthenticationService) {
         this.authenticationManager = authenticationManager;
         this.authenticationFailureHandler = authenticationFailureHandler;
         this.mvcAuthenticationService = mvcAuthenticationService;

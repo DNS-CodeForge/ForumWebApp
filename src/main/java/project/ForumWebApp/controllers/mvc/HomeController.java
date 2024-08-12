@@ -5,9 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import org.springframework.web.bind.annotation.PathVariable;
+
 import org.springframework.web.servlet.ModelAndView;
-import project.ForumWebApp.models.DTOs.post.PostDTO;
+
 import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
 import project.ForumWebApp.services.contracts.PostService;
 
@@ -29,8 +29,8 @@ public class HomeController {
     public ModelAndView home() {
         Page<PostSummaryDTO> posts = postService.getPosts();
 
-        // Truncate descriptions to a max length
-        int maxLength = 120; // Set your desired max length
+
+        int maxLength = 120;
         posts.forEach(post -> {
             if (post.getDescription().length() > maxLength) {
                 post.setDescription(post.getDescription().substring(0, maxLength) + "...");

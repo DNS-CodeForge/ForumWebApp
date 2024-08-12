@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function() {
     let page = 0; // Initial page index
     let loading = false; // Prevent multiple simultaneous fetches
@@ -70,11 +69,11 @@ document.addEventListener('DOMContentLoaded', function() {
     function handleScroll() {
         const scrollTop = window.scrollY;
         const scrollPosition = scrollTop + window.innerHeight;
-        const threshold = document.documentElement.scrollHeight - 100; 
-        
+        const threshold = document.documentElement.scrollHeight - 100;
+
         // Trigger loadMorePosts only if scrolling down
         if (scrollPosition >= threshold && scrollTop > lastScrollTop) {
-            loadMorePosts(); 
+            loadMorePosts();
         }
 
         lastScrollTop = scrollTop; // Update the last scroll position
@@ -83,5 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadMorePosts();
 
     window.addEventListener('scroll', handleScroll);
-});
 
+    // Use event delegation for the upvote icons
+
+});
