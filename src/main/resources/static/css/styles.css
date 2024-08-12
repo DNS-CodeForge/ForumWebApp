@@ -152,8 +152,11 @@ body {
 .dropdown-menu a:hover {
     color: black; /* Ensure the color stays the same */
     transform: none; /* Remove any scaling effects */
-    background-color: lightgray; /* Change background color on hover */
     font-weight: normal;
+}
+
+.field-container:hover {
+    background: lightgray;
 }
 
 .dropdown-menu img{
