@@ -616,17 +616,19 @@ margin-bottom: 20px;
 .create-post-container {
     background-color: white;
     border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    max-width: 800px;
-    min-width: 400px;
+    width: 1000px;
     margin: 50px auto;
-    border: 2px solid black;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    text-align: left;
+
+    position: absolute; 
+    top: 50px; 
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .create-post-container h1 {
@@ -634,55 +636,45 @@ margin-bottom: 20px;
     color: black;
     margin-bottom: 20px;
     font-weight: bold;
-    text-align: center;
-    flex-shrink: 0;
+    align-self: flex-start;
+}
+
+.create-post-form {
+    width: 100%;
+    flex-direction: column;
+    display: flex;
 }
 
 .create-post-container .form-group {
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 800px;
     margin-bottom: 20px;
     text-align: left;
-    flex-shrink: 1;
-
-}
-
-.create-post-container label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: black;
-    flex-shrink: 0;
 }
 
 .create-post-container input,
 .create-post-container textarea {
-    /*width: 100%;  *!*/
+    width: 100%; 
     padding: 10px;
     border-radius: 12px;
     border: 2px solid black;
     font-size: 16px;
     margin-top: 5px;
     background-color: rgba(255, 255, 255, 0.5);
-    flex-shrink: 1;
-    flex-grow: 1;
 }
 
 .create-post-container button {
     background: #929AAB;
     color: black;
-    padding: 10px 20px;
+    padding: 10px 10px;
     border: none;
     border-radius: 12px;
     font-size: 16px;
     cursor: pointer;
     transition: background 0.3s ease, transform 0.3s ease;
-    /*width: 100%;*/
-    max-width: 800px;
-    margin-top: 15px;
-    flex-shrink: 1;
+    margin-top: -10px;
+    align-self: flex-end;
 }
 
 .create-post-container button:hover {
@@ -693,6 +685,41 @@ margin-bottom: 20px;
 .create-post-container .form-group textarea {
     height: 100px;
     resize: none;
-    flex-shrink: 1;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+#tagInput {
+    display: inline-block;
+    width: 200px;
+    padding: 8px;
+}
+
+#addTagButton {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+#tagContainer {
+    margin-top: 10px;
+}
+
+.tag-bubble {
+    display: inline-block;
+    background-color: lightgray;
+    color: black;
+    padding: 5px 10px;
+    border-radius: 20px;
+    margin: 5px;
+    font-size: 12px;
+    cursor: pointer;
+}
+.adding-tag-container {
+    display: flex;
 }
 
