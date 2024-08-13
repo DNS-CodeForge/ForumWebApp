@@ -43,12 +43,11 @@ public class LikeServiceImpl implements LikeService{
             like.setUser(loggedUser);
             post.getLikes().add(like);
             postRepository.save(post);
-            likeRepository.save(like);
             levelService.addExp(post.getUser(), 1);
         } else {
             post.getLikes().remove(likeOptional.get());
             postRepository.save(post);
-            likeRepository.delete(likeOptional.get());
+//            likeRepository.delete(likeOptional.get());
             levelService.addExp(post.getUser(), -1);
         }
    }
