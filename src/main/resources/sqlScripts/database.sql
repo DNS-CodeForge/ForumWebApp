@@ -66,7 +66,7 @@ OR REPLACE TABLE users
     last_name  VARCHAR(32)  NULL,
     email      VARCHAR(255) NOT NULL,
     password   VARCHAR(255) NOT NULL,
-    photo_url  VARCHAR(255) NOT NULL,
+    photo_url  VARCHAR(255) ,
     CONSTRAINT UK6dotkott2kjsp8vw4d0m25fb7 UNIQUE (email),
     CONSTRAINT UKr43af9ap4edm43mmtq01oddj6 UNIQUE (username)
 );
@@ -142,7 +142,7 @@ VALUES (1, 'USER'),
 -- Insert admin user
 INSERT INTO users (id, username, first_name, last_name, email, password, photo_url)
 VALUES (1, 'admin', 'Admin', 'Admin', 'admin@admin.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly',
-        'NoPhoto');
+        null);
 
 -- Insert admin role for admin user
 INSERT INTO user_role_junction (role_id, user_id)
@@ -152,25 +152,25 @@ VALUES (3, 1),
 -- Insert other users
 INSERT INTO users (username, first_name, last_name, email, password, photo_url)
 VALUES ('jdoe', 'John', 'Doe', 'johndoe@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly',
-        'NoPhoto'),
+        null),
        ('asmith', 'Alice', 'Smith', 'alicesmith@example.com',
-        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto'),
+        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', null),
        ('bwilliams', 'Bob', 'Williams', 'bobwilliams@example.com',
-        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto'),
+        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', null),
        ('cjohnson', 'Carol', 'Johnson', 'caroljohnson@example.com',
-        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto'),
+        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', null),
        ('dwhite', 'David', 'White', 'davidwhite@example.com',
-        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto'),
+        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', null),
        ('emiller', 'Eva', 'Miller', 'evamiller@example.com',
-        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto'),
+        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', null),
        ('fjackson', 'Frank', 'Jackson', 'frankjackson@example.com',
-        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto'),
+        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', null),
        ('gthompson', 'Grace', 'Thompson', 'gracethompson@example.com',
-        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto'),
+        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', null),
        ('hgarcia', 'Hank', 'Garcia', 'hankgarcia@example.com',
-        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto'),
+        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', null),
        ('banneduser', 'Banned', 'User', 'banneduser@example.com',
-        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto');
+        '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', null);
 
 -- Insert roles for other users
 INSERT INTO user_role_junction (role_id, user_id)

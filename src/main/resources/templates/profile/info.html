@@ -15,8 +15,9 @@
     <div class="profile-details-container">
         <!-- Profile Photo -->
         <div class="profile-photo-container">
-            <img th:src="${userProfile.photoUrl}" alt="User Photo" class="profile-photo">
+            <img th:src="${userProfile.photoUrl != null ? userProfile.photoUrl : '/images/NoPhoto.png'}" alt="User Photo" class="profile-photo">
         </div>
+    </div>
 
         <!-- Profile Info Form -->
         <div class="profile-form-container">
