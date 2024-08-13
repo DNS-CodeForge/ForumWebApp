@@ -5,6 +5,7 @@ import java.util.List;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import project.ForumWebApp.models.ApplicationUser;
@@ -30,9 +31,9 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "User profile updated successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid request data")
     })
-    public UpdateUserDTO updateUserInfo(@RequestBody UpdateUserDTO updateUserDTO) {
-        userService.updateUserInfo(updateUserDTO);
-        return updateUserDTO;
+    public ResponseEntity<?> updateUserInfo(@RequestBody UpdateUserDTO updateUserDTO) {
+        UpdateUserDTO updatedUser = userService.updateUserInfo(updateUserDTO);
+        return ResponseEntity.ok(updatedUser);
     }
 
     @GetMapping("/profile/info")

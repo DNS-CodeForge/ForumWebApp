@@ -3,19 +3,20 @@
 <head>
     <title>Home</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
-<div th:insert="fragments/navbar :: navbar"></div>
-<div th:insert="fragments/sidebar:: sidebar"></div>
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+<div th:insert="~{fragments/sidebar :: sidebar}"></div>
 
-    <div class="posts-container">
-        <div class="posts" id="posts">
-            <!-- Posts will be dynamically added here -->
-        </div>
-        <div id="loading" style="display: none;">Loading more posts...</div>
+<div class="posts-container">
+    <div class="posts" id="posts">
+        <!-- Posts will be dynamically added here -->
     </div>
+    <div id="loading" style="display: none;">Loading more posts...</div>
+</div>
 
 <script src="/js/dropdown.js"></script>
 <script src="/js/infiniteScroll.js"></script>

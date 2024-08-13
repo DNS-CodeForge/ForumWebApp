@@ -67,11 +67,15 @@ public class UserServiceImpl implements UserService {
         if (updateUserDTO.getLastName() != null) {
             user.setLastName(updateUserDTO.getLastName());
         }
+        if (updateUserDTO.getPhotoUrl() != null) {
+            user.setPhotoUrl(updateUserDTO.getPhotoUrl());
+        }
 
         userRepository.save(user);
 
         return updateUserDTO;
     }
+
 
     @Override
     public RegistrationDTO viewUserInfo() {

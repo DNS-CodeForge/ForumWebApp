@@ -3,11 +3,13 @@
 <head>
     <title>Create Post</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+
 </head>
 <body>
 
-<div th:insert="fragments/navbar :: navbar"></div>
-<div th:insert="fragments/sidebar :: sidebar"></div>
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+<div th:insert="~{fragments/sidebar :: sidebar}"></div>
 
 <div class="create-post-container">
     <h1>Create Post</h1>

@@ -3,10 +3,13 @@
 <head>
     <title>Login</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+
 </head>
 <body>
 
-    <div th:insert="fragments/navbar :: navbar"></div>
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+
 
 
     <h1 id="messege" th:text="${messege}"></h1>

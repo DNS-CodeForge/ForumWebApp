@@ -31,12 +31,11 @@ public class UserMvcController {
     @GetMapping("/profile/info")
     public String getUserProfileInfo(Model model) {
         ApplicationUser userProfile = authContextManager.getLoggedInUser();
-        System.out.println(userProfile);
         LevelInfo levelInfo = levelService.getLevelById(authContextManager.getId());
 
         model.addAttribute("userProfile", userProfile);
         if (levelInfo != null) {
-        model.addAttribute("levelInfo", levelInfo);
+            model.addAttribute("levelInfo", levelInfo);
         }
         return "profile/info";
     }
@@ -45,15 +44,13 @@ public class UserMvcController {
     public String updateUserInfo(@ModelAttribute("userProfile") UpdateUserDTO updateUserDTO,
                                  RedirectAttributes redirectAttributes) {
         try {
-
             userService.updateUserInfo(updateUserDTO);
-
             redirectAttributes.addFlashAttribute("successMessage", "Profile updated successfully!");
         } catch (Exception e) {
-
             redirectAttributes.addFlashAttribute("errorMessage", "Failed to update profile. Please try again.");
         }
 
         return "redirect:/profile/info";
     }
 }
+

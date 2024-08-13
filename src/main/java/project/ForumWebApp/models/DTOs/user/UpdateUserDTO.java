@@ -3,7 +3,6 @@ package project.ForumWebApp.models.DTOs.user;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-
 import lombok.Data;
 import project.ForumWebApp.constants.ValidationConstants;
 
@@ -35,4 +34,12 @@ public class UpdateUserDTO {
     )
     @Schema(description = "Last name of the user", example = "Doe", required = true)
     private String lastName;
+
+    @NotBlank(message = ValidationConstants.PHOTO_URL_NOT_BLANK_MESSAGE)
+    @Size(
+            max = ValidationConstants.PHOTO_URL_MAX_LEN,
+            message = ValidationConstants.PHOTO_URL_LENGTH_MESSAGE
+    )
+    @Schema(description = "Photo URL of the user", example = "https://example.com/photo.jpg", required = true)
+    private String photoUrl;
 }

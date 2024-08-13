@@ -1,0 +1,27 @@
+
+<div th:fragment="postList">
+    <div th:each="post : ${posts}" class="post-item">
+        <div class="post-title">
+            <a th:href="@{/posts/{id}(id=${post.id})}" th:text="${post.title}"></a>
+        </div>
+        <div class="post-description">
+            <p th:text="${#strings.abbreviate(post.description, 120)}"></p>
+        </div>
+        <div class="post-tags">
+            <p>
+                <span th:each="tag : ${post.tags}" class="post-tag" th:text="${tag.name}"></span>
+            </p>
+        </div>
+        <div class="post-actions">
+            <div class="post-action">
+                <img src="/images/up-arrow.png" alt="Upvote" class="icon upvote-icon">
+                <p th:text="${post.likeCount}"></p>
+            </div>
+            <div class="post-action">
+                <img src="/images/comment.png" alt="Comment" class="icon comment-icon">
+                <p th:text="${post.commentCount}"></p>
+            </div>
+        </div>
+    </div>
+</div>
+w
