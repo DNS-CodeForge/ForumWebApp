@@ -1,0 +1,32 @@
+
+<div th:fragment="postList">
+    <!-- CSRF Token -->
+    <input type="hidden" id="csrfToken" th:value="${_csrf.token}"/>
+    <input type="hidden" id="csrfHeader" th:value="${_csrf.headerName}"/>
+
+    <div th:each="post : ${posts}" class="post-item">
+        <div class="post-title">
+            <a th:href="@{/posts/{id}(id=${post.id})}" th:text="${post.title}"></a>
+        </div>
+        <div class="post-description">
+            <p th:text="${#strings.abbreviate(post.description, 120)}"></p>
+        </div>
+        <div class="post-tags">
+            <p>
+                <span th:each="tag : ${post.tags}" class="post-tag" th:text="${tag.name}"></span>
+            </p>
+        </div>
+        <div class="post-actions">
+            <div class="post-action">
+               <img th:src="@{${post.likedByCurrentUser} ? '/images/up-arrow-selected.png' : '/images/up-arrow.png'}"
+                     class="icon like-icon upvote-icon"
+                     th:attr="data-post-id=${post.id}">
+                    <p th:text="${post.likeCount}" th:id="'like-count-' + ${post.id}"></p>
+            </div>
+            <div class="post-action">
+                <img src="/images/comment.png" alt="Comment" class="icon comment-icon">
+                <p th:text="${post.commentCount}"></p>
+            </div>
+        </div>
+    </div>
+</div>

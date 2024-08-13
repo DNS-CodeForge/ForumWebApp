@@ -1,75 +1,150 @@
-CREATE DATABASE IF NOT EXISTS forum;
+create or replace table SPRING_SESSION
+(
+    PRIMARY_ID            char(36)     not null
+        primary key,
+    SESSION_ID            char(36)     not null,
+    CREATION_TIME         bigint       not null,
+    LAST_ACCESS_TIME      bigint       not null,
+    MAX_INACTIVE_INTERVAL int          not null,
+    EXPIRY_TIME           bigint       not null,
+    PRINCIPAL_NAME        varchar(100) null,
+    constraint SPRING_SESSION_IX1
+        unique (SESSION_ID)
+)
+    row_format = DYNAMIC;
 
-USE forum;
+create or replace index SPRING_SESSION_IX2
+    on SPRING_SESSION (EXPIRY_TIME);
 
-CREATE TABLE IF NOT EXISTS roles (
-                                     role_id INT AUTO_INCREMENT PRIMARY KEY,
-                                     authority VARCHAR(255) NULL
-    );
+create or replace index SPRING_SESSION_IX3
+    on SPRING_SESSION (PRINCIPAL_NAME);
 
-CREATE TABLE IF NOT EXISTS tags (
-                                    id INT AUTO_INCREMENT PRIMARY KEY,
-                                    name VARCHAR(255) NULL
-    );
+create or replace table SPRING_SESSION_ATTRIBUTES
+(
+    SESSION_PRIMARY_ID char(36)     not null,
+    ATTRIBUTE_NAME     varchar(200) not null,
+    ATTRIBUTE_BYTES    blob         not null,
+    primary key (SESSION_PRIMARY_ID, ATTRIBUTE_NAME),
+    constraint SPRING_SESSION_ATTRIBUTES_FK
+        foreign key (SESSION_PRIMARY_ID) references SPRING_SESSION (PRIMARY_ID)
+            on delete cascade
+)
+    row_format = DYNAMIC;
 
-CREATE TABLE IF NOT EXISTS users (
-                                     id INT AUTO_INCREMENT PRIMARY KEY,
-                                     first_name VARCHAR(32) NULL,
-    last_name VARCHAR(32) NULL,
-    email VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    username VARCHAR(255) NOT NULL,
-    photo_url VARCHAR(255) DEFAULT 'https://plus.unsplash.com/premium_photo-1677094310899-02303289cadf?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    CONSTRAINT UK_email UNIQUE (email),
-    CONSTRAINT UK_username UNIQUE (username)
-    );
+create or replace index SPRING_SESSION_ATTRIBUTES_IX1
+    on SPRING_SESSION_ATTRIBUTES (SESSION_PRIMARY_ID);
 
-CREATE TABLE IF NOT EXISTS phone_numbers (
-                                             id INT AUTO_INCREMENT PRIMARY KEY,
-                                             user_id INT NULL,
-                                             number VARCHAR(255) NULL,
-    CONSTRAINT UK_user_id UNIQUE (user_id),
-    CONSTRAINT FK_phone_user FOREIGN KEY (user_id) REFERENCES users (id)
-    );
+create or replace table level_info
+(
+    current_exp       int not null,
+    current_level     int not null,
+    exp_to_next_level int not null,
+    user_id           int not null
+        primary key
+);
 
-CREATE TABLE IF NOT EXISTS posts (
-                                     id INT AUTO_INCREMENT PRIMARY KEY,
-                                     user_id INT NULL,
-                                     created_date DATETIME(6) NULL,
-    description VARCHAR(255) NULL,
-    title VARCHAR(255) NULL,
-    CONSTRAINT FK_post_user FOREIGN KEY (user_id) REFERENCES users (id)
-    );
+create or replace table roles
+(
+    role_id   int auto_increment
+        primary key,
+    authority varchar(255) null
+);
 
-CREATE TABLE IF NOT EXISTS comments (
-                                        id INT AUTO_INCREMENT PRIMARY KEY,
-                                        post_id INT NULL,
-                                        content VARCHAR(255) NULL,
-    user_id INT NULL,
-    CONSTRAINT FK8omq0tc18jd43bu5tjh6jvraq FOREIGN KEY (user_id) REFERENCES users (id),
-    CONSTRAINT FK_comment_post FOREIGN KEY (post_id) REFERENCES posts (id)
-    );
+create or replace table tags
+(
+    id   int auto_increment
+        primary key,
+    name varchar(32) not null
+);
 
-CREATE TABLE IF NOT EXISTS likes (
-                                     id INT AUTO_INCREMENT PRIMARY KEY,
-                                     post_id INT NULL,
-                                     user_id INT NULL,
-                                     CONSTRAINT FK_like_post FOREIGN KEY (post_id) REFERENCES posts (id),
-    CONSTRAINT FK_like_user FOREIGN KEY (user_id) REFERENCES users (id)
-    );
+create or replace table users
+(
+    id         int auto_increment
+        primary key,
+    username   varchar(20)  not null,
+    first_name varchar(32)  null,
+    last_name  varchar(32)  null,
+    email      varchar(255) not null,
+    password   varchar(255) not null,
+    photo_url  varchar(255) not null,
+    constraint UK6dotkott2kjsp8vw4d0m25fb7
+        unique (email),
+    constraint UKr43af9ap4edm43mmtq01oddj6
+        unique (username)
+);
 
-CREATE TABLE IF NOT EXISTS post_tags (
-                                         post_id INT NOT NULL,
-                                         tag_id INT NOT NULL,
-                                         PRIMARY KEY (post_id, tag_id),
-    CONSTRAINT FK_post_tags_post FOREIGN KEY (post_id) REFERENCES posts (id),
-    CONSTRAINT FK_post_tags_tag FOREIGN KEY (tag_id) REFERENCES tags (id)
-    );
+create or replace table phone_numbers
+(
+    user_id int          not null
+        primary key,
+    number  varchar(255) null,
+    constraint FKg077extnnxwv904qjw2kwinpg
+        foreign key (user_id) references users (id)
+);
 
-CREATE TABLE IF NOT EXISTS user_role_junction (
-                                                  role_id INT NOT NULL,
-                                                  user_id INT NOT NULL,
-                                                  PRIMARY KEY (role_id, user_id),
-    CONSTRAINT FK_user_role_junction_role FOREIGN KEY (role_id) REFERENCES roles (role_id),
-    CONSTRAINT FK_user_role_junction_user FOREIGN KEY (user_id) REFERENCES users (id)
-    );
+create or replace table posts
+(
+    id           int auto_increment
+        primary key,
+    user_id      int           null,
+    created_date datetime(6)   null,
+    title        varchar(64)   not null,
+    description  varchar(8192) not null,
+    constraint FK5lidm6cqbc7u4xhqpxm898qme
+        foreign key (user_id) references users (id)
+);
+
+create or replace table comments
+(
+    id      int auto_increment
+        primary key,
+    post_id int           not null,
+    user_id int           null,
+    content varchar(1024) not null,
+    constraint FK8omq0tc18jd43bu5tjh6jvraq
+        foreign key (user_id) references users (id),
+    constraint FKh4c7lvsc298whoyd4w9ta25cr
+        foreign key (post_id) references posts (id)
+);
+
+create or replace table likes
+(
+    id      int auto_increment
+        primary key,
+    post_id int null,
+    user_id int null,
+    constraint FKnvx9seeqqyy71bij291pwiwrg
+        foreign key (user_id) references users (id),
+    constraint FKry8tnr4x2vwemv2bb0h5hyl0x
+        foreign key (post_id) references posts (id)
+);
+
+create or replace table post_tags
+(
+    post_id int not null,
+    tag_id  int not null,
+    primary key (post_id, tag_id),
+    constraint FKkifam22p4s1nm3bkmp1igcn5w
+        foreign key (post_id) references posts (id),
+    constraint FKm6cfovkyqvu5rlm6ahdx3eavj
+        foreign key (tag_id) references tags (id)
+);
+
+create or replace table user_role_junction
+(
+    role_id int not null,
+    user_id int not null,
+    primary key (role_id, user_id),
+    constraint FK5aqfsa7i8mxrr51gtbpcvp0v1
+        foreign key (user_id) references users (id),
+    constraint FKhybpcwvq8snjhbxawo25hxous
+        foreign key (role_id) references roles (role_id)
+);
+SET FOREIGN_KEY_CHECKS = 0;
+INSERT forum.roles VALUE (1, 'USER'), (2, 'MODERATOR'), (3, 'ADMIN'), (4, 'BANNED');
+INSERT forum.users VALUES (1, 'admin','admin','admin','admin@admin.com','$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', 'NoPhoto');
+
+
+INSERT forum.user_role_junction VALUE (1, 1), (1, 3);
+INSERT forum.level_info VALUE (50,5, 500, 1);
+SET FOREIGN_KEY_CHECKS = 1;

@@ -11,7 +11,7 @@ import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
-import project.ForumWebApp.services.TokenService;
+import project.ForumWebApp.services.contracts.TokenService;
 
 @Service
 public class TokenServiceImpl implements TokenService {

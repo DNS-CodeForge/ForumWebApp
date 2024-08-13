@@ -1,5 +1,9 @@
 package project.ForumWebApp.services.Implementations;
 
+import static project.ForumWebApp.constants.ValidationConstants.COMMENT_WITH_PROVIDED_ID_DOES_NOT_EXIST;
+import static project.ForumWebApp.constants.ValidationConstants.POST_WITH_PROVIDED_ID_DOES_NOT_EXIST;
+import static project.ForumWebApp.constants.ValidationConstants.YOU_ARE_NOT_AUTHORIZED_TO_UPDATE_THIS_COMMENT;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,7 +13,7 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import project.ForumWebApp.config.AuthContextManager;
+import project.ForumWebApp.config.security.AuthContextManager;
 import project.ForumWebApp.exceptions.AuthorizationException;
 import project.ForumWebApp.models.Comment;
 import project.ForumWebApp.models.Post;
@@ -17,22 +21,25 @@ import project.ForumWebApp.models.DTOs.CommentCreateDTO;
 import project.ForumWebApp.models.DTOs.CommentDTO;
 import project.ForumWebApp.repository.CommentRepository;
 import project.ForumWebApp.repository.PostRepository;
-import project.ForumWebApp.services.CommentService;
-
-import static project.ForumWebApp.constants.ValidationConstants.*;
+import project.ForumWebApp.services.contracts.CommentService;
+import project.ForumWebApp.services.contracts.LevelService;
 
 @Service
 public class CommentServiceImpl implements CommentService {
 
 
 
+
+    private final LevelService levelService;
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
     private final ModelMapper modelMapper;
     private final AuthContextManager authContextManager;
 
-    public CommentServiceImpl(CommentRepository commentRepository, ModelMapper modelMapper,
+    public CommentServiceImpl(LevelService levelService, CommentRepository commentRepository, ModelMapper modelMapper,
                               PostRepository postRepository, AuthContextManager authContextManager) {
+
+        this.levelService = levelService;
         this.commentRepository = commentRepository;
         this.modelMapper = modelMapper;
         this.postRepository = postRepository;
@@ -72,6 +79,7 @@ public class CommentServiceImpl implements CommentService {
         comment.setUser(authContextManager.getLoggedInUser());
         Comment savedComment = commentRepository.save(comment);
         post.getComments().add(savedComment);
+        levelService.addExp(post.getUser(), 5);
         postRepository.save(post);
         return modelMapper.map(savedComment, CommentDTO.class);
     }

@@ -1,15 +1,14 @@
 package project.ForumWebApp.models.DTOs.post;
 
-import io.swagger.v3.oas.annotations.Hidden;
+import java.time.Instant;
+import java.util.Set;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import project.ForumWebApp.models.DTOs.TagDTO;
 import project.ForumWebApp.models.DTOs.user.ApplicationUserDTO;
-
-import java.time.Instant;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -24,4 +23,5 @@ public class PostSummaryDTO {
     private Integer likeCount;
     private Integer commentCount;
     private Set<TagDTO> tags;
+    private boolean likedByCurrentUser;
 }

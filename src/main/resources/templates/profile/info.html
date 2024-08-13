@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <link rel="stylesheet" th:href="@{/css/profile-info.css}">
+</head>
+<body>
+
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+<div th:insert="~{fragments/sidebar :: sidebar}"></div>
+<div class="profile-info-container">
+    <h1>User Profile</h1>
+
+    <div class="profile-details-container">
+        <!-- Profile Photo -->
+        <div class="profile-photo-container">
+            <img th:src="${userProfile.photoUrl != null ? userProfile.photoUrl : '/images/NoPhoto.png'}" alt="User Photo" class="profile-photo">
+        </div>
+    </div>
+
+        <!-- Profile Info Form -->
+        <div class="profile-form-container">
+            <div th:if="${successMessage}" class="alert alert-success">
+                <p th:text="${successMessage}"></p>
+            </div>
+
+            <div th:if="${errorMessage}" class="alert alert-danger">
+                <p th:text="${errorMessage}"></p>
+            </div>
+
+            <form th:action="@{/profile/info}" th:object="${userProfile}" method="post" class="profile-info-form">
+                <!-- Photo URL Field -->
+                <div class="form-group">
+                    <label for="photoUrl">Photo URL:</label>
+                    <input type="text" id="photoUrl" th:field="*{photoUrl}" placeholder="Photo URL" required>
+                </div>
+
+                <!-- Other fields (First Name, Last Name, Email) -->
+                <div class="form-group">
+                    <label for="firstName">First Name:</label>
+                    <input type="text" id="firstName" th:field="*{firstName}" placeholder="First Name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" id="lastName" th:field="*{lastName}" placeholder="Last Name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" th:field="*{email}" placeholder="Email" readonly>
+                </div>
+
+                <!-- Level Info -->
+                <div class="level-info">
+                    <h2>Level Information</h2>
+                    <p><strong>Current Level:</strong> <span th:text="${levelInfo.currentLevel}"></span></p>
+                    <p><strong>Current Experience:</strong> <span id="current-exp" th:text="${levelInfo.currentExp}"></span></p>
+                    <p><strong>Experience to Next Level:</strong> <span id="exp-to-next-level" th:text="${levelInfo.expToNextLevel}"></span></p>
+                    <div class="progress-container">
+                        <div class="progress-bar"></div>
+                    </div>
+                    <p id="progress-text"></p>
+                </div>
+                <br>
+                <button type="submit" class="btn">Update Profile</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="/js/dropdown.js"></script>
+<script src="/js/logo.js"></script>
+<script src="/js/routeStyleSwitcher.js"></script>
+<script src="/js/levelBar.js"></script>
+
+
+
+
+</body>
+</html>

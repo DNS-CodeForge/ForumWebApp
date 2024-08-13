@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/styles.css}">
+<body>
+    <!-- Navigation Bar Fragment -->
+    <div th:fragment="navbar" class="navbar">
+        <img th:src="@{/images/logo.png}"  alt="" id="logo">
+
+        <div th:if="${#authentication.name == 'anonymousUser'}" class="unauth-field-container">
+            <a class="navbar-item" id="login-item" href="/login">Log In</a>
+            <a class="navbar-item" id="register-item" href="/register">Register</a>
+        </div>
+
+        <div class="search-container">
+            <input type="text" placeholder="Search...">
+        </div>
+
+        <div th:if="${#authentication.name != 'anonymousUser'}" class="profile-container">
+            <a class="navbar-item" id="create-button" href="/post">+ Create</a>
+            <img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQd1wdCm8EgtV8B0mj4d0PAUaVROGlc40GqIEfF8bex3RnM0Hwu" alt="Profile" class="profile-image">
+            <div class="dropdown-menu">
+                <div class="field-container">
+                    <img th:src="@{/images/profile2.png}" alt="">
+                    <a href="/profile/info">Edit Profile</a>
+                </div>
+                <div class="field-container">
+                    <img th:src="@{/images/profile.png}" alt="">
+                     <a href="/profile/info">Edit Profile</a>
+                </div>
+                <div class="field-container">
+                 <label class="switch">
+                    <input type="checkbox" id="toggleSwitch">
+                    <span class="slider round"></span>
+                </label>
+                <p>Dark Mode</p>
+            </div>
+            <div class="field-container">
+                <img th:src="@{/images/log-out.png}" alt="">
+                <a href="/logout">Log Out</a>
+            </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="/js/logo.js"></script>
+    <script src="/js/dropdown.js"></script>
+
+</body>
+</html>

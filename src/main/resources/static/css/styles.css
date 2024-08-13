@@ -1,0 +1,725 @@
+
+body, h1, h2, h3, p, ul, li, a {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    list-style: none;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: white;
+    color: #333;
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.navbar {
+    display: flex;
+    position: fixed; /* Fix the navbar to the top of the viewport */
+    top: 0; /* Position it at the top */
+    left: 0;
+    width: 100%; /* Full width */
+    background-color: white; /* Background color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: add a shadow for better visibility */
+    z-index: 1000; /* Ensure it stays above other content */
+}
+
+.navbar a {
+    float: left;
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 20px 24px; /* Increase padding to make the container slightly bigger */
+    text-decoration: none;
+    position: relative;
+    margin-left: 13px;
+    transition: color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+    font-weight: normal; /* Initial font weight */
+    font-size: 18px; /* Slightly larger initial font size */
+}
+
+.navbar-item.active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0; /* Position the underline exactly at the bottom of the container */
+    height: 4px; /* Adjust the thickness */
+    background-color: black; /* Adjust the color */
+    opacity: 1; /* Make it visible */
+    transform: scaleX(1.1); /* Make it slightly bigger than the text */
+    transition: opacity 0.3s ease, bottom 0.3s ease, height 0.3s ease;
+}
+
+.navbar-item:hover::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0; /* Position the underline exactly at the bottom of the container */
+    height: 4px; /* Adjust the thickness */
+    background-color: black; /* Adjust the color */
+    opacity: 1; /* Make it visible */
+    transform: scaleX(1.1); /* Make it slightly bigger than the text */
+    transition: opacity 0.3s ease, bottom 0.3s ease, height 0.3s ease;
+}
+
+.navbar-item.active,
+.navbar-item:hover {
+    color: black;
+    font-style: italic;
+    font-weight: bold; /* Make the text bold */
+    transform: scale(1.1); /* Slightly enlarge the container */
+}
+
+
+.search-container {
+    flex: 0 0 auto; /* Prevent the search container from growing */
+    position: absolute; /* Position the search container absolutely */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center horizontally */
+    display: flex;
+    align-items: center; /* Center vertically */
+    height: 100%; /* Full height of navbar */
+}
+
+.search-container input[type="text"] {
+    padding: 10px;
+    font-size: 16px; border: 1px solid #ccc;
+    width: 600px;
+    border-radius: 12px;
+    transition: width 0.3s ease; 
+}
+
+.search-container input[type="text"]:focus {
+    width: 800px; 
+    outline: none; /* Remove default focus outline */
+}
+
+.unauth-field-container {
+    margin-left: auto; /* Push to the right side */
+}
+
+.profile-container {
+    position: relative; /* This is crucial for the dropdown positioning */
+    margin-left: auto;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+#create-button {
+    margin-right: 20px;
+}
+
+#loading {
+    text-align: center;
+    padding: 20px;
+    font-size: 16px;
+    color: #666;
+}
+
+.profile-image {
+    width: 40px; /* Adjust based on your design needs */
+    height: 40px; /* Adjust based on your design needs */
+    margin-right: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: border 0.3s ease;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0); 
+}
+
+.profile-image:hover {
+    box-shadow: 0 0 0 5px rgba(128, 128, 128, 0.5);
+}
+
+.dropdown-menu {
+    display: none; /* Hide the dropdown menu initially */
+    flex-direction: column;
+    position: absolute;
+    top: 100%; /* Position it directly below the profile image */
+    right: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1001; /* Ensure it stays above other content */
+    min-width: 220px;
+    justify-content: center;
+}
+
+.dropdown-menu a {
+    text-align: right;
+    margin-right: 10px;
+}
+
+.dropdown-menu a:hover {
+    color: black; /* Ensure the color stays the same */
+    transform: none; /* Remove any scaling effects */
+    font-weight: normal;
+}
+
+.field-container:hover {
+    background: lightgray;
+}
+
+
+
+.dropdown-menu img{
+    text-align: left;
+    height: 30px;
+    width: 30px;
+    margin-left: 10px;
+}
+
+.dropdown-menu a:hover::after {
+    opacity: 0; 
+    font-weight: normal; 
+}
+
+.field-container {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    height: 52px;
+}
+
+.field-container p {
+    font-size: 18px;
+    color: black;
+    margin-left: 13px;
+}
+ .field-container a {
+    text-align: right;
+    margin-left: 10px;
+ }
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+/* The slider round */
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+/* Checkbox checked - change background color */
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+/* Checkbox checked - move the slider */
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+
+.sidebar {
+    position: fixed;
+    top: 55px;
+    left: 0;
+    width: 250px; 
+    height: 100vh; 
+    background-color: white;
+    color: black;
+    overflow-y: auto; 
+    padding-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: add a shadow for better visibility */
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-item {
+    margin : 5px;
+    margin-left : 11px;
+    margin-right : 11px;
+    border-radius: 12px;
+    margin: 0;
+}
+
+.menu-item a {
+    display: block;
+    color: black;
+    padding: 10px 20px;
+    transition: background 0.3s;
+}
+
+.menu-item.active,
+.menu-item:hover {
+    margin : 5px;
+    margin-left : 11px;
+    margin-right : 11px;
+    border-radius: 12px;
+    background-color: lightgray;
+}
+
+.menu-item.active {
+    font-style: italic;
+    font-weight: bold; 
+    transform: scale(1.1);
+}
+
+.content {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 20px auto;
+    background: #fff;
+    border: none;
+}
+
+
+h1 {
+    color: #4a90e2;
+    margin-bottom: 20px;
+}
+
+.posts-container {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    padding-bottom: 20px; /* Add padding at the bottom */
+}
+
+/* Post detail container styling */
+.post-detail-container {
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: -300px;
+}
+
+/* Post title styling */
+.post-detail-container h1 {
+    display: flex;
+    margin-left: -28rem;
+    color: black;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+}
+
+/* Post description styling */
+.post-detail-container p {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.posts li {
+margin-bottom: 20px;
+}
+
+.commenting-section {
+    width: 100%;
+    border: solid;
+    border-radius: 25px;
+    border-color: black;
+    overflow: hidden; 
+}
+
+.comments-section textarea {
+    font-size: 16px;
+    height: 18px;
+    padding-bottom: 2px;
+    padding-top: 8px;
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 100%;
+    outline: none;
+    box-sizing: border-box;
+    resize: none; /* Disable manual resizing */
+    overflow: hidden; /* Hide scrollbars */
+    border: none;
+}
+
+/* Button styling within comments section */
+.comments-section .buttons {
+    display: none;
+    justify-content: flex-end;
+}
+
+.comments-section button:hover {
+    background: #393E46;
+}
+
+.comments-section button {
+    background: #929AAB;
+    border-radius: 12px;
+    color: black;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+
+    margin: 6px;
+    margin-top: 2px;
+    padding: 8px;
+    font-size: 14px;
+}
+
+.post-item {
+    display: flex;
+    flex-direction: column;
+    height: 150px;
+    background: linear-gradient(to right, #E5E4E2, #ffffff);
+    padding: 15px;
+    border-left: 5px solid #393E46;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+.post-item:hover {
+    transform: scale(1.04);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background: lightgray;
+    border-left: 5px solid #393E46;
+}
+
+.post-title a {
+    font-size: 1.2em;
+    color: #333;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.post-description p {
+    margin-top: 5px;
+    color: #777;
+}
+
+.post-tag {
+    display: inline-block;
+    background: #C0C0C0;
+    color: black;
+    border-radius: 20px;
+    padding: 0px 4px;
+    margin: 6px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.post-tags {
+    padding: 6px;
+}
+
+.post-actions {
+    display: flex;
+    position: absolute; /* Position absolutely within post-item */
+    bottom: 10px; /* Distance from the bottom */
+    left: 10px; /* Distance from the left */
+    padding: 5px; /* Padding around actions */
+    border-radius: 1wpx; /* Optional: rounded corners */
+    z-index: 1; 
+}
+
+.post-actions .icon {
+    width: 27px;
+    margin-right: 5px;
+    height: 27px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+
+.post-action {
+    padding-right: 6px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+}
+
+.post-action:hover {
+    background: #C0C0C0;
+}
+
+#messege {
+    position: absolute;
+    left: 50%; /* Center horizontally */
+    top: 15%; /* Position in the upper half */
+    transform: translate(-50%, -50%); /* Center horizontally and adjust vertical position */
+    font-size: 30px;
+    font-weight: bold;
+    color: black;
+}
+
+.authForm-container {
+    top: 25%;
+    display: flex;
+    position: absolute;
+    align-items: center;  
+    width: 100%; 
+    flex-direction: column;
+}
+
+.icon-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    top: -57px; 
+}
+
+#logo {
+    margin-left: 20px;
+    height: 72px;
+    width: 128px;
+}
+
+
+.icon-container img {
+    width: 70px; 
+    height: 70px;
+    position: relative;
+    background: white;
+}
+
+.authForm {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    width: 18rem;
+    padding: 20px;
+    background: white;
+    border: 4.2px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.authForm h1 {
+    color: black;
+    margin-bottom: 40px;
+    margin-top: -50px;
+    font-weight: bold;
+    font-size: 35px;
+}
+
+.authForm input {
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 2.2px solid black;
+    border-radius: 12px;
+    width: 17rem;
+    height: 1.5rem;
+    padding: 3px;
+    margin: 10px;
+}
+
+.authForm input:focus {
+    outline: none;
+    border-color: #66afe9;
+    box-shadow: 0 0 5px rgba(102, 175, 233, 0.6);
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.authForm button {
+    background: #929AAB;
+    width: 100px;
+    height: 35px;
+    border-radius: 12px;
+    color: black;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 15px; 
+}
+
+.authForm button:hover {
+    background: #393E46;
+}
+
+
+/* Container for remember me and forgot password elements */
+.remember-forgot-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; /* Aligns items to the edges of the container */
+    align-items: center; /* Vertically centers items */
+    width: 100%; /* Ensures the container takes full width */
+    margin-bottom: 20px; /* Space below the container */
+    margin-top: 10px;
+}
+
+/* Container for remember me section */
+.remember-me {
+    display: flex; 
+    align-items: center; 
+}
+
+.remember-me input[type="checkbox"] {
+    accent-color: #929AAB; /* Custom checkbox color */
+    width: 1.2rem; /* Size of the checkbox */
+    height: 1.2rem; /* Size of the checkbox */
+    margin-right: 6px; /* Space between checkbox and label */
+    transform: translateY(-1px);
+}
+
+.remember-me label {
+    font-size: 0.8rem; /* Font size for the label */
+    color: black; /* Font color for the label */
+}
+
+.forgot-password {
+    font-size: 0.7rem; /* Slightly smaller font size */
+    color: black; /* Font color for the link */
+    text-decoration: none; /* Remove underline from the link */
+    transform: translateX(-6px);
+}
+
+.forgot-password:hover {
+    text-decoration: underline; /* Add underline on hover */
+}
+.create-post-container {
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    width: 1000px;
+    margin: 50px auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: left;
+
+    position: absolute; 
+    top: 50px; 
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.create-post-container h1 {
+    font-size: 30px;
+    color: black;
+    margin-bottom: 20px;
+    font-weight: bold;
+    align-self: flex-start;
+}
+
+.create-post-form {
+    width: 100%;
+    flex-direction: column;
+    display: flex;
+}
+
+.create-post-container .form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.create-post-container input,
+.create-post-container textarea {
+    width: 100%; 
+    padding: 10px;
+    border-radius: 12px;
+    border: 2px solid black;
+    font-size: 16px;
+    margin-top: 5px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.create-post-container button {
+    background: #929AAB;
+    color: black;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+    margin-top: -10px;
+    align-self: flex-end;
+}
+
+.create-post-container button:hover {
+    background: #393E46;
+    transform: translateY(-2px);
+}
+
+.create-post-container .form-group textarea {
+    height: 100px;
+    resize: none;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+#tagInput {
+    display: inline-block;
+    width: 200px;
+    padding: 8px;
+}
+
+#addTagButton {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+#tagContainer {
+    margin-top: 10px;
+}
+
+.tag-bubble {
+    display: inline-block;
+    background-color: lightgray;
+    color: black;
+    padding: 5px 10px;
+    border-radius: 20px;
+    margin: 5px;
+    font-size: 12px;
+    cursor: pointer;
+}
+.adding-tag-container {
+    display: flex;
+}
+

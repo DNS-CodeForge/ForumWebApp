@@ -1,25 +1,32 @@
 package project.ForumWebApp.services.Implementations;
 
+import static project.ForumWebApp.constants.ValidationConstants.USER_WITH_PROVIDED_ID_DOES_NOT_EXIST;
+import static project.ForumWebApp.constants.ValidationConstants.USER_WITH_PROVIDED_USERNAME_DOES_NOT_EXIST;
+
+
+
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.EntityNotFoundException;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import project.ForumWebApp.config.AuthContextManager;
+import project.ForumWebApp.config.security.AuthContextManager;
 import project.ForumWebApp.models.ApplicationUser;
+import project.ForumWebApp.models.Role;
 import project.ForumWebApp.models.DTOs.user.RegistrationDTO;
 import project.ForumWebApp.models.DTOs.user.UpdateUserDTO;
+import project.ForumWebApp.repository.RoleRepository;
 import project.ForumWebApp.repository.UserRepository;
-import project.ForumWebApp.services.UserService;
-
-import static project.ForumWebApp.constants.ValidationConstants.USER_WITH_PROVIDED_ID_DOES_NOT_EXIST;
-import static project.ForumWebApp.constants.ValidationConstants.USER_WITH_PROVIDED_USERNAME_DOES_NOT_EXIST;
+import project.ForumWebApp.services.contracts.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -29,13 +36,15 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final AuthContextManager authContextManager;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserServiceImpl(PasswordEncoder encoder, UserRepository userRepository, ModelMapper modelMapper, AuthContextManager authContextManager) {
+    public UserServiceImpl(RoleRepository roleRepository, PasswordEncoder encoder, UserRepository userRepository, ModelMapper modelMapper, AuthContextManager authContextManager) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.passwordEncoder = encoder;
         this.authContextManager = authContextManager;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -58,11 +67,15 @@ public class UserServiceImpl implements UserService {
         if (updateUserDTO.getLastName() != null) {
             user.setLastName(updateUserDTO.getLastName());
         }
+        if (updateUserDTO.getPhotoUrl() != null) {
+            user.setPhotoUrl(updateUserDTO.getPhotoUrl());
+        }
 
         userRepository.save(user);
 
         return updateUserDTO;
     }
+
 
     @Override
     public RegistrationDTO viewUserInfo() {
@@ -96,4 +109,33 @@ public class UserServiceImpl implements UserService {
         }
         userRepository.deleteById(id);
     }
+
+    @Override
+    @Transactional
+    public ApplicationUser setUserRole(int userId, String addedRoleName, String removedRoleName) {
+        ApplicationUser user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        Set<Role> authorities = user.getAuthoritySet();
+
+        if (addedRoleName != null) {
+            Role addedRole = roleRepository.findByAuthority(addedRoleName)
+                    .orElseThrow(() -> new EntityNotFoundException("Role " + addedRoleName + " does not exist!"));
+            authorities.add(addedRole);
+        }
+
+        if (removedRoleName != null && !removedRoleName.equalsIgnoreCase("USER")) {
+            Role removedRole = roleRepository.findByAuthority(removedRoleName)
+                    .orElseThrow(() -> new EntityNotFoundException("Role " + removedRoleName + " does not exist!"));
+            authorities.remove(removedRole);
+        }
+
+        user.setAuthorities(authorities);
+        userRepository.save(user);
+
+        return user;
+    }
+
+
+
 }

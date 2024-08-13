@@ -4,27 +4,19 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import lombok.EqualsAndHashCode;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import project.ForumWebApp.constants.ValidationConstants;
 
 @Entity
@@ -43,70 +35,50 @@ public class ApplicationUser implements UserDetails {
     private Integer id;
 
     @Column(name = "first_name")
-    @Size(
-            min = ValidationConstants.FIRST_NAME_MIN_LEN,
-            max = ValidationConstants.FIRST_NAME_MAX_LEN,
-            message = ValidationConstants.FIRST_NAME_LENGTH_MESSAGE
-    )
+    @Size(min = ValidationConstants.FIRST_NAME_MIN_LEN, max = ValidationConstants.FIRST_NAME_MAX_LEN, message = ValidationConstants.FIRST_NAME_LENGTH_MESSAGE)
     @Schema(description = "First name of the user", example = "John")
     private String firstName;
 
     @Column(name = "last_name")
-    @Size(
-            min = ValidationConstants.LAST_NAME_MIN_LEN,
-            max = ValidationConstants.LAST_NAME_MAX_LEN,
-            message = ValidationConstants.LAST_NAME_LENGTH_MESSAGE
-    )
+    @Size(min = ValidationConstants.LAST_NAME_MIN_LEN, max = ValidationConstants.LAST_NAME_MAX_LEN, message = ValidationConstants.LAST_NAME_LENGTH_MESSAGE)
     @Schema(description = "Last name of the user", example = "Doe")
     private String lastName;
 
     @Column(unique = true)
     @NotBlank(message = ValidationConstants.EMAIL_NOT_BLANK_MESSAGE)
-    @Size(
-            max = ValidationConstants.EMAIL_MAX_LEN,
-            message = ValidationConstants.EMAIL_LENGTH_MESSAGE
-    )
+    @Size(max = ValidationConstants.EMAIL_MAX_LEN, message = ValidationConstants.EMAIL_LENGTH_MESSAGE)
     @EqualsAndHashCode.Include
     @Schema(description = "Email of the user", example = "john.doe@example.com", required = true)
     private String email;
 
     @NotBlank(message = ValidationConstants.PASSWORD_NOT_BLANK_MESSAGE)
-    @Size(
-            min = ValidationConstants.PASSWORD_MIN_LEN,
-            message = ValidationConstants.PASSWORD_LENGTH_MESSAGE
-    )
+    @Size(min = ValidationConstants.PASSWORD_MIN_LEN, message = ValidationConstants.PASSWORD_LENGTH_MESSAGE)
     @Schema(description = "Password of the user", example = "password123", required = true)
+    @JsonIgnore
     private String password;
 
     @Column(unique = true)
     @NotBlank(message = ValidationConstants.USERNAME_NOT_BLANK_MESSAGE)
-    @Size(
-            min = ValidationConstants.USERNAME_MIN_LEN,
-            max = ValidationConstants.USERNAME_MAX_LEN,
-            message = ValidationConstants.USERNAME_LENGTH_MESSAGE
-    )
+    @Size(min = ValidationConstants.USERNAME_MIN_LEN, max = ValidationConstants.USERNAME_MAX_LEN, message = ValidationConstants.USERNAME_LENGTH_MESSAGE)
     @EqualsAndHashCode.Include
     @Schema(description = "Username of the user", example = "john_doe", required = true)
     private String username;
 
     @Column(name = "photo_url", nullable = false)
-    @Size(
-            max = ValidationConstants.PHOTO_URL_MAX_LEN,
-            message = ValidationConstants.PHOTO_URL_LENGTH_MESSAGE
-    )
+    @Size(max = ValidationConstants.PHOTO_URL_MAX_LEN, message = ValidationConstants.PHOTO_URL_LENGTH_MESSAGE)
     @NotBlank(message = ValidationConstants.PHOTO_URL_NOT_BLANK_MESSAGE)
     @Schema(description = "Photo URL of the user", example = "https://plus.unsplash.com/premium_photo-1677094310899-02303289cadf?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", required = true)
     private String photoUrl = ValidationConstants.DEFAULT_PHOTO_URL;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role_junction",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id")}
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     @Schema(description = "Roles associated with the user")
     private Set<Role> authorities = new HashSet<>();
-
 
     public ApplicationUser(
             Integer id, String firstName, String lastName, String email,
@@ -125,6 +97,10 @@ public class ApplicationUser implements UserDetails {
     @Override
     @Schema(description = "Authorities granted to the user")
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.authorities;
+    }
+
+    public Set<Role> getAuthoritySet() {
         return this.authorities;
     }
 
@@ -151,4 +127,9 @@ public class ApplicationUser implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+    @PreRemove
+    private void preRemove() {
+        this.authorities.clear();
+    }
+
 }

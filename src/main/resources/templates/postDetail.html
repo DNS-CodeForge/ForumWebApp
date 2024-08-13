@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${post.title}">Post Detail</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+</head>
+<body>
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+<div th:insert="~{fragments/sidebar :: sidebar}"></div>
+
+<div class="content">
+    <div class="post-detail-container">
+        <h1 th:text="${post.title}"></h1>
+        <p th:text="${post.description}"></p>
+        <div class="post-actions">
+            <div class="post-action">
+                <img src="/images/up-arrow.png" alt="Upvote" class="icon upvote-icon">
+            </div>
+            <div class="post-action">
+                <img src="/images/comment.png" alt="Comment" class="icon comment-icon">
+            </div>
+        </div>
+    </div>
+
+    <div class="comments-section add-comment">
+        <form th:action="@{/posts/{id}/comments(id=${post.id})}" method="post">
+            <div class="commenting-section">
+                <textarea name="content" id="comment-textarea" placeholder="Write your comment here..."></textarea>
+                <div class="buttons" id="buttons">
+                    <button type="button" id="cancel-button">Cancel</button>
+                    <button type="submit">Submit</button>
+                </div>
+            </div>
+        </form>
+
+        <h2>Comments</h2>
+        <ul>
+            <li th:each="comment : ${comments}">
+                <div class="comment-item">
+                    <h3><strong th:text="${comment.creatorName}"></strong></h3>
+                    <p th:text="${comment.content}"></p>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</div>
+<script src="/js/upvote.js"></script>
+<script src="/js/dropdown.js"></script>
+<script src="/js/comment.js"></script>
+<script src="/js/logo.js"></script>
+<script src="/js/routeStyleSwitcher.js"></script>
+</body>
+</html>

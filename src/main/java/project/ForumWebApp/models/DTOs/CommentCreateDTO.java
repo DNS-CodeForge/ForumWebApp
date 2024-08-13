@@ -14,12 +14,12 @@ import project.ForumWebApp.constants.ValidationConstants;
 @Schema(description = "DTO for creating a new comment")
 public class CommentCreateDTO {
 
-    @NotBlank(message = ValidationConstants.NOT_BLANK_MESSAGE)
     @Size(
             min = ValidationConstants.COMMENT_MIN_LEN,
             max = ValidationConstants.COMMENT_MAX_LEN,
             message = ValidationConstants.COMMENT_LENGTH_MESSAGE
     )
     @Schema(description = "Content of the comment", example = "This is a comment", required = true)
+    @NotBlank(message = ValidationConstants.NOT_BLANK_MESSAGE)
     private String content;
 }

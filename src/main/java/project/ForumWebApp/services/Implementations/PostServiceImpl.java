@@ -1,5 +1,9 @@
 package project.ForumWebApp.services.Implementations;
 
+import static project.ForumWebApp.constants.ValidationConstants.POST_WITH_PROVIDED_ID_DOES_NOT_EXIST;
+import static project.ForumWebApp.constants.ValidationConstants.POST_WITH_THIS_TITLE_ALREADY_EXISTS;
+import static project.ForumWebApp.constants.ValidationConstants.YOU_ARE_NOT_AUTHORIZED_TO_UPDATE_THIS_POST;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -8,15 +12,21 @@ import java.util.stream.Collectors;
 
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import project.ForumWebApp.config.AuthContextManager;
+import project.ForumWebApp.config.security.AuthContextManager;
 import project.ForumWebApp.exceptions.AuthorizationException;
 import project.ForumWebApp.filterSpecifications.PostFilterSpecification;
+import project.ForumWebApp.models.Comment;
 import project.ForumWebApp.models.Post;
 import project.ForumWebApp.models.Tag;
 import project.ForumWebApp.models.DTOs.post.PostCreateDTO;
@@ -26,10 +36,9 @@ import project.ForumWebApp.models.DTOs.post.PostUpdateDTO;
 import project.ForumWebApp.repository.CommentRepository;
 import project.ForumWebApp.repository.LikeRepository;
 import project.ForumWebApp.repository.PostRepository;
-import project.ForumWebApp.services.PostService;
-import project.ForumWebApp.services.TagService;
-
-import static project.ForumWebApp.constants.ValidationConstants.*;
+import project.ForumWebApp.services.contracts.LikeService;
+import project.ForumWebApp.services.contracts.PostService;
+import project.ForumWebApp.services.contracts.TagService;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -41,15 +50,17 @@ public class PostServiceImpl implements PostService {
     private final AuthContextManager authContextManager;
     private final CommentRepository commentRepository;
     private final LikeRepository likeRepository;
+    private final LikeService likeService;
 
     @Autowired
-    public PostServiceImpl(TagService tagService, PostRepository postRepository, ModelMapper modelMapper, AuthContextManager authContextManager, CommentRepository commentRepository, LikeRepository likeRepository) {
+    public PostServiceImpl(LikeService likeService, TagService tagService, PostRepository postRepository, ModelMapper modelMapper, AuthContextManager authContextManager, CommentRepository commentRepository, LikeRepository likeRepository) {
         this.postRepository = postRepository;
         this.modelMapper = modelMapper;
         this.tagService = tagService;
         this.authContextManager = authContextManager;
         this.commentRepository = commentRepository;
         this.likeRepository = likeRepository;
+        this.likeService = likeService;
     }
 
     @Override
@@ -59,7 +70,6 @@ public class PostServiceImpl implements PostService {
 
             throw new EntityExistsException(POST_WITH_THIS_TITLE_ALREADY_EXISTS);
         }
-
         Post post = modelMapper.map(postDTO, Post.class);
         post.setUser(authContextManager.getLoggedInUser());
         Set<Tag> tags = new HashSet<>();
@@ -137,24 +147,38 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<PostSummaryDTO> getPosts(String title, String description, String user, List<String> tags, String sort) {
+    public Page<PostSummaryDTO> getPosts(String title, String description, String user, List<String> tags, String sort, Pageable pageable) {
         Specification<Post> spec = PostFilterSpecification.withFiltersAndSort(title, description, user, tags, sort);
-        List<Post> posts = postRepository.findAll(spec);
+        Page<Post> posts = postRepository.findAll(spec, pageable);
 
-        return posts.stream()
+        List<PostSummaryDTO> dtos = posts.stream()
                 .map(post -> {
                     PostSummaryDTO dto = modelMapper.map(post, PostSummaryDTO.class);
                     dto.setCommentCount(post.getComments().size());
+                    dto.setLikedByCurrentUser(likeService.hasCurrentUserLikedPost(dto.getId()));
                     return dto;
                 })
                 .collect(Collectors.toList());
+
+        return new PageImpl<>(dtos, pageable, posts.getTotalElements());
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<PostSummaryDTO> getPosts(String title, String description, List<String> tags, String sort) {
-        return getPosts(title, description, null, tags, sort);
+    public Page<PostSummaryDTO> getPosts(String title, String description, List<String> tags, String sort, Pageable pageable) {
+        return getPosts(title, description, null, tags, sort, pageable);
+    }
+    @Override
+    public Page<PostSummaryDTO> getPosts() {
+        Pageable pageable = PageRequest.of(0, 10);
+        return getPosts(null, null, null, null, null, pageable);
+    }
+
+    @Override
+    public Post commentPost(int id, Comment comment) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(POST_WITH_PROVIDED_ID_DOES_NOT_EXIST));
+        post.getComments().add(comment);
+        return postRepository.save(post);
     }
 
     @Override
