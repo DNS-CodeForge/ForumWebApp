@@ -47,7 +47,6 @@ public class LikeServiceImpl implements LikeService{
         } else {
             post.getLikes().remove(likeOptional.get());
             postRepository.save(post);
-//            likeRepository.delete(likeOptional.get());
             levelService.addExp(post.getUser(), -1);
         }
    }
