@@ -27,8 +27,6 @@ import project.ForumWebApp.config.security.AuthContextManager;
 import project.ForumWebApp.exceptions.AuthorizationException;
 import project.ForumWebApp.filterSpecifications.PostFilterSpecification;
 import project.ForumWebApp.models.Comment;
-import project.ForumWebApp.models.DTOs.CommentCreateDTO;
-import project.ForumWebApp.models.DTOs.CommentDTO;
 import project.ForumWebApp.models.Post;
 import project.ForumWebApp.models.Tag;
 import project.ForumWebApp.models.DTOs.post.PostCreateDTO;
@@ -38,6 +36,7 @@ import project.ForumWebApp.models.DTOs.post.PostUpdateDTO;
 import project.ForumWebApp.repository.CommentRepository;
 import project.ForumWebApp.repository.LikeRepository;
 import project.ForumWebApp.repository.PostRepository;
+import project.ForumWebApp.services.contracts.LikeService;
 import project.ForumWebApp.services.contracts.PostService;
 import project.ForumWebApp.services.contracts.TagService;
 
@@ -51,15 +50,17 @@ public class PostServiceImpl implements PostService {
     private final AuthContextManager authContextManager;
     private final CommentRepository commentRepository;
     private final LikeRepository likeRepository;
+    private final LikeService likeService;
 
     @Autowired
-    public PostServiceImpl(TagService tagService, PostRepository postRepository, ModelMapper modelMapper, AuthContextManager authContextManager, CommentRepository commentRepository, LikeRepository likeRepository) {
+    public PostServiceImpl(LikeService likeService, TagService tagService, PostRepository postRepository, ModelMapper modelMapper, AuthContextManager authContextManager, CommentRepository commentRepository, LikeRepository likeRepository) {
         this.postRepository = postRepository;
         this.modelMapper = modelMapper;
         this.tagService = tagService;
         this.authContextManager = authContextManager;
         this.commentRepository = commentRepository;
         this.likeRepository = likeRepository;
+        this.likeService = likeService;
     }
 
     @Override
@@ -154,6 +155,7 @@ public class PostServiceImpl implements PostService {
                 .map(post -> {
                     PostSummaryDTO dto = modelMapper.map(post, PostSummaryDTO.class);
                     dto.setCommentCount(post.getComments().size());
+                    dto.setLikedByCurrentUser(likeService.hasCurrentUserLikedPost(dto.getId()));
                     return dto;
                 })
                 .collect(Collectors.toList());

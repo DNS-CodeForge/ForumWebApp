@@ -14,7 +14,7 @@
         </div>
         <div class="post-actions">
             <div class="post-action">
-                <img src="/images/up-arrow.png" alt="Upvote" class="icon upvote-icon">
+                <img th:src="@{${post.likedByCurrentUser} ? '/images/up-arrow-selected.png' : '/images/up-arrow.png'}" class="icon like-icon">
                 <p th:text="${post.likeCount}"></p>
             </div>
             <div class="post-action">
@@ -24,4 +24,3 @@
         </div>
     </div>
 </div>
-w

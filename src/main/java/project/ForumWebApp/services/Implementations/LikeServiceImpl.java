@@ -52,4 +52,14 @@ public class LikeServiceImpl implements LikeService{
             levelService.addExp(post.getUser(), -1);
         }
    }
+
+    @Override
+    public boolean hasCurrentUserLikedPost(int postId) {
+        if(authContextManager.getLoggedInUser() == null) {
+            return false;
+        }
+        int currentUserId = authContextManager.getLoggedInUser().getId();
+        Optional<Like> like = likeRepository.findLikeByUserIdAndPostId(currentUserId, postId);
+        return like.isPresent();    
+    }
 }
