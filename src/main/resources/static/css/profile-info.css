@@ -1,150 +1,36 @@
 @import 'styles.css';
 
-/* Profile Info Container */
 .profile-info-container {
 
-    max-width: 700px;
-    margin: 100px auto; /* Center the container with some top margin */
+    width: 1000px;
     padding: 30px;
-    padding-top: 400px;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 7%;
+    left: 50%;
+    transform: translate(-50%, 0%);
 }
 
-/* Heading */
-.profile-info-container h1 {
-    font-size: 2.5rem;
-    color: #333;
-    margin-bottom: 30px;
-    text-align: center;
-    font-weight: bold;
+.upper-profile-section {
+    display: flex;
+    margin-bottom: 50px;
+
+    border-bottom: 0.5px solid gray; 
 }
 
-/* Alerts */
-.alert {
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    font-size: 1rem;
-    color: white;
-}
-
-.alert-success {
-    background-color: #28a745;
-}
-
-.alert-danger {
-    background-color: #dc3545;
-}
-
-/* Form Group */
-.form-group {
-    margin-bottom: 25px;
-}
-
-.form-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 10px;
-    font-size: 1.1rem;
-    color: #555;
-}
-
-.form-group input[type="text"],
-.form-group input[type="email"] {
-    width: 100%;
-    padding: 12px;
-    font-size: 1rem;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    background-color: #f7f7f7;
-    transition: border-color 0.3s ease;
-}
-
-.form-group input[type="text"]:focus,
-.form-group input[type="email"]:focus {
-    border-color: #4a90e2;
-    outline: none;
-    background-color: #fff;
-}
-
-/* Button */
-.btn {
-    display: inline-block;
-    padding: 12px 24px;
-    font-size: 1.1rem;
-    color: white;
-    background-color: #4a90e2;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 20px;
-    text-align: center;
-    width: 100%; /* Make the button full width */
-}
-
-.btn:hover {
-    background-color: #357abd;
-}
-
-/* Level Info */
-.level-info {
-    background-color: #fafafa;
-    padding: 20px;
-    border-radius: 8px;
-    margin-top: 20px;
-    border: 1px solid #eee;
-}
-
-.level-info h2 {
-    font-size: 1.75rem;
-    margin-bottom: 15px;
-    color: #333;
-    text-align: center;
-}
-
-.level-info p {
-    margin-bottom: 10px;
-    font-size: 1rem;
-    color: #666;
-}
-
-.level-info p strong {
-    color: #333;
-}
-
-/* Progress Container */
-.progress-container {
-    width: 100%;
-    background-color: #e0e0e0;
-    border-radius: 25px;
-    overflow: hidden;
+.upper-profile-section button {
+    margin-right: 20px;
     height: 30px;
-    margin: 20px 0;
+    margin-top: -30px;
 }
 
-/* Progress Bar */
-.progress-bar {
-    height: 100%;
-    background-color: #4a90e2;
-    width: 0%; /* Default width (0% progress) */
-    transition: width 0.4s ease;
-    border-radius: 25px 0 0 25px; /* Rounded corners on the left side */
+.upper-profile-section * {
+    margin-bottom: 30px;
 }
 
-/* Text Indicator */
-p {
-    font-size: 1rem;
-    color: #333;
-    text-align: center;
-}
-
-/* Profile Photo Container */
-.profile-photo-container {
-    text-align: center; /* Center the photo horizontally */
-    margin-bottom: 20px; /* Add space below the photo */
+.upper-profile-section h1{
+    margin-left: 20px;
+    margin-top: 15px;
+    color: black;
 }
 
 /* Profile Photo Styling */
@@ -154,5 +40,51 @@ p {
     border-radius: 50%; /* Make the image a circle */
     object-fit: cover; /* Ensure the image covers the entire circle without distortion */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
-    border: 4px solid #4a90e2; /* Optional: Add a border around the photo */
+    border: 4px solid black; /* Optional: Add a border around the photo */
+}
+
+.upper-profile-section.right{
+    margin-left: auto;
+    flex-direction: column;
+    margin-bottom: 0px;
+    border: none;
+}
+
+.level-progress-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+    position: relative;
+}
+
+.level-circle {
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    justify-content: center;
+    background: conic-gradient(#4a90e2 0deg, #e0e0e0 0deg); /* Default background */
+    position: relative;
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center; /* Centers vertically */
+}
+
+.inner-level-circle {
+    width: 115px;
+    height: 115px;
+    border-radius: 50%;
+    background-color: whitesmoke;
+    margin: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.level-circle h1{
+    font-size: 50px;
+    color: black;
+    font-weight: bold;
+    margin: 0px;
+    padding: 0px;
 }

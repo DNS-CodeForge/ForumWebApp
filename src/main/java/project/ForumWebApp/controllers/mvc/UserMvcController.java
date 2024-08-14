@@ -9,8 +9,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import project.ForumWebApp.config.security.AuthContextManager;
 import project.ForumWebApp.models.ApplicationUser;
-import project.ForumWebApp.models.DTOs.user.UpdateUserDTO;
 import project.ForumWebApp.models.LevelInfo;
+import project.ForumWebApp.models.DTOs.user.UpdateUserDTO;
 import project.ForumWebApp.services.contracts.LevelService;
 import project.ForumWebApp.services.contracts.UserService;
 

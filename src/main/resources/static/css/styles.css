@@ -379,11 +379,11 @@ margin-bottom: 20px;
     justify-content: flex-end;
 }
 
-.comments-section button:hover {
+button:hover {
     background: #393E46;
 }
 
-.comments-section button {
+ button {
     background: #929AAB;
     border-radius: 12px;
     color: black;
