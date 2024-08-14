@@ -13,10 +13,19 @@ document.getElementById('posts').addEventListener('click', function(event) {
             method: 'POST',
             headers: {
                 [csrfHeader]: csrfToken, // Include CSRF token in the headers
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest' // Indicate this is an AJAX request
             },
         })
         .then(response => {
+            console.log(response.status);
+
+            if (response.status === 401 || response.status === 403) {
+                console.log('Redirecting to /login');
+                window.location.href = '/login'; // Redirection to login page
+                return;
+            }
+
             if (!response.ok) {
                 throw new Error('Failed to like the post');
             }
@@ -44,7 +53,6 @@ document.getElementById('posts').addEventListener('click', function(event) {
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('An error occurred while liking the post.');
         });
     }
 });
