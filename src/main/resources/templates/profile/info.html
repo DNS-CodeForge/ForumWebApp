@@ -12,43 +12,58 @@
         <div class="profile-info-container">
                 <div class="upper-profile-section">
                     <img src="/images/NoPhoto.png" alt="Profile Picture" class="profile-photo"/>
-                    <h1 th:text="${userProfile.username}"></h1>
+
+                    <div class="info">
+                        <div class="info-field">
+                             <p>username</p>
+                             <h4 th:text="${userProfile.username}"></h4>
+                        </div>
+                        <div class="info-field">
+                             <p>first name</p>
+                             <h4 th:text="${userProfile.firstName}"></h4>
+                        </div>
+                        <div class="info-field">
+                             <p>last name</p>
+                             <h4 th:text="${userProfile.lastName}"></h4>
+                        </div>
+                        <div class="info-field">
+                             <p>email</p>
+                             <h4 th:text="${userProfile.email}"></h4>
+                        </div>
+
+                        <button type="">Edit Profile</button>
+                    </div>
 
                     <div class="upper-profile-section right">
                      <div class="level-progress-container">
                         <div class="level-circle" th:style="'background: conic-gradient(black '+ (${levelInfo.currentExp} / ${levelInfo.expToNextLevel}) * 360 +'deg, whitesmoke 0deg);'">
                             <div class="inner-level-circle">
-                            <h1 th:text="${levelInfo.currentLevel}"></h1>
+                            <h1 th:text="Lv. + ${levelInfo.currentLevel}"></h1>
+                            <p th:text="${((levelInfo.currentExp * 100) / levelInfo.expToNextLevel).intValue()} + '%'"></p>
                             </div>
                         </div>
                     </div>
 
-                    <button type="">Edit Profile</button>
                        
                     </div>
                 </div>
-                
-                <div>
-                    <label for="firstName">First Name:</label>
-                    <input type="text" id="firstName" name="firstName" th:value="${userProfile.firstName}" required />
+
+                <div class="profile-sections-selection">
+                    <div class="profile-sections-field">
+                        <a href="">My Posts</a>
+                    </div>
+                    <div class="profile-sections-field">
+                        <a href="">Liked Posts</a>
+                    </div>
+                    <div class="profile-sections-field">
+                         <a href="">My Comments</a>
+                    </div>
                 </div>
-                
-                <div>
-                    <label for="lastName">Last Name:</label>
-                    <input type="text" id="lastName" name="lastName" th:value="${userProfile.lastName}" required />
-                </div>
-                
-                <div>
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" th:value="${userProfile.email}" readonly />
-                </div>
-                
-                <div>
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" placeholder="Leave empty to keep current password" />
+
+                <div class="profile-section">
+                    
                 </div>
         </div>
-
 
 <script src="/js/dropdown.js"></script>
 <script src="/js/logo.js"></script>

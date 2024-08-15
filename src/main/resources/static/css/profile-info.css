@@ -12,9 +12,11 @@
 
 .upper-profile-section {
     display: flex;
-    margin-bottom: 50px;
-
-    border-bottom: 0.5px solid gray; 
+    background: white;
+    border-radius: 12px;
+    align-items: center; /* Vertically center the items */
+    justify-content: space-around;
+    padding: 10px;
 }
 
 .upper-profile-section button {
@@ -23,13 +25,16 @@
     margin-top: -30px;
 }
 
-.upper-profile-section * {
-    margin-bottom: 30px;
+.info {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: add a shadow for better visibility */
+    border-radius: 12px;
+    align-items: center;
+    height: 200px;
+    width: 400px;
+text-align: center;
 }
 
 .upper-profile-section h1{
-    margin-left: 20px;
-    margin-top: 15px;
     color: black;
 }
 
@@ -43,24 +48,56 @@
     border: 4px solid black; /* Optional: Add a border around the photo */
 }
 
-.upper-profile-section.right{
-    margin-left: auto;
-    flex-direction: column;
-    margin-bottom: 0px;
-    border: none;
-}
-
 .level-progress-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 20px;
     position: relative;
 }
 
+.profile-sections-selection {
+    display: flex;
+    margin: 8px;
+    padding: 5px;
+}
+
+.profile-sections-field a{
+    text-decoration: none;
+    color: black;
+}
+
+.profile-sections-field{
+    display: block;
+    padding: 5px;
+    margin-top: 10px;
+    margin-left: -5px;
+    margin-right: 15px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: normal;
+    font-size: 15px; 
+}
+
+
+
+.profile-sections-field.active,
+.profile-sections-field:hover{
+    background-color: lightgray;
+    border-radius: 12px;
+    transform: scale(1.05);
+}
+
+.profile-section {
+    height: 400px;
+    background-color: white;
+    margin-top: -16px;
+    border-radius: 12px;
+}
+
 .level-circle {
-    width: 125px;
-    height: 125px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
+    width: 160px;
+    height: 160px;
     border-radius: 50%;
     justify-content: center;
     background: conic-gradient(#4a90e2 0deg, #e0e0e0 0deg); /* Default background */
@@ -71,20 +108,50 @@
 }
 
 .inner-level-circle {
-    width: 115px;
-    height: 115px;
+    width: 148px;
+    height: 148px;
     border-radius: 50%;
     background-color: whitesmoke;
     margin: 0px;
     display: flex;
     align-items: center;
-    justify-content: center
+    justify-content: center;
+    flex-direction: column;
 }
 
-.level-circle h1{
-    font-size: 50px;
-    color: black;
-    font-weight: bold;
+.info-field {
+    display: flex;
     margin: 0px;
+    margin-left: 10px;
+    margin-right: 10px;
     padding: 0px;
+}
+
+
+ .info-field h4 {
+    margin-left: auto;
+    margin-block-end: 0.3em;
+    margin-block-start: 0.3em;
+    font-size: 18px;
+ }
+
+
+ .info button {
+     margin: 0px;
+     margin-top: 5px;
+ }
+
+ .info-field p {
+    margin-block-start: 0.3em;
+    margin-block-end: 0.3em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    unicode-bidi: isolate;
+    font-size: 14px;
+    color: gray;
+ }
+
+.level-circle p{
+    font-size: 20px;
+    font-weight: bold;
 }
