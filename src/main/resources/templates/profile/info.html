@@ -11,7 +11,7 @@
         <div th:insert="~{fragments/sidebar :: sidebar}"></div>
         <div class="profile-info-container">
                 <div class="upper-profile-section">
-                    <img src="/images/NoPhoto.png" alt="Profile Picture" class="profile-photo"/>
+                    <img th:src="${userProfile.photoUrl}" alt="Profile Picture" class="profile-photo"/>
 
                     <div class="info">
                         <div class="info-field">
@@ -31,7 +31,7 @@
                              <h4 th:text="${userProfile.email}"></h4>
                         </div>
 
-                        <button type="">Edit Profile</button>
+                        <button type="button" onclick="window.location.href='/profile/edit'">Edit Profile</button>
                     </div>
 
                     <div class="upper-profile-section right">

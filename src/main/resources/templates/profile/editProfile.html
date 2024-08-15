@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <link rel="stylesheet" th:href="@{/css/edit-profile.css}">
+</head>
+<body>
+
+    <div th:insert="~{fragments/navbar :: navbar}"></div>
+    <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+
+    <form th:action="@{/profile/edit}" th:object="${userProfile}" method="post" class="edit-profile">
+
+        <div class="edit-profile image">
+                <img src="/images/NoPhoto.png" alt="Profile Picture" class="profile-photo"/>
+                <button type="">Edit image</button>
+        </div>
+
+        <div class="edit-profile fields">
+             <div>
+                <label for="firstName">First Name:</label>
+                <input type="text" th:field="*{firstName}" id="firstName" placeholder="Enter first name" />
+                <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
+            </div>
+
+            <div>
+                <label for="lastName">Last Name:</label>
+                <input type="text" th:field="*{lastName}" id="lastName" placeholder="Enter last name" />
+                <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+            </div>
+
+        <button type="submit">Save Changes</button>
+        </div>
+
+    </form>
+
+    <div th:if="${successMessage}">
+        <p th:text="${successMessage}" style="color: green;"></p>
+    </div>
+    <div th:if="${errorMessage}">
+        <p th:text="${errorMessage}" style="color: red;"></p>
+    </div>
+
+<script src="/js/dropdown.js"></script>
+<script src="/js/logo.js"></script>
+<script src="/js/routeStyleSwitcher.js"></script>
+<script src="/js/levelBar.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+@import 'styles.css';
+
+.edit-profile img {
+    width: 150px; /* Adjust the size of the circle */
+    height: 150px; /* Keep height and width the same for a perfect circle */
+    border-radius: 50%; /* Make the image a circle */
+    object-fit: cover; /* Ensure the image covers the entire circle without distortion */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
+    border: 4px solid black; /* Optional: Add a border around the photo */
+}
+
+.edit-profile {
+    display: flex;
+    margin: 10px;
+}
+
+.edit-profile.image {
+    flex-direction: column;
+    background: white;
+    border-radius: 12px;
+    padding: 10px;
+}
+
+.edit-profile.image button {
+    margin-top: 10px;
+}
+
+.edit-profile.fields{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    border-radius: 12px;
+    padding: 10px;
+}
+
+.edit-profile.fields input{
+    border-radius: 12px;
+}
+
+.edit-profile.fields button{
+    margin-top: auto;
+}

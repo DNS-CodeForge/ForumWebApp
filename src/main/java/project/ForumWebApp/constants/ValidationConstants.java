@@ -56,7 +56,7 @@ public class ValidationConstants {
     public static final String PHOTO_URL_LENGTH_MESSAGE = "Photo URL should not be more than " + PHOTO_URL_MAX_LEN + " characters.";
     public static final String PHOTO_URL_NOT_BLANK_MESSAGE = "Photo URL is mandatory";
 
-    public static final String DEFAULT_PHOTO_URL = "https://plus.unsplash.com/premium_photo-1677094310899-02303289cadf?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+    public static final String DEFAULT_PHOTO_URL = "/images/NoPhoto.png";
 
     // Tag-related constants
     public static final int TAG_MIN_LEN = 1;

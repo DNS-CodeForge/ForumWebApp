@@ -40,7 +40,13 @@ public class UserMvcController {
         return "profile/info";
     }
 
-    @PostMapping("/profile/info")
+    @GetMapping("/profile/edit")
+    public String getEditProfilePage(Model model){
+        model.addAttribute("userProfile", authContextManager.getLoggedInUser());
+        return "profile/editProfile";
+    }
+
+    @PostMapping("/profile/edit")
     public String updateUserInfo(@ModelAttribute("userProfile") UpdateUserDTO updateUserDTO,
                                  RedirectAttributes redirectAttributes) {
         try {
