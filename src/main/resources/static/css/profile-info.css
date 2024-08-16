@@ -88,10 +88,24 @@ text-align: center;
 }
 
 .profile-section {
-    height: 400px;
+    width: 1000px;
+    min-height: 500px;
     background-color: white;
-    margin-top: -16px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -20%);
     border-radius: 12px;
+}
+
+.posts {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.post-item {
+    width: 900px;
 }
 
 .level-circle {

@@ -42,3 +42,8 @@
 .edit-profile.fields button{
     margin-top: auto;
 }
+
+.profile-section {
+    background: white;
+    height: 600px;
+}

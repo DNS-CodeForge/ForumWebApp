@@ -2,73 +2,29 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="~{fragments/head :: headFragment('User Profile')}"></head>
-<head><link th:href="@{/css/profile-info.css}" rel="stylesheet"/></head>
-<body>
+<head>
+    <link th:href="@{/css/profile-info.css}" rel="stylesheet"/>
+</head>
+<body th:data-username="${userProfile.username}">
 
-<div th:insert="~{fragments/navbar :: navbar}"></div>
-<div th:insert="~{fragments/sidebar :: sidebar}"></div>
-<div class="profile-info-container">
-    <div class="upper-profile-section">
-        <img th:src="${userProfile.photoUrl != null && !userProfile.photoUrl.isEmpty() ? userProfile.photoUrl : '/images/NoPhoto.png'}"
-             alt="Profile Picture" class="profile-photo"/>
-
-        <div class="info">
-            <div class="info-field">
-                <p>username</p>
-                <h4 th:text="${userProfile.username}"></h4>
-            </div>
-            <div class="info-field">
-                <p>first name</p>
-                <h4 th:text="${userProfile.firstName}"></h4>
-            </div>
-            <div class="info-field">
-                <p>last name</p>
-                <h4 th:text="${userProfile.lastName}"></h4>
-            </div>
-            <div class="info-field">
-                <p>email</p>
-                <h4 th:text="${userProfile.email}"></h4>
-            </div>
-
-            <button type="button" onclick="window.location.href='/profile/edit'">Edit Profile</button>
-        </div>
-
-        <div class="upper-profile-section right">
-            <div class="level-progress-container">
-                <div class="level-circle"
-                     th:style="'background: conic-gradient(black '+ (${levelInfo.currentExp} / ${levelInfo.expToNextLevel}) * 360 +'deg, whitesmoke 0deg);'">
-                    <div class="inner-level-circle">
-                        <h1 th:text="Lv. + ${levelInfo.currentLevel}"></h1>
-                        <p th:text="${((levelInfo.currentExp * 100) / levelInfo.expToNextLevel).intValue()} + '%'"></p>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-    </div>
-
-    <div class="profile-sections-selection">
-        <div class="profile-sections-field">
-            <a href="">My Posts</a>
-        </div>
-        <div class="profile-sections-field">
-            <a href="">Liked Posts</a>
-        </div>
-        <div class="profile-sections-field">
-            <a href="">My Comments</a>
-        </div>
-    </div>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+    <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+    <div th:replace="~{fragments/upper-profile-view :: upper-profile-view}"></div>
 
     <div class="profile-section">
 
+        <div class="posts" id="posts">
+            <!-- Posts will be dynamically added here -->
+        </div>
+        <div id="loading" style="display: none;">Loading more posts...</div>
     </div>
-</div>
 
-<script src="/js/dropdown.js"></script>
-<script src="/js/logo.js"></script>
-<script src="/js/routeStyleSwitcher.js"></script>
-<script src="/js/levelBar.js"></script>
+    <script src="/js/dropdown.js"></script>
+    <script src="/js/logo.js"></script>
+    <script src="/js/routeStyleSwitcher.js"></script>
+    <script src="/js/infiniteScroll.js"></script>
+    <script src="/js/levelBar.js"></script>
 
 </body>
 </html>
+

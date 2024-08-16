@@ -90,6 +90,7 @@ public class PostMvcController {
         postService.commentPost(id, comment);
         return "redirect:/posts/" + id;
     }
+
     @GetMapping("/posts/loadMore")
     public String loadMorePosts(
             @RequestParam(required = false) String title,
@@ -98,11 +99,17 @@ public class PostMvcController {
             @RequestParam(required = false) String sort,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
-            Model model,
-            HttpServletRequest request
+            @RequestParam(required = false) String username, 
+            Model model
     ) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<PostSummaryDTO> posts = postService.getPosts(title, description, null, tags, sort, pageable);
+
+        Page<PostSummaryDTO> posts;
+        if (username != null) {
+            posts = postService.getPosts(title, description, username, tags, sort, pageable);
+        } else {
+            posts = postService.getPosts(title, description, null, tags, sort, pageable);
+        }
 
         model.addAttribute("posts", posts.getContent());
         model.addAttribute("currentPage", page);
@@ -111,8 +118,6 @@ public class PostMvcController {
 
         return "/fragments/posts :: postList";
     }
-
-
     @PostMapping("/like/post/{id}")
     public ResponseEntity<String> likePost(@PathVariable int id) {
         try {
