@@ -1,4 +1,6 @@
-
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<body>
 <div th:fragment="postList">
     <!-- CSRF Token -->
     <input type="hidden" id="csrfToken" th:value="${_csrf.token}"/>
@@ -18,15 +20,21 @@
         </div>
         <div class="post-actions">
             <div class="post-action">
-               <img th:src="@{${post.likedByCurrentUser} ? '/images/up-arrow-selected.png' : '/images/up-arrow.png'}"
+                <img th:src="@{${post.likedByCurrentUser} ? '/images/up-arrow-selected.png' : '/images/up-arrow.png'}"
                      class="icon like-icon upvote-icon"
                      th:attr="data-post-id=${post.id}">
-                    <p th:text="${post.likeCount}" th:id="'like-count-' + ${post.id}"></p>
+                <p th:text="${post.likeCount}" th:id="'like-count-' + ${post.id}"></p>
             </div>
             <div class="post-action">
                 <img src="/images/comment.png" alt="Comment" class="icon comment-icon">
                 <p th:text="${post.commentCount}"></p>
             </div>
+
+            <div class="post-action" sec:authorize="hasAuthority('ADMIN')">
+                <img src="/images/delete.png" alt="Delete" class="icon delete-icon">
+            </div>
         </div>
     </div>
 </div>
+</body>
+</html>

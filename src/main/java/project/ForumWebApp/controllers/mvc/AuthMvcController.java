@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
+import project.ForumWebApp.constants.ValidationConstants;
 import project.ForumWebApp.models.DTOs.user.RegistrationDTO;
 import project.ForumWebApp.services.contracts.MvcAuthenticationService;
 
@@ -100,9 +101,10 @@ public class AuthMvcController {
         String firstName = request.getParameter("first-name");
         String lastName = request.getParameter("last-name");
         String email = request.getParameter("email");
+        String photo = ValidationConstants.DEFAULT_PHOTO_URL;
         try {
             model.addAttribute("messege", "Account registered successfully. Please login here.");
-            mvcAuthenticationService.registerUser(new RegistrationDTO(firstName, lastName, email, password, username, "https://plus.unsplash.com/premium_photo-1677094310899-02303289cadf?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"));
+            mvcAuthenticationService.registerUser(new RegistrationDTO(firstName, lastName, email, password, username, photo));
             return redirectWithAttributes("/login", redirectAttributes, model);
         } catch (Exception e) {
             return "register";

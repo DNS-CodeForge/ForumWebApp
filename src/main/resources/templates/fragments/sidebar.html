@@ -1,21 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sidebar Example</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
-    <div class="sidebar" th:fragment="sidebar">
-        <div class="sidebar-menu">
-            <div class="menu-item" id="home-item">
-                 <a href="/home">Home</a>
-            </div>
-             <div class="menu-item" id="about-item">
-                 <a href="/about">About</a>
-            </div>
+<div class="sidebar" th:fragment="sidebar">
+    <div class="sidebar-menu">
+        <div class="menu-item" id="home-item">
+            <a th:href="@{/home}">Home</a>
+        </div>
+
+
+        <div class="menu-item" id="admin-item" sec:authorize="hasAuthority('ADMIN')">
+            <a th:href="@{/admin}">Admin</a>
+        </div>
+        <div class="menu-item" id="search-item">
+            <a th:href="@{/home}">Adv. Search</a>
+        </div>
+
+        <div class="menu-item" id="about-item">
+            <a th:href="@{/about}">About</a>
         </div>
     </div>
+</div>
 </body>
 </html>

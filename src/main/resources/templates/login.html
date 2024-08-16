@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Login</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-
-</head>
+<head th:replace="~{fragments/head :: headFragment('Login')}">
 <body>
 
 <div th:insert="~{fragments/navbar :: navbar}"></div>

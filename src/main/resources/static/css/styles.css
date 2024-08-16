@@ -93,11 +93,11 @@ body {
     font-size: 16px; border: 1px solid #ccc;
     width: 600px;
     border-radius: 12px;
-    transition: width 0.3s ease; 
+    transition: width 0.3s ease;
 }
 
 .search-container input[type="text"]:focus {
-    width: 800px; 
+    width: 800px;
     outline: none; /* Remove default focus outline */
 }
 
@@ -131,7 +131,7 @@ body {
     border-radius: 50%;
     cursor: pointer;
     transition: border 0.3s ease;
-    box-shadow: 0 0 0 rgba(0, 0, 0, 0); 
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
 }
 
 .profile-image:hover {
@@ -179,8 +179,8 @@ body {
 }
 
 .dropdown-menu a:hover::after {
-    opacity: 0; 
-    font-weight: normal; 
+    opacity: 0;
+    font-weight: normal;
 }
 
 .field-container {
@@ -195,10 +195,10 @@ body {
     color: black;
     margin-left: 13px;
 }
- .field-container a {
+.field-container a {
     text-align: right;
     margin-left: 10px;
- }
+}
 
 .switch {
     position: relative;
@@ -255,11 +255,11 @@ input:checked + .slider:before {
     position: fixed;
     top: 55px;
     left: 0;
-    width: 250px; 
-    height: 100vh; 
+    width: 250px;
+    height: 100vh;
     background-color: white;
     color: black;
-    overflow-y: auto; 
+    overflow-y: auto;
     padding-top: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: add a shadow for better visibility */
 }
@@ -295,7 +295,7 @@ input:checked + .slider:before {
 
 .menu-item.active {
     font-style: italic;
-    font-weight: bold; 
+    font-weight: bold;
     transform: scale(1.1);
 }
 
@@ -348,7 +348,7 @@ h1 {
 }
 
 .posts li {
-margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .commenting-section {
@@ -356,7 +356,7 @@ margin-bottom: 20px;
     border: solid;
     border-radius: 25px;
     border-color: black;
-    overflow: hidden; 
+    overflow: hidden;
 }
 
 .comments-section textarea {
@@ -384,7 +384,7 @@ button:hover {
     background: #393E46;
 }
 
- button {
+button {
     background: #929AAB;
     border-radius: 12px;
     color: black;
@@ -454,7 +454,7 @@ button:hover {
     left: 10px; /* Distance from the left */
     padding: 5px; /* Padding around actions */
     border-radius: 1wpx; /* Optional: rounded corners */
-    z-index: 1; 
+    z-index: 1;
 }
 
 .post-actions .icon {
@@ -493,8 +493,8 @@ button:hover {
     top: 25%;
     display: flex;
     position: absolute;
-    align-items: center;  
-    width: 100%; 
+    align-items: center;
+    width: 100%;
     flex-direction: column;
 }
 
@@ -502,7 +502,7 @@ button:hover {
     position: relative;
     display: flex;
     justify-content: center;
-    top: -57px; 
+    top: -57px;
 }
 
 #logo {
@@ -513,7 +513,7 @@ button:hover {
 
 
 .icon-container img {
-    width: 70px; 
+    width: 70px;
     height: 70px;
     position: relative;
     background: white;
@@ -566,7 +566,7 @@ button:hover {
     border: none;
     cursor: pointer;
     transition: background 0.3s ease;
-    margin-top: 15px; 
+    margin-top: 15px;
 }
 
 .authForm button:hover {
@@ -587,8 +587,8 @@ button:hover {
 
 /* Container for remember me section */
 .remember-me {
-    display: flex; 
-    align-items: center; 
+    display: flex;
+    align-items: center;
 }
 
 .remember-me input[type="checkbox"] {
@@ -626,8 +626,8 @@ button:hover {
     align-items: center;
     text-align: left;
 
-    position: absolute; 
-    top: 50px; 
+    position: absolute;
+    top: 50px;
     left: 50%;
     transform: translateX(-50%);
 }
@@ -656,7 +656,7 @@ button:hover {
 
 .create-post-container input,
 .create-post-container textarea {
-    width: 100%; 
+    width: 100%;
     padding: 10px;
     border-radius: 12px;
     border: 2px solid black;

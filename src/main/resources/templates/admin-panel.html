@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: headFragment('Admin Panel')}"></head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+
+<div class="content p-4 w-100">
+  <h1 class="mb-4">Admin Panel</h1>
+
+
+  <div>
+    <h2>Manage Users</h2>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>1</td>
+        <td>john_doe</td>
+        <td>john@example.com</td>
+        <td>
+          <a href="#" class="btn btn-primary btn-sm">Edit</a>
+          <a href="#" class="btn btn-danger btn-sm">Delete</a>
+        </td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>jane_smith</td>
+        <td>jane@example.com</td>
+        <td>
+          <a href="#" class="btn btn-primary btn-sm">Edit</a>
+          <a href="#" class="btn btn-danger btn-sm">Delete</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <div>
+    <h2>Manage Posts</h2>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>1</td>
+        <td>First Post</td>
+        <td>john_doe</td>
+        <td>2024-08-16</td>
+        <td>
+          <a href="#" class="btn btn-primary btn-sm">Edit</a>
+          <a href="#" class="btn btn-danger btn-sm">Delete</a>
+        </td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Another Post</td>
+        <td>jane_smith</td>
+        <td>2024-08-16</td>
+        <td>
+          <a href="#" class="btn btn-primary btn-sm">Edit</a>
+          <a href="#" class="btn btn-danger btn-sm">Delete</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div>
+    <h2>Admin Search</h2>
+    <form action="/admin/search" method="get" class="mb-4">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search..." name="query">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="submit">Search</button>
+        </div>
+      </div>
+    </form>
+    <div>
+      <h3>Search Results</h3>
+      <ul class="list-group">
+        <li class="list-group-item">
+          <a href="#">Search Result 1</a>
+        </li>
+        <li class="list-group-item">
+          <a href="#">Search Result 2</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<script src="/js/dropdown.js"></script>
+<script src="/js/infiniteScroll.js"></script>
+<script src="/js/routeStyleSwitcher.js"></script>
+<script src="/js/upvote.js"></script>
+
+
+</body>
+</html>
