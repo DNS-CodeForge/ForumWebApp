@@ -3,6 +3,8 @@ package project.ForumWebApp.repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -16,4 +18,7 @@ public interface LikeRepository extends JpaRepository<Like, Integer> {
 
     @Query("SELECT l FROM Like l WHERE l.user.id = :userId AND l.post.id = :postId")
     Optional<Like> findLikeByUserIdAndPostId(int userId, int postId);
+
+    @Query("SELECT l FROM Like l WHERE l.user.id = :userId")
+    Page<Like> findByUserId(Integer userId, Pageable pageable); 
 }

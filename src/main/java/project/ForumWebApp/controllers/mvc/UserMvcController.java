@@ -16,6 +16,7 @@ import project.ForumWebApp.models.LevelInfo;
 import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
 import project.ForumWebApp.models.DTOs.user.UpdateUserDTO;
 import project.ForumWebApp.services.contracts.LevelService;
+import project.ForumWebApp.services.contracts.LikeService;
 import project.ForumWebApp.services.contracts.PostService;
 import project.ForumWebApp.services.contracts.UserService;
 
@@ -26,17 +27,25 @@ public class UserMvcController {
     private final AuthContextManager authContextManager;
     private final LevelService levelService;
     private final PostService postService;
+    private final LikeService likeService;
 
 
-    public UserMvcController(PostService postService, UserService userService, AuthContextManager authContextManager, LevelService levelService) {
+    public UserMvcController(LikeService likeService, PostService postService, UserService userService, AuthContextManager authContextManager, LevelService levelService) {
         this.userService = userService;
+        this.likeService = likeService;
         this.postService = postService;
         this.authContextManager = authContextManager;
         this.levelService = levelService;
     }
 
-    @GetMapping("/profile/info")
-    public ModelAndView getUserProfileInfo() {
+
+    @GetMapping("/profile/info") 
+    public String getUserProfileInfo() {
+        return "redirect:/profile/info/posts";
+    }
+
+    @GetMapping("/profile/info/posts")
+    public ModelAndView getUserProfileInfoUserPosts() {
         ApplicationUser userProfile = authContextManager.getLoggedInUser();
         LevelInfo levelInfo = levelService.getLevelById(authContextManager.getId());
 
@@ -54,6 +63,28 @@ public class UserMvcController {
 
         return modelAndView;    
     }
+
+    @GetMapping("/profile/info/liked")
+    public ModelAndView getUserProfileInfoLikedPosts() {
+        ApplicationUser userProfile = authContextManager.getLoggedInUser();
+        LevelInfo levelInfo = levelService.getLevelById(authContextManager.getId());
+
+        PageRequest pageable = PageRequest.of(0, 10); 
+        Page<PostSummaryDTO> posts = likeService.getAllPostsLikedByUser(userProfile, pageable);
+        
+
+        ModelAndView modelAndView = new ModelAndView("/profile/info");
+        modelAndView.addObject("userProfile", userProfile); 
+        modelAndView.addObject("posts", posts);
+
+
+        if (levelInfo != null) {
+            modelAndView.addObject("levelInfo", levelInfo);
+        }
+
+        return modelAndView;    
+    }
+
 
     @GetMapping("/profile/edit")
     public String getEditProfilePage(Model model){

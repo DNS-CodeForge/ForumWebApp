@@ -4,9 +4,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let endOfPosts = false;
     let lastScrollTop = 0;
 
-    // Check if we are on the profile page
     const isProfilePage = window.location.pathname.includes('/profile/info');
-    const username = isProfilePage ? document.body.getAttribute('data-username') : null;
+    const isLikedPage = window.location.pathname.includes('/profile/info/liked');
+    const username = isProfilePage && !isLikedPage ? document.body.getAttribute('data-username') : null;
     const postsContainer = document.getElementById('posts');
     const loadingIndicator = document.getElementById('loading');
 
@@ -14,9 +14,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (loading || endOfPosts) return;
 
         loading = true;
-
         let url = `/posts/loadMore?page=${page}&size=5`;
-        if (username) {
+
+        // Adjust the URL if on liked posts page
+        if (isLikedPage) {
+            url = `/profile/info/liked/loadMore?page=${page}&size=5`;
+        } else if (username) {
             url += `&username=${username}`;
         }
 
@@ -37,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(html => {
             if (html.trim() === '') {
-                endOfPosts = true; // No more posts available
+                endOfPosts = true;
                 loadingIndicator.textContent = 'No more posts to load';
                 return;
             }

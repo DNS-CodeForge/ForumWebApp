@@ -1,15 +1,22 @@
 package project.ForumWebApp.services.Implementations;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import jakarta.transaction.Transactional;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import project.ForumWebApp.config.security.AuthContextManager;
 import project.ForumWebApp.models.ApplicationUser;
 import project.ForumWebApp.models.Like;
 import project.ForumWebApp.models.Post;
+import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
 import project.ForumWebApp.repository.LikeRepository;
 import project.ForumWebApp.repository.PostRepository;
 import project.ForumWebApp.services.contracts.LevelService;
@@ -21,9 +28,11 @@ public class LikeServiceImpl implements LikeService{
     private final PostRepository postRepository;
     private final AuthContextManager authContextManager;
     private final LevelService levelService;
+    private final ModelMapper modelMapper;
 
-    public LikeServiceImpl(LevelService levelService, AuthContextManager authContextManager, LikeRepository likeRepository,PostRepository postRepository) {
+    public LikeServiceImpl(ModelMapper modelMapper, LevelService levelService, AuthContextManager authContextManager, LikeRepository likeRepository,PostRepository postRepository) {
         this.levelService = levelService;
+        this.modelMapper = modelMapper;
         this.likeRepository = likeRepository;
         this.postRepository = postRepository;
         this.authContextManager = authContextManager;
@@ -60,4 +69,17 @@ public class LikeServiceImpl implements LikeService{
         Optional<Like> like = likeRepository.findLikeByUserIdAndPostId(currentUserId, postId);
         return like.isPresent();    
     }
+
+    @Override
+    @Transactional
+      public Page<PostSummaryDTO> getAllPostsLikedByUser(ApplicationUser user, Pageable pageable) {
+            Page<Like> likePage = likeRepository.findByUserId(user.getId(), pageable);
+            
+            // Map the liked posts to PostSummaryDTO
+            List<PostSummaryDTO> likedPostsDto = likePage.getContent().stream()
+                .map(like -> modelMapper.map(like.getPost(), PostSummaryDTO.class))
+                .collect(Collectors.toList());
+
+            return new PageImpl<>(likedPostsDto, pageable, likePage.getTotalElements());
+        }
 }

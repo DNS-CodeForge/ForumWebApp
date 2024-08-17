@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import project.ForumWebApp.config.security.AuthContextManager;
+import project.ForumWebApp.models.ApplicationUser;
 import project.ForumWebApp.models.Comment;
 import project.ForumWebApp.models.Post;
 import project.ForumWebApp.models.DTOs.post.PostCreateDTO;
@@ -118,6 +119,26 @@ public class PostMvcController {
 
         return "/fragments/posts :: postList";
     }
+
+    @GetMapping("/profile/info/liked/loadMore")
+    public String loadMoreLikedPosts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            Model model
+    ) {
+        ApplicationUser userProfile = authContextManager.getLoggedInUser();
+        PageRequest pageable = PageRequest.of(page, size);
+        
+        Page<PostSummaryDTO> posts = likeService.getAllPostsLikedByUser(userProfile, pageable);
+        
+        model.addAttribute("posts", posts.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", posts.getTotalPages());
+        model.addAttribute("hasNextPage", posts.hasNext());
+
+        return "/fragments/posts :: postList";  // Reuse the same fragment for rendering posts
+    }
+
     @PostMapping("/like/post/{id}")
     public ResponseEntity<String> likePost(@PathVariable int id) {
         try {

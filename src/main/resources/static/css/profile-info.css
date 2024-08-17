@@ -89,12 +89,11 @@ text-align: center;
 
 .profile-section {
     width: 1000px;
-    min-height: 500px;
     background-color: white;
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 50%;
-    transform: translate(-50%, -20%);
+    transform: translate(-50%, 0%);
     border-radius: 12px;
 }
 
@@ -102,6 +101,7 @@ text-align: center;
     justify-content: center;
     align-items: center;
     display: flex;
+    flex-direction: column;
 }
 
 .post-item {
