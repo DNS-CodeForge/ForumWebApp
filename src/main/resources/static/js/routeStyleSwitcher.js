@@ -7,7 +7,9 @@ function updateStyleBasedOnRoute(elementId) {
         console.error(`Element with id "${elementId}" not found.`);
         return;
     }
-    if(element.className == "menu-item" || element.className == "navbar-item") {
+    console.log(elementId)
+
+    if(element.className == "menu-item" || element.className == "navbar-item" || element.className == "profile-sections-field") {
         if (path === '/home' && elementId == "home-item") {
             element.classList.add('active');
         } else if(path === '/post'  && elementId == "create-button") {
@@ -18,15 +20,27 @@ function updateStyleBasedOnRoute(elementId) {
             element.classList.add('active');
         } else if(path === '/about'  && elementId == "about-item") {
             element.classList.add('active');
+        } else if (path === '/profile/info/liked'  && elementId == "profile-sections-liked") {
+            element.classList.add('active');
+        } else if (path === '/profile/info/posts'  && elementId == "profile-sections-posts") {
+            element.classList.add('active');
+        } else if (path === '/profile/info/comments'  && elementId == "profile-sections-comments") {
+            element.classList.add('active');
         } else {
             element.classList.remove('active');
         }
     }
 }
 
-updateStyleBasedOnRoute('home-item');
-updateStyleBasedOnRoute('register-item');
-updateStyleBasedOnRoute('login-item');
-updateStyleBasedOnRoute('create-button');
-updateStyleBasedOnRoute('about-item');
+
+document.addEventListener('DOMContentLoaded', () => {
+    updateStyleBasedOnRoute('profile-sections-comments');
+    updateStyleBasedOnRoute('profile-sections-posts');
+    updateStyleBasedOnRoute('profile-sections-liked');
+    updateStyleBasedOnRoute('home-item');
+    updateStyleBasedOnRoute('register-item');
+    updateStyleBasedOnRoute('login-item');
+    updateStyleBasedOnRoute('create-button');
+    updateStyleBasedOnRoute('about-item');
+});
 

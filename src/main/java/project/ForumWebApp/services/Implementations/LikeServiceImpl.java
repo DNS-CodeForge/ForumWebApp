@@ -75,10 +75,13 @@ public class LikeServiceImpl implements LikeService{
       public Page<PostSummaryDTO> getAllPostsLikedByUser(ApplicationUser user, Pageable pageable) {
             Page<Like> likePage = likeRepository.findByUserId(user.getId(), pageable);
             
-            // Map the liked posts to PostSummaryDTO
-            List<PostSummaryDTO> likedPostsDto = likePage.getContent().stream()
-                .map(like -> modelMapper.map(like.getPost(), PostSummaryDTO.class))
-                .collect(Collectors.toList());
+        List<PostSummaryDTO> likedPostsDto = likePage.getContent().stream()
+        .map(like -> {
+            PostSummaryDTO dto = modelMapper.map(like.getPost(), PostSummaryDTO.class);
+            dto.setLikedByCurrentUser(true); // Set the flag here
+            return dto;
+        })
+        .collect(Collectors.toList());
 
             return new PageImpl<>(likedPostsDto, pageable, likePage.getTotalElements());
         }

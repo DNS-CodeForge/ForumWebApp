@@ -89,6 +89,7 @@ text-align: center;
 
 .profile-section {
     width: 1000px;
+    min-height: 500px;
     background-color: white;
     position: absolute;
     top: 40%;
