@@ -11,10 +11,13 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import project.ForumWebApp.config.security.AuthContextManager;
 import project.ForumWebApp.exceptions.AuthorizationException;
+import project.ForumWebApp.models.ApplicationUser;
 import project.ForumWebApp.models.Comment;
 import project.ForumWebApp.models.Post;
 import project.ForumWebApp.models.DTOs.CommentCreateDTO;
@@ -120,5 +123,11 @@ public class CommentServiceImpl implements CommentService {
             throw new AuthorizationException(YOU_ARE_NOT_AUTHORIZED_TO_UPDATE_THIS_COMMENT);
         }
         return true;
+    }
+
+    @Override
+    public Page<CommentDTO> getCommentsByUser(ApplicationUser user, Pageable pageable) {
+         Page<Comment> commentsPage = commentRepository.findByUser(user, pageable);
+        return commentsPage.map(comment -> modelMapper.map(comment, CommentDTO.class));    
     }
 }

@@ -25,6 +25,7 @@ import project.ForumWebApp.config.security.AuthContextManager;
 import project.ForumWebApp.models.ApplicationUser;
 import project.ForumWebApp.models.Comment;
 import project.ForumWebApp.models.Post;
+import project.ForumWebApp.models.DTOs.CommentDTO;
 import project.ForumWebApp.models.DTOs.post.PostCreateDTO;
 import project.ForumWebApp.models.DTOs.post.PostDTO;
 import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
@@ -147,5 +148,24 @@ public class PostMvcController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
         }
+    }
+
+    @GetMapping("/profile/info/comments/loadMore")
+    public String loadMoreUserComments(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "5") int size,
+        Model model
+    ) {
+        ApplicationUser userProfile = authContextManager.getLoggedInUser();
+        PageRequest pageable = PageRequest.of(page, size);
+        
+        Page<CommentDTO> comments = commentService.getCommentsByUser(userProfile, pageable);
+        
+        model.addAttribute("comments", comments.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", comments.getTotalPages());
+        model.addAttribute("hasNextPage", comments.hasNext());
+        
+        return "/fragments/comments :: commentList";  
     }
 }

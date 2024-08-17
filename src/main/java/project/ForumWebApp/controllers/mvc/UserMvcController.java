@@ -13,8 +13,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.ForumWebApp.config.security.AuthContextManager;
 import project.ForumWebApp.models.ApplicationUser;
 import project.ForumWebApp.models.LevelInfo;
+import project.ForumWebApp.models.DTOs.CommentDTO;
 import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
 import project.ForumWebApp.models.DTOs.user.UpdateUserDTO;
+import project.ForumWebApp.services.contracts.CommentService;
 import project.ForumWebApp.services.contracts.LevelService;
 import project.ForumWebApp.services.contracts.LikeService;
 import project.ForumWebApp.services.contracts.PostService;
@@ -28,14 +30,16 @@ public class UserMvcController {
     private final LevelService levelService;
     private final PostService postService;
     private final LikeService likeService;
+    private final CommentService commentService;
 
 
-    public UserMvcController(LikeService likeService, PostService postService, UserService userService, AuthContextManager authContextManager, LevelService levelService) {
+    public UserMvcController(CommentService commentService, LikeService likeService, PostService postService, UserService userService, AuthContextManager authContextManager, LevelService levelService) {
         this.userService = userService;
         this.likeService = likeService;
         this.postService = postService;
         this.authContextManager = authContextManager;
         this.levelService = levelService;
+        this.commentService = commentService;
     }
 
 
@@ -84,6 +88,28 @@ public class UserMvcController {
 
         return modelAndView;    
     }
+
+    @GetMapping("/profile/info/comments")
+    public ModelAndView getUserProfileInfoLikedComments() {
+        ApplicationUser userProfile = authContextManager.getLoggedInUser();
+        LevelInfo levelInfo = levelService.getLevelById(authContextManager.getId());
+
+        PageRequest pageable = PageRequest.of(0, 10); 
+        Page<CommentDTO> comments = commentService.getCommentsByUser(userProfile, pageable);
+        
+
+        ModelAndView modelAndView = new ModelAndView("/profile/info");
+        modelAndView.addObject("userProfile", userProfile); 
+        modelAndView.addObject("comments", comments);
+
+        if (levelInfo != null) {
+            modelAndView.addObject("levelInfo", levelInfo);
+        }
+
+        return modelAndView;    
+    }
+
+
 
 
     @GetMapping("/profile/edit")

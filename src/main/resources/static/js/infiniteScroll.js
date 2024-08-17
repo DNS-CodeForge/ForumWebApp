@@ -6,11 +6,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const isProfilePage = window.location.pathname.includes('/profile/info');
     const isLikedPage = window.location.pathname.includes('/profile/info/liked');
+    const isCommentPage = window.location.pathname.includes('/profile/info/comments');
     const username = isProfilePage && !isLikedPage ? document.body.getAttribute('data-username') : null;
     const postsContainer = document.getElementById('posts');
     const loadingIndicator = document.getElementById('loading');
 
     function loadMorePosts() {
+        if(isCommentPage) return;
         if (loading || endOfPosts) return;
 
         loading = true;

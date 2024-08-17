@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="commentList">
+    <div th:each="comment : ${comments}" class="comment-item">
+        <p th:text="${comment.content}"></p>
+    </div>
+</div>
+</body>
+</html>
