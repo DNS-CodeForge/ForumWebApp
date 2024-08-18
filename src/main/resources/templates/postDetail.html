@@ -23,6 +23,7 @@
         <form th:action="@{/posts/{id}/comments(id=${post.id})}" method="post">
             <div class="commenting-section">
                 <textarea name="content" id="comment-textarea" placeholder="Write your comment here..."></textarea>
+                <input type="hidden" name="creatorName" th:value="${#authentication.getName()}"/>
                 <div class="buttons" id="buttons">
                     <button type="button" id="cancel-button">Cancel</button>
                     <button type="submit">Submit</button>

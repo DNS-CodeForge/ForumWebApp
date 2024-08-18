@@ -15,13 +15,17 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import project.ForumWebApp.config.security.AuthContextManager;
 import project.ForumWebApp.models.ApplicationUser;
-import project.ForumWebApp.models.Comment;
-import project.ForumWebApp.models.Post;
+import project.ForumWebApp.models.DTOs.CommentCreateDTO;
 import project.ForumWebApp.models.DTOs.CommentDTO;
 import project.ForumWebApp.models.DTOs.post.PostCreateDTO;
 import project.ForumWebApp.models.DTOs.post.PostDTO;
@@ -85,9 +89,8 @@ public class PostMvcController {
     @PostMapping("/posts/{id}/comments")
     public String addComment(@PathVariable Integer id, HttpServletRequest request) {
         String content = request.getParameter("content");
-        var comment = new Comment(0, content, authContextManager.getLoggedInUser(), modelMapper.map(postService.getPost(id), Post.class));
+        commentService.createComment(id, new CommentCreateDTO(content));
 
-        postService.commentPost(id, comment);
         return "redirect:/posts/" + id;
     }
 
