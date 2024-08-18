@@ -126,9 +126,11 @@ public class PostServiceImpl implements PostService {
     public void deletePost(int id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(POST_WITH_PROVIDED_ID_DOES_NOT_EXIST));
+        if (!authContextManager.isAdmin()) {
+            if (!post.getUser().getUsername().equals(authContextManager.getUsername())) {
+                throw new AuthorizationException(YOU_ARE_NOT_AUTHORIZED_TO_UPDATE_THIS_POST);
+            }
 
-        if (!post.getUser().getUsername().equals(authContextManager.getUsername())) {
-            throw new AuthorizationException(YOU_ARE_NOT_AUTHORIZED_TO_UPDATE_THIS_POST);
         }
 
         for (Tag tag : post.getTags()) {
@@ -167,6 +169,7 @@ public class PostServiceImpl implements PostService {
     public Page<PostSummaryDTO> getPosts(String title, String description, List<String> tags, String sort, Pageable pageable) {
         return getPosts(title, description, null, tags, sort, pageable);
     }
+
     @Override
     public Page<PostSummaryDTO> getPosts() {
         Pageable pageable = PageRequest.of(0, 10);

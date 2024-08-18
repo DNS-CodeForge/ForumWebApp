@@ -31,8 +31,9 @@
             </div>
 
             <div class="post-action" sec:authorize="hasAuthority('ADMIN')">
-                <img src="/images/delete.png" alt="Delete" class="icon delete-icon">
+                <img src="/images/delete.png" alt="Delete" class="icon delete-icon delete-post" th:attr="data-post-id=${post.id}">
             </div>
+
         </div>
     </div>
 </div>

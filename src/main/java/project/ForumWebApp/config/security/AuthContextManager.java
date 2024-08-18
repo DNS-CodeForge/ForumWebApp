@@ -7,7 +7,6 @@ import project.ForumWebApp.models.ApplicationUser;
 import project.ForumWebApp.repository.UserRepository;
 
 
-
 @Component
 public class AuthContextManager {
 
@@ -45,5 +44,14 @@ public class AuthContextManager {
     public String getUsername() {
         ApplicationUser user = getLoggedInUser();
         return user != null ? user.getUsername() : null;
+    }
+
+    public boolean isAdmin() {
+        try {
+            var authority = getLoggedInUser().getAuthorities();
+            return authority.stream().anyMatch(a -> a.getAuthority().equals("ADMIN"));
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

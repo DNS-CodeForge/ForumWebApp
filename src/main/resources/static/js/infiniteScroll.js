@@ -11,6 +11,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const postsContainer = document.getElementById('posts');
     const loadingIndicator = document.getElementById('loading');
 
+    function attachDeleteListeners() {
+        const deleteButtons = postsContainer.querySelectorAll('.delete-post');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const postId = this.getAttribute('data-post-id');
+                deletePost(postId);
+            });
+        });
+    }
+
     function loadMorePosts() {
         if(isCommentPage) return;
         if (loading || endOfPosts) return;
@@ -18,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function() {
         loading = true;
         let url = `/posts/loadMore?page=${page}&size=5`;
 
-        // Adjust the URL if on liked posts page
         if (isLikedPage) {
             url = `/profile/info/liked/loadMore?page=${page}&size=5`;
         } else if (username) {
@@ -30,32 +40,34 @@ document.addEventListener('DOMContentLoaded', function() {
                 'X-Requested-With': 'XMLHttpRequest'
             }
         })
-        .then(response => {
-            if (response.ok) {
-                return response.text();
-            }
-            if (response.status === 401) {
-                window.location.href = "/login";
-                throw new Error('Unauthorized');
-            }
-            throw new Error('Network response was not ok.');
-        })
-        .then(html => {
-            if (html.trim() === '') {
-                endOfPosts = true;
-                loadingIndicator.textContent = 'No more posts to load';
-                return;
-            }
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                }
+                if (response.status === 401) {
+                    window.location.href = "/login";
+                    throw new Error('Unauthorized');
+                }
+                throw new Error('Network response was not ok.');
+            })
+            .then(html => {
+                if (html.trim() === '') {
+                    endOfPosts = true;
+                    loadingIndicator.textContent = 'No more posts to load';
+                    return;
+                }
 
-            postsContainer.insertAdjacentHTML('beforeend', html);
+                postsContainer.insertAdjacentHTML('beforeend', html);
 
-            page++;
-            loading = false;
-        })
-        .catch(error => {
-            console.error('Error loading posts:', error);
-            loading = false;
-        });
+                page++;
+                loading = false;
+
+                attachDeleteListeners();
+            })
+            .catch(error => {
+                console.error('Error loading posts:', error);
+                loading = false;
+            });
     }
 
     function handleScroll() {
@@ -75,4 +87,3 @@ document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('scroll', handleScroll);
     }
 });
-

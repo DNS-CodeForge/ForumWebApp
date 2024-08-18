@@ -11,14 +11,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import project.ForumWebApp.config.security.AuthContextManager;
@@ -70,9 +67,10 @@ public class PostMvcController {
         redirectAttributes.addFlashAttribute("message", "Post created successfully!");
         return "redirect:/home";
     }
+
     @GetMapping("/posts/{id}")
     public String getPostDetail(@PathVariable Integer id, Model model) {
-        PostDTO post= postService.getPost(id);
+        PostDTO post = postService.getPost(id);
         try {
             model.addAttribute("post", post);
             model.addAttribute("comments", commentService.getCommentsByPostId(id));
@@ -87,7 +85,7 @@ public class PostMvcController {
     @PostMapping("/posts/{id}/comments")
     public String addComment(@PathVariable Integer id, HttpServletRequest request) {
         String content = request.getParameter("content");
-        var comment = new Comment(0,content, authContextManager.getLoggedInUser(), modelMapper.map(postService.getPost(id), Post.class));
+        var comment = new Comment(0, content, authContextManager.getLoggedInUser(), modelMapper.map(postService.getPost(id), Post.class));
 
         postService.commentPost(id, comment);
         return "redirect:/posts/" + id;
@@ -101,7 +99,7 @@ public class PostMvcController {
             @RequestParam(required = false) String sort,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
-            @RequestParam(required = false) String username, 
+            @RequestParam(required = false) String username,
             Model model
     ) {
         Pageable pageable = PageRequest.of(page, size);
@@ -129,9 +127,9 @@ public class PostMvcController {
     ) {
         ApplicationUser userProfile = authContextManager.getLoggedInUser();
         PageRequest pageable = PageRequest.of(page, size);
-        
+
         Page<PostSummaryDTO> posts = likeService.getAllPostsLikedByUser(userProfile, pageable);
-        
+
         model.addAttribute("posts", posts.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", posts.getTotalPages());
@@ -152,20 +150,34 @@ public class PostMvcController {
 
     @GetMapping("/profile/info/comments/loadMore")
     public String loadMoreUserComments(
-        @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "5") int size,
-        Model model
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            Model model
     ) {
         ApplicationUser userProfile = authContextManager.getLoggedInUser();
         PageRequest pageable = PageRequest.of(page, size);
-        
+
         Page<CommentDTO> comments = commentService.getCommentsByUser(userProfile, pageable);
-        
+
         model.addAttribute("comments", comments.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", comments.getTotalPages());
         model.addAttribute("hasNextPage", comments.hasNext());
-        
-        return "/fragments/comments :: commentList";  
+
+        return "/fragments/comments :: commentList";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping("/posts/delete/{id}")
+    public ResponseEntity<String> deletePost(@PathVariable Integer id) {
+        try {
+            postService.deletePost(id);
+
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return new ResponseEntity<>("Failed to delete the post", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

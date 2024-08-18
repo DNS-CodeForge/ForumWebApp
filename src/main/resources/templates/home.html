@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head th:replace="~{fragments/head :: headFragment(Home)}"></head>
 
 <body>
@@ -18,6 +18,7 @@
 <script src="/js/infiniteScroll.js"></script>
 <script src="/js/routeStyleSwitcher.js"></script>
 <script src="/js/upvote.js"></script>
+<script sec:authorize="hasAuthority('ADMIN')" src="/js/delete.js"></script>
 
 </body>
 </html>
