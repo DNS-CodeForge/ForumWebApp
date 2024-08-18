@@ -51,12 +51,21 @@ public class AuthMvcController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(HttpServletRequest request, Model model) {
         if (isAuthenticated()) {
             return "redirect:/home";
         }
+
+
+        String fromRegister = request.getParameter("fromRegister");
+
+        if (fromRegister != null && fromRegister.equals("true")) {
+            model.addAttribute("message", "Account registered successfully. Please login here.");
+        }
+
         return "login";
     }
+
 
     @GetMapping("/register")
     public String register() {
@@ -103,9 +112,9 @@ public class AuthMvcController {
         String email = request.getParameter("email");
         String photo = ValidationConstants.DEFAULT_PHOTO_URL;
         try {
-            model.addAttribute("messege", "Account registered successfully. Please login here.");
-            mvcAuthenticationService.registerUser(new RegistrationDTO(firstName, lastName, email, password, username, photo));
-            return redirectWithAttributes("/login", redirectAttributes, model);
+//            model.addAttribute("messege", "Account registered successfully. Please login here.");
+//            mvcAuthenticationService.registerUser(new RegistrationDTO(firstName, lastName, email, password, username, photo));
+            return "redirect:/login?fromRegister=true";
         } catch (Exception e) {
             return "register";
         }
