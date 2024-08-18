@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import project.ForumWebApp.config.security.AuthContextManager;
+import project.ForumWebApp.exceptions.AuthorizationException;
 import project.ForumWebApp.models.ApplicationUser;
 import project.ForumWebApp.models.DTOs.CommentCreateDTO;
 import project.ForumWebApp.models.DTOs.CommentDTO;
@@ -76,11 +77,19 @@ public class PostMvcController {
     public String getPostDetail(@PathVariable Integer id, Model model) {
         PostDTO post = postService.getPost(id);
         try {
+            boolean isOwner;
+            try {
+                 isOwner = postService.isOwner(id);
+            } catch (AuthorizationException e) {
+                 isOwner = false;
+            }
             model.addAttribute("post", post);
             model.addAttribute("comments", commentService.getCommentsByPostId(id));
+            model.addAttribute("isOwner", isOwner);
             return "postDetail";
 
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return "redirect:/home";
         }
     }

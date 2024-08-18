@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head th:replace="~{fragments/head :: headFragment('Post Details')}">
 <body>
 <div th:insert="~{fragments/navbar :: navbar}"></div>
@@ -15,6 +15,12 @@
             </div>
             <div class="post-action">
                 <img src="/images/comment.png" alt="Comment" class="icon comment-icon">
+            </div>
+            <div class="post-action" th:if="${isOwner == true}">
+                <img src="/images/delete.png" alt="Delete" class="icon delete-icon delete-post" th:attr="data-post-id=${post.id}">
+            </div>
+            <div class="post-action" th:if="${isOwner == true}">
+                <img src="/images/favicon.ico" alt="Edit" class="icon delete-icon delete-post" th:attr="data-post-id=${post.id}">
             </div>
         </div>
     </div>

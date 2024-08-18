@@ -25,7 +25,6 @@ public interface PostService {
 
     Page<PostSummaryDTO> getPosts(String title, String description, List<String> tags, String sort, Pageable pageable);
     Page<PostSummaryDTO> getPosts();
-    Post commentPost(int id, Comment comment);
 
 
     boolean isOwner(int id);
