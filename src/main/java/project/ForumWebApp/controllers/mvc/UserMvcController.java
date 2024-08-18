@@ -59,6 +59,7 @@ public class UserMvcController {
         ModelAndView modelAndView = new ModelAndView("/profile/info");
         modelAndView.addObject("userProfile", userProfile); 
         modelAndView.addObject("posts", posts);
+        modelAndView.addObject("isInfoPage", true);
 
 
         if (levelInfo != null) {

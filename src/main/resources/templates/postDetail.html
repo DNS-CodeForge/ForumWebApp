@@ -6,6 +6,8 @@
 <div th:insert="~{fragments/sidebar :: sidebar}"></div>
 
 <div class="content">
+    <div class="single-post-view">
+        
     <div class="post-detail-container">
         <h1 th:text="${post.title}"></h1>
         <p th:text="${post.description}"></p>
@@ -47,7 +49,7 @@
             </li>
         </ul>
     </div>
-
+    </div>
 </div>
 <script src="/js/upvote.js"></script>
 <script src="/js/dropdown.js"></script>

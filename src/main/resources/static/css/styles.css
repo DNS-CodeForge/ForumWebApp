@@ -331,6 +331,15 @@ h1 {
     padding-bottom: 20px; /* Add padding at the bottom */
 }
 
+.single-post-view {
+   position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    padding-bottom: 20px; /* Add padding at the bottom */
+    width: 1000px;
+}
+
 /* Post detail container styling */
 .post-detail-container {
     margin-bottom: 40px;
@@ -338,16 +347,15 @@ h1 {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin-top: -260px;
 }
 
 /* Post title styling */
 .post-detail-container h1 {
     display: flex;
-    margin-left: -28rem;
     color: black;
     margin-bottom: 30px;
     font-size: 2.5rem;
+    margin-right: auto;
 }
 
 /* Post description styling */
@@ -355,6 +363,7 @@ h1 {
     font-size: 1.5rem;
     margin-bottom: 20px;
     color: #555;
+    margin-right: auto;
 }
 
 .posts li {
@@ -470,12 +479,10 @@ button {
 
 .post-actions {
     display: flex;
-    position: absolute; /* Position absolutely within post-item */
-    bottom: 10px; /* Distance from the bottom */
-    left: 10px; /* Distance from the left */
-    padding: 5px; /* Padding around actions */
-    border-radius: 1wpx; /* Optional: rounded corners */
-    z-index: 1;
+    padding: 5px; 
+    border-radius: 1wpx; 
+    margin-top: auto;
+    margin-right: auto;
 }
 
 .post-actions .icon {
