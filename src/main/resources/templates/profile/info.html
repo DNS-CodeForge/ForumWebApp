@@ -32,6 +32,14 @@
     <script src="/js/levelBar.js"></script>
     <script src="/js/upvote.js"></script>
 
+
+    <script>
+        function redirectToPost(element) {
+            const postId = element.getAttribute('data-post-id');
+            window.location.href = `/posts/${postId}`;
+        }
+    </script>
+
 </body>
 </html>
 

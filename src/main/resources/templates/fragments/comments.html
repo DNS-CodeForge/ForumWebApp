@@ -2,8 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <div th:fragment="commentList">
-    <div th:each="comment : ${comments}" class="comment-item">
+    <div th:each="comment : ${comments}" >
+        <div class="comment-item"  
+             th:data-post-id="${comment.postId}" 
+             onclick="redirectToPost(this)">
+         <h3 th:text="${comment.creatorName}"></h3>
         <p th:text="${comment.content}"></p>
+        </div>
     </div>
 </div>
 </body>

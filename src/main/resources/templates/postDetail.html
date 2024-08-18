@@ -30,9 +30,9 @@
             </div>
         </form>
 
+        <ul class="comments">
         <h2>Comments</h2>
-        <ul>
-            <li th:each="comment : ${comments}">
+            <li class="comment" th:each="comment : ${comments}">
                 <div class="comment-item">
                     <h3><strong th:text="${comment.creatorName}"></strong></h3>
                     <p th:text="${comment.content}"></p>

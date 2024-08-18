@@ -303,7 +303,7 @@ input:checked + .slider:before {
     padding: 20px;
     max-width: 1000px;
     margin: 20px auto;
-    background: #fff;
+    background: whitesmoke;
     border: none;
 }
 
@@ -311,6 +311,16 @@ input:checked + .slider:before {
 h1 {
     color: #4a90e2;
     margin-bottom: 20px;
+}
+
+.comment-item {
+    margin: 10px;
+    background-color: whitesmoke;
+    border-radius: 12px;
+}
+
+.comment-item > *{
+    padding-left: 10px;
 }
 
 .posts-container {
@@ -357,9 +367,20 @@ h1 {
     border-radius: 25px;
     border-color: black;
     overflow: hidden;
+    background-color: whitesmoke;
 }
 
+.comments {
+    background-color: white;
+    margin: 10px;
+    border-radius: 12px;
+    padding-left: 10px;
+    padding-bottom: 5px;
+}
+
+
 .comments-section textarea {
+    background-color: whitesmoke;
     font-size: 16px;
     height: 18px;
     padding-bottom: 2px;

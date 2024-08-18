@@ -78,13 +78,21 @@ text-align: center;
     font-size: 15px; 
 }
 
-
-
 .profile-sections-field.active,
 .profile-sections-field:hover{
     background-color: lightgray;
     border-radius: 12px;
     transform: scale(1.05);
+}
+
+.comment-item {
+    background: whitesmoke;
+}
+
+.comments {
+    padding: 10px;
+    border-radius: 12px;
+    background: white;
 }
 
 .profile-section {
@@ -140,6 +148,10 @@ text-align: center;
     margin-left: 10px;
     margin-right: 10px;
     padding: 0px;
+}
+
+.comment {
+    padding-bottom: 10px;
 }
 
 
