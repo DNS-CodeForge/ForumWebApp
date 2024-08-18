@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: headFragment(Search)}"></head>
+<head>
+    <link th:href="@{/css/search.css}" rel="stylesheet"/>
+</head>
+
+<body>
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+<div th:insert="~{fragments/sidebar :: sidebar}"></div>
+<h1>Advanced Search</h1>
+<form th:action="@{/search}" method="get">
+    <div>
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" />
+    </div>
+    <div>
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" />
+    </div>
+    <div>
+        <label for="tags">Tags (comma separated):</label>
+        <input type="text" id="tags" name="tags" />
+    </div>
+    <div>
+        <label for="sort">Sort By:</label>
+        <select id="sort" name="sort">
+            <option value="">None</option>
+            <option value="dateasc">Date Ascending</option>
+            <option value="datedesc">Date Descending</option>
+            <option value="likesasc">Likes Ascending</option>
+            <option value="likesdesc">Likes Descending</option>
+            <option value="commentsasc">Comments Ascending</option>
+            <option value="commentsdesc">Comments Descending</option>
+        </select>
+    </div>
+    <div>
+        <label for="pageSize">Results Per Page:</label>
+        <input type="number" id="pageSize" name="size" min="1" max="100" value="10" />
+    </div>
+    <button type="submit">Search</button>
+</form>
+</body>
+</html>

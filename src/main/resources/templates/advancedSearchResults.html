@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: headFragment(Search)}"></head>
+<head>
+  <link th:href="@{/css/searchResult.css}" rel="stylesheet"/>
+</head>
+<body>
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+<div th:insert="~{fragments/sidebar :: sidebar}"></div>
+<h1>Search Results</h1>
+
+<div th:if="${posts.empty}">
+  <p>No posts found</p>
+</div>
+
+<div th:each="post : ${posts}">
+  <div>
+    <h2 th:text="${post.title}"></h2>
+    <p th:text="${post.description}"></p>
+    <a th:href="@{/post/{id}(id=${post.id})}">Read more</a>
+  </div>
+</div>
+
+<div th:if="${!posts.empty}">
+  <a th:if="${previousPage != null}" th:href="${previousPage}">Previous</a>
+  <span th:text="'Page ' + ${page + 1} + ' of ' + ${totalPages}"></span>
+  <a th:if="${nextPage != null}" th:href="${nextPage}">Next</a>
+</div>
+</body>
+</html>

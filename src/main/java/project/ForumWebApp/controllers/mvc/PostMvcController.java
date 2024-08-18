@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import org.springframework.web.util.UriComponentsBuilder;
 import project.ForumWebApp.config.security.AuthContextManager;
 import project.ForumWebApp.exceptions.AuthorizationException;
 import project.ForumWebApp.models.ApplicationUser;
@@ -31,6 +32,7 @@ import project.ForumWebApp.models.DTOs.CommentDTO;
 import project.ForumWebApp.models.DTOs.post.PostCreateDTO;
 import project.ForumWebApp.models.DTOs.post.PostDTO;
 import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
+import project.ForumWebApp.models.Post;
 import project.ForumWebApp.services.contracts.CommentService;
 import project.ForumWebApp.services.contracts.LikeService;
 import project.ForumWebApp.services.contracts.PostService;
@@ -40,17 +42,58 @@ public class PostMvcController {
 
     private final PostService postService;
     private final CommentService commentService;
-    private final ModelMapper modelMapper;
+
     private final AuthContextManager authContextManager;
     private final LikeService likeService;
 
     public PostMvcController(PostService postService, CommentService commentService, ModelMapper modelMapper, AuthContextManager authContextManager, LikeService likeService) {
         this.postService = postService;
         this.commentService = commentService;
-        this.modelMapper = modelMapper;
+
         this.authContextManager = authContextManager;
         this.likeService = likeService;
     }
+    @GetMapping("/search")
+    public String loadSearchFormAndSearch(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false) List<String> tags,
+            @RequestParam(required = false) String sort,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            HttpServletRequest request,
+            Model model
+    ) {
+
+        if (title == null && description == null && (tags == null || tags.isEmpty()) && sort == null) {
+            return "advancedSearch";  // Loads the form
+        }
+
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<PostSummaryDTO> posts = postService.getPosts(title, description, null, tags, sort, pageable);
+
+        model.addAttribute("posts", posts.getContent());
+        model.addAttribute("page", page);
+        model.addAttribute("totalPages", posts.getTotalPages());
+        model.addAttribute("pageSize", size);
+
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString())
+                .query(request.getQueryString());
+
+        if (posts.hasNext()) {
+            String nextPageUrl = uriBuilder.replaceQueryParam("page", page + 1).toUriString();
+            model.addAttribute("nextPage", nextPageUrl);
+        }
+        if (posts.hasPrevious()) {
+            String previousPageUrl = uriBuilder.replaceQueryParam("page", page - 1).toUriString();
+            model.addAttribute("previousPage", previousPageUrl);
+        }
+
+        return "advancedSearchResults";
+    }
+
+
 
     @GetMapping("/post")
     public String getPostCreatePage(Model model) {
