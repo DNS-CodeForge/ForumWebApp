@@ -11,9 +11,13 @@
             <a class="navbar-item" id="register-item" href="/register">Register</a>
         </div>
 
-        <div class="search-container">
-            <input type="text" placeholder="Search...">
-        </div>
+        <form th:action="@{/search}" method="get">
+            <div class="search-container">
+                <input type="text" name="title" placeholder="Search..." />
+                <button type="submit" style="display: none;"></button>
+            </div>
+        </form>
+
 
         <div th:if="${#authentication.name != 'anonymousUser'}" class="profile-container">
             <a class="navbar-item" id="create-button" href="/post">+ Create</a>
