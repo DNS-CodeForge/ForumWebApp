@@ -7,13 +7,20 @@
 
 <div class="content">
     <div class="single-post-view">
+
+    <input type="hidden" id="csrfToken" th:value="${_csrf.token}"/>
+    <input type="hidden" id="csrfHeader" th:value="${_csrf.headerName}"/>
+
         
     <div class="post-detail-container">
         <h1 th:text="${post.title}"></h1>
         <p th:text="${post.description}"></p>
         <div class="post-actions">
             <div class="post-action">
-                <img src="/images/up-arrow.png" alt="Upvote" class="icon upvote-icon">
+                <img src="/images/up-arrow.png"
+                     class="icon like-icon upvote-icon"
+                     th:attr="data-post-id=${post.id}">
+                <p th:text="${#lists.size(post.likes)}" th:id="'like-count-' + ${post.id}"></p>
             </div>
             <div class="post-action">
                 <img src="/images/comment.png" alt="Comment" class="icon comment-icon">

@@ -1,4 +1,4 @@
-document.getElementById('posts').addEventListener('click', function(event) {
+document.addEventListener('click', function(event) {
     if (event.target.classList.contains('upvote-icon')) {
         const icon = event.target;
         const postId = icon.getAttribute('data-post-id');
@@ -12,7 +12,7 @@ document.getElementById('posts').addEventListener('click', function(event) {
         fetch(`/like/post/${postId}`, {
             method: 'POST',
             headers: {
-                [csrfHeader]: csrfToken, // Include CSRF token in the headers
+                [csrfHeader]: csrfToken,
                 'Content-Type': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest' // Indicate this is an AJAX request
             },
@@ -21,8 +21,7 @@ document.getElementById('posts').addEventListener('click', function(event) {
             console.log(response.status);
 
             if (response.status === 401 || response.status === 403) {
-                console.log('Redirecting to /login');
-                window.location.href = '/login'; // Redirection to login page
+                window.location.href = '/login';
                 return;
             }
 
@@ -39,7 +38,6 @@ document.getElementById('posts').addEventListener('click', function(event) {
             // Update the like count
             const likeCountElement = document.getElementById(`like-count-${postId}`);
             if (likeCountElement) {
-                console.log(likeCountElement);
                 let likeCount = parseInt(likeCountElement.textContent, 10);
 
                 if (newSrc.includes('up-arrow-selected.png')) {
@@ -47,8 +45,6 @@ document.getElementById('posts').addEventListener('click', function(event) {
                 } else {
                     likeCountElement.innerText = likeCount - 1;
                 }
-            } else {
-                console.error(`No element found with id 'like-count-${postId}'`);
             }
         })
         .catch(error => {
