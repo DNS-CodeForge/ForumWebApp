@@ -26,6 +26,10 @@ function updateStyleBasedOnRoute(elementId) {
             element.classList.add('active');
         } else if (path === '/profile/info/comments'  && elementId == "profile-sections-comments") {
             element.classList.add('active');
+        } else if (path === '/admin'  && elementId == "admin-item") {
+            element.classList.add('active');
+        } else if (path === '/search'  && elementId == "search-item") {
+            element.classList.add('active');
         } else {
             element.classList.remove('active');
         }
@@ -35,6 +39,8 @@ function updateStyleBasedOnRoute(elementId) {
 
 document.addEventListener('DOMContentLoaded', () => {
     updateStyleBasedOnRoute('profile-sections-comments');
+    updateStyleBasedOnRoute('search-item');
+    updateStyleBasedOnRoute('admin-item');
     updateStyleBasedOnRoute('profile-sections-posts');
     updateStyleBasedOnRoute('profile-sections-liked');
     updateStyleBasedOnRoute('home-item');
