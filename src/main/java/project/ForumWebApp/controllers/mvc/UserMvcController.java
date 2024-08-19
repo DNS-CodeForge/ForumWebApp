@@ -130,7 +130,7 @@ public class UserMvcController {
     @GetMapping("/profile/edit")
     public String getEditProfilePage(Model model) {
         model.addAttribute("userProfile", authContextManager.getLoggedInUser());
-        return "edit-profile";
+        return "/profile/edit-profile";
     }
 
     @PostMapping("/profile/edit")
