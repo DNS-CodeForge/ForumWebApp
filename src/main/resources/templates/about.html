@@ -1,46 +1,44 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: headFragment('About')}"></head>
+<head><link rel="stylesheet" href="/css/about.css"></head>
 <body>
-<!-- Navbar Fragment -->
-<div th:replace="~{fragments/navbar :: navbar}"></div>
 
-<!-- Sidebar Fragment -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 <div th:replace="~{fragments/sidebar :: sidebar}"></div>
 
-<!-- Main Content -->
-<div class="content">
-    <h1>About Our Forum App</h1>
-    <p>This simple and user-friendly forum application was created by two passionate developers, D and S, with the goal of fostering community discussions and sharing knowledge. It provides a platform where users can create topics, engage in conversations, and connect with others who share similar interests.</p>
-
-    <h2>Our Mission</h2>
-    <p>Our mission is to build a space for open dialogue and collaboration. We believe in the power of community and the value of diverse perspectives, and our forum app is designed to facilitate meaningful interactions among users.</p>
-
-    <h2>Meet the Creators</h2>
-    <p>Behind this project are two dedicated individuals who have worked tirelessly to bring this platform to life:</p>
-
-    <div class="team-member">
-        <img src="/images/NoPhoto.png" alt="D" class="profile-image">
-        <h3>D - Co-Founder</h3>
-        <p>D is a software engineer with a passion for creating scalable web applications. With a focus on user experience and clean code, D has been instrumental in bringing this forum app to life.</p>
+<div class="about-content">
+    <div class="about-hero-section">
+        <h1>About Our Forum App</h1>
+        <p>This simple and user-friendly forum application was created by two passionate developers, D and S, with the goal of fostering community discussions and sharing knowledge.</p>
     </div>
 
-    <div class="team-member">
-        <img src="/images/NoPhoto.png" alt="S" class="profile-image">
-        <h3>S - Co-Founder</h3>
-        <p>S is a creative designer with a keen eye for detail and a passion for user-centered design. S has worked on crafting a visually appealing and intuitive interface for our users.</p>
+    <div class="about-creators-section">
+        <div class="about-team-member">
+            <img src="/images/NoPhoto.png" alt="D" class="about-profile-image">
+            <h3>D - Co-Founder</h3>
+            <p>D is a software engineer with a passion for creating scalable web applications. With a focus on user experience and clean code, D has been instrumental in bringing this forum app to life.</p>
+        </div>
+
+        <div class="about-team-member">
+            <img src="/images/NoPhoto.png" alt="S" class="about-profile-image">
+            <h3>S - Co-Founder</h3>
+            <p>S is a creative designer with a keen eye for detail and a passion for user-centered design. S has worked on crafting a visually appealing and intuitive interface for our users.</p>
+        </div>
     </div>
 
-    <h2>Contact Us</h2>
-    <p>If you have any questions, suggestions, or just want to connect with us, feel free to reach out via our GitHub repository:</p>
-    <ul>
-        <li>GitHub: <a href="https://github.com/yourrepository" target="_blank">https://github.com/yourrepository</a></li>
-    </ul>
+    <div class="about-contact-section">
+        <h2>Contact Us</h2>
+        <p>If you have any questions, suggestions, or just want to connect with us, feel free to reach out via our GitHub repository:</p>
+        <ul>
+            <li>GitHub: <a href="https://github.com/yourrepository" target="_blank">https://github.com/yourrepository</a></li>
+        </ul>
+    </div>
 </div>
+
+
 <script src="/js/dropdown.js"></script>
-<script src="/js/infiniteScroll.js"></script>
-<script src="/js/routeStyleSwitcher.js"></script>
-<script src="/js/upvote.js"></script>
+
 
 </body>
 </html>

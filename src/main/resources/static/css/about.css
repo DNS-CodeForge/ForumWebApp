@@ -1,0 +1,102 @@
+@import 'styles.css';
+.about-page {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+.about-content {
+    max-width: 1200px;
+    margin: 220px auto 80px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.about-hero-section {
+    text-align: center;
+    padding: 50px 20px;
+    background: linear-gradient(135deg, lightgray, darkgray);
+    border-radius: 12px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.about-hero-section h1 {
+    font-size: 48px;
+
+    margin-bottom: 20px;
+}
+
+.about-hero-section p {
+    font-size: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+
+
+.about-creators-section {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.about-team-member {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    width: 45%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-team-member:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.about-profile-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    object-fit: cover;
+}
+
+.about-team-member h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.about-team-member p {
+    font-size: 16px;
+    color: #666;
+}
+
+.about-contact-section ul {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+
+.about-contact-section li {
+    margin-bottom: 10px;
+}
+
+.about-contact-section a {
+    color: #4a90e2;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.about-contact-section a:hover {
+    color: #357ab8;
+}

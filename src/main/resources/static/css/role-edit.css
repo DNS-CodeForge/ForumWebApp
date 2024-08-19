@@ -1,0 +1,123 @@
+@import 'styles.css';
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: white;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    color: rgba(12, 12, 12, 0.38);
+    margin-bottom: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.content {
+    padding: 20px;
+    max-width: 800px;
+    margin: 80px auto; /* Space from top */
+    background: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-group label {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 8px;
+    display: block;
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1.5px solid #ccc;
+    transition: border-color 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+.form-control:focus {
+    border-color: #4a90e2;
+    outline: none;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+}
+
+.btn-primary {
+    background-color: #4a90e2;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #357ab8;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: #ccc;
+    color: #333;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #b0b0b0;
+    transform: translateY(-2px);
+}
+
+select.form-control {
+    appearance: none;
+    background: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%234a90e2' d='M2 5L0 0h4z'/%3E%3C/svg%3E") no-repeat right 10px center;
+    background-size: 12px;
+    padding-right: 30px;
+}
+
+
+select.form-control:focus {
+    border-color: #4a90e2;
+}
+
+option {
+    padding: 10px;
+    font-size: 16px;
+    background-color: white;
+}
+
+.form-group button[type="submit"] {
+    display: inline-block;
+    background-color: rgba(154, 149, 149, 0.91);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.form-group button[type="submit"]:hover {
+    background-color: rgb(150, 140, 140);
+    transform: translateY(-2px);
+}
