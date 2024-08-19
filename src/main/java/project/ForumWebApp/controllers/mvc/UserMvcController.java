@@ -1,32 +1,36 @@
 package project.ForumWebApp.controllers.mvc;
 
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import project.ForumWebApp.config.security.AuthContextManager;
 import project.ForumWebApp.models.ApplicationUser;
 import project.ForumWebApp.models.LevelInfo;
+import project.ForumWebApp.models.Role;
 import project.ForumWebApp.models.DTOs.CommentDTO;
 import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
 import project.ForumWebApp.models.DTOs.user.UpdateUserDTO;
-import project.ForumWebApp.models.Role;
 import project.ForumWebApp.repository.RoleRepository;
 import project.ForumWebApp.services.contracts.CommentService;
 import project.ForumWebApp.services.contracts.LevelService;
 import project.ForumWebApp.services.contracts.LikeService;
 import project.ForumWebApp.services.contracts.PostService;
 import project.ForumWebApp.services.contracts.UserService;
-
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Controller
 public class UserMvcController {

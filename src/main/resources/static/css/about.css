@@ -28,7 +28,7 @@
 
 .about-hero-section h1 {
     font-size: 48px;
-
+    color: rgba(50,50,50,0.8);
     margin-bottom: 20px;
 }
 
@@ -78,6 +78,14 @@
 .about-team-member p {
     font-size: 16px;
     color: #666;
+}
+
+
+.about-contact-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .about-contact-section ul {
