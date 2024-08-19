@@ -26,7 +26,7 @@ function updateStyleBasedOnRoute(elementId) {
             element.classList.add('active');
         } else if (path === '/profile/info/comments'  && elementId == "profile-sections-comments") {
             element.classList.add('active');
-        } else if (path === '/admin'  && elementId == "admin-item") {
+        } else if (path === '/manage-users'  && elementId == "admin-item") {
             element.classList.add('active');
         } else if (path === '/search'  && elementId == "search-item") {
             element.classList.add('active');
