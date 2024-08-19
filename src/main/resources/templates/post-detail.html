@@ -8,8 +8,10 @@
 <div class="content">
     <div class="single-post-view">
 
-    <input type="hidden" id="csrfToken" th:value="${_csrf.token}"/>
-    <input type="hidden" id="csrfHeader" th:value="${_csrf.headerName}"/>
+        <div th:if="${isOwner}">
+            <input type="hidden" id="csrfToken" th:value="${_csrf.token}"/>
+            <input type="hidden" id="csrfHeader" th:value="${_csrf.headerName}"/>
+        </div>
 
         
     <div class="post-detail-container">
@@ -29,13 +31,13 @@
                 <img src="/images/delete.png" alt="Delete" class="icon delete-icon delete-post" th:attr="data-post-id=${post.id}">
             </div>
             <div class="post-action" th:if="${isOwner == true}">
-                <img src="/images/edit.png" alt="Edit" class="icon delete-icon delete-post" th:attr="data-post-id=${post.id}">
+                <img src="/images/edit.png" alt="Edit" class="icon edit-icon edit-post" th:attr="data-post-id=${post.id}">
             </div>
         </div>
     </div>
 
-    <div class="comments-section add-comment">
-        <form th:action="@{/posts/{id}/comments(id=${post.id})}" method="post">
+    <div  class="comments-section add-comment">
+        <form th:if="${#authentication.name != 'anonymousUser'}" th:action="@{/posts/{id}/comments(id=${post.id})}" method="post">
             <div class="commenting-section">
                 <textarea name="content" id="comment-textarea" placeholder="Write your comment here..."></textarea>
                 <input type="hidden" name="creatorName" th:value="${#authentication.getName()}"/>
@@ -64,5 +66,7 @@
 <script src="/js/comment.js"></script>
 <script src="/js/logo.js"></script>
 <script src="/js/routeStyleSwitcher.js"></script>
+<script th:if="${isOwner == true}" src="/js/profilePostDeleteEvent.js"></script>
+<script th:if="${isOwner == true}" src="/js/delete.js"></script>
 </body>
 </html>

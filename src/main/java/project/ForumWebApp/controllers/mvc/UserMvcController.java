@@ -24,7 +24,6 @@ import project.ForumWebApp.services.contracts.LikeService;
 import project.ForumWebApp.services.contracts.PostService;
 import project.ForumWebApp.services.contracts.UserService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -127,7 +126,7 @@ public class UserMvcController {
     @GetMapping("/profile/edit")
     public String getEditProfilePage(Model model) {
         model.addAttribute("userProfile", authContextManager.getLoggedInUser());
-        return "profile/editProfile";
+        return "edit-profile";
     }
 
     @PostMapping("/profile/edit")

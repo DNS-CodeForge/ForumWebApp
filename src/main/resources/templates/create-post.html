@@ -37,7 +37,8 @@
         </div>
 
 
-        <button  type="reset">Create Post</button>
+        <button th:if="${loggedInUser != null and loggedInUser.isEnabled()}" type="submit">Create Post</button>
+        <button th:unless="${loggedInUser != null and loggedInUser.isEnabled()}" type="reset">BANNED</button>
     </form>
 </div>
 

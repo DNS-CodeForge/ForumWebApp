@@ -31,7 +31,6 @@ public class HomeController {
     @GetMapping("/home")
     public ModelAndView home() {
         var user = authContextManager.getLoggedInUser();
-        System.out.println(user.getPhotoUrl());
         Page<PostSummaryDTO> posts = postService.getPosts();
 
 

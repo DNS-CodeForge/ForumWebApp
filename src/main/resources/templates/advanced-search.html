@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head th:replace="~{fragments/head :: headFragment(Search)}"></head>
 <head>
     <link th:href="@{/css/search.css}" rel="stylesheet"/>
@@ -23,6 +23,10 @@
             <label for="tags">Tags (comma separated):</label>
             <input type="text" id="tags" name="tags" />
         </div>
+        <div sec:authorize="hasAuthority('ADMIN')">
+            <label for="username" >Username:</label>
+            <input type="text" id="username" name="username" />
+        </div>
         <div>
             <label for="sort">Sort By:</label>
             <select id="sort" name="sort">
@@ -35,10 +39,10 @@
                 <option value="commentsdesc">Comments Descending</option>
             </select>
         </div>
-        <div>
-            <label for="pageSize">Results Per Page:</label>
-            <input type="number" id="pageSize" name="size" min="1" max="100" value="10" />
-        </div>
+<!--        <div>-->
+<!--            <label for="pageSize">Results Per Page:</label>-->
+<!--            <input type="number" id="pageSize" name="size" min="1" max="100" value="10" />-->
+<!--        </div>-->
         <button type="submit">Search</button>
     </form>
  

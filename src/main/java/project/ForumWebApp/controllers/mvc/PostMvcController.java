@@ -32,7 +32,7 @@ import project.ForumWebApp.models.DTOs.CommentDTO;
 import project.ForumWebApp.models.DTOs.post.PostCreateDTO;
 import project.ForumWebApp.models.DTOs.post.PostDTO;
 import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
-import project.ForumWebApp.models.Post;
+
 import project.ForumWebApp.services.contracts.CommentService;
 import project.ForumWebApp.services.contracts.LikeService;
 import project.ForumWebApp.services.contracts.PostService;
@@ -58,6 +58,7 @@ public class PostMvcController {
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String description,
             @RequestParam(required = false) List<String> tags,
+            @RequestParam(required = false) String username,
             @RequestParam(required = false) String sort,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -65,13 +66,13 @@ public class PostMvcController {
             Model model
     ) {
 
-        if (title == null && description == null && (tags == null || tags.isEmpty()) && sort == null) {
-            return "advancedSearch";  // Loads the form
+        if (title == null && description == null && (tags == null || tags.isEmpty()) && username==null && sort == null) {
+            return "advanced-search";
         }
 
 
         Pageable pageable = PageRequest.of(page, size);
-        Page<PostSummaryDTO> posts = postService.getPosts(title, description, null, tags, sort, pageable);
+        Page<PostSummaryDTO> posts = postService.getPosts(title, description, username, tags, sort, pageable);
 
         model.addAttribute("posts", posts.getContent());
         model.addAttribute("page", page);
@@ -90,7 +91,7 @@ public class PostMvcController {
             model.addAttribute("previousPage", previousPageUrl);
         }
 
-        return "advancedSearchResults";
+        return "advanced-search-results";
     }
     @ModelAttribute("loggedInUser")
     public ApplicationUser addUserToModel() {
@@ -101,7 +102,7 @@ public class PostMvcController {
     @GetMapping("/post")
     public String getPostCreatePage(Model model) {
         model.addAttribute("post", new PostCreateDTO());
-        return "createPost";
+        return "create-post";
     }
 
     @PostMapping("/post")
@@ -111,7 +112,7 @@ public class PostMvcController {
                              Model model) {
         if (bindingResult.hasErrors()) {
 
-            return "createPost";
+            return "create-post";
         }
 
         postService.createPost(postCreateDTO);
@@ -132,7 +133,7 @@ public class PostMvcController {
             model.addAttribute("post", post);
             model.addAttribute("comments", commentService.getCommentsByPostId(id));
             model.addAttribute("isOwner", isOwner);
-            return "postDetail";
+            return "post-detail";
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -225,7 +226,6 @@ public class PostMvcController {
         return "/fragments/comments :: commentList";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/posts/delete/{id}")
     public ResponseEntity<String> deletePost(@PathVariable Integer id) {
         try {
@@ -233,8 +233,6 @@ public class PostMvcController {
 
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
-            e.printStackTrace();
-
             return new ResponseEntity<>("Failed to delete the post", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

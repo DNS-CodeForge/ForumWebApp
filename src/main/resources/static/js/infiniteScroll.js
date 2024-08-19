@@ -11,19 +11,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const postsContainer = document.getElementById('posts');
     const loadingIndicator = document.getElementById('loading');
 
-    function attachDeleteListeners() {
-        const deleteButtons = postsContainer.querySelectorAll('.delete-post');
 
-        deleteButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const postId = this.getAttribute('data-post-id');
-                deletePost(postId);
-            });
-        });
-    }
+    postsContainer.addEventListener('click', function(event) {
+        if (event.target.classList.contains('delete-post')) {
+            const postId = event.target.getAttribute('data-post-id');
+            deletePost(postId);
+        }
+    });
 
     function loadMorePosts() {
-        if(isCommentPage) return;
+        if (isCommentPage) return;
         if (loading || endOfPosts) return;
 
         loading = true;
@@ -58,11 +55,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 postsContainer.insertAdjacentHTML('beforeend', html);
-
                 page++;
                 loading = false;
-
-                attachDeleteListeners();
             })
             .catch(error => {
                 console.error('Error loading posts:', error);
