@@ -20,8 +20,10 @@
 
 
         <div th:if="${#authentication.name != 'anonymousUser'}" class="profile-container">
-            <a class="navbar-item" id="create-button" href="/post">+ Create</a>
-            <img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQd1wdCm8EgtV8B0mj4d0PAUaVROGlc40GqIEfF8bex3RnM0Hwu" alt="Profile" class="profile-image">
+            <a th:if="${loggedInUser != null and loggedInUser.isEnabled()}" class="navbar-item" id="create-button" href="/post">+ Post</a>
+            <a th:unless="${loggedInUser != null and loggedInUser.isEnabled()}" class="navbar-item"  href="/home">BANNED</a>
+            <img th:src="${loggedInUser.photoUrl}" alt="Profile" class="profile-image">
+
             <div class="dropdown-menu">
                 <div class="field-container">
                     <img th:src="@{/images/profile2.png}" alt="">

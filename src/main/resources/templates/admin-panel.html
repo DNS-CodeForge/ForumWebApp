@@ -1,118 +1,91 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
 <head th:replace="~{fragments/head :: headFragment('Admin Panel')}"></head>
+  <head><link rel="stylesheet" href="/css/admin.css"></head>
+
 
 <body>
 
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 <div th:replace="~{fragments/sidebar :: sidebar}"></div>
 
+<div class="content">
 
-<div class="content p-4 w-100">
-  <h1 class="mb-4">Admin Panel</h1>
-
-
-  <div>
+  <div class="card">
+    <h1 class="mb-4">Admin Panel</h1>
+    <div th:if="${successMessage != null}" class="alert alert-success" role="alert">
+      <span th:text="${successMessage}"></span>
+    </div>
+    <div th:if="${errorMessage != null}" class="alert alert-danger" role="alert">
+      <span th:text="${errorMessage}"></span>
+    </div>
     <h2>Manage Users</h2>
+    <form action="/manage-users" method="get" class="mb-4">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search by username..." name="username" th:value="${username}">
+        <input type="text" class="form-control" placeholder="Search by role..." name="role" th:value="${role}">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="submit">Search</button>
+        </div>
+      </div>
+    </form>
+
     <table class="table">
       <thead>
       <tr>
         <th>ID</th>
         <th>Username</th>
         <th>Email</th>
+        <th>Role</th>
         <th>Actions</th>
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <td>1</td>
-        <td>john_doe</td>
-        <td>john@example.com</td>
+      <tr th:each="user : ${users.getContent()}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.email}"></td>
         <td>
-          <a href="#" class="btn btn-primary btn-sm">Edit</a>
-          <a href="#" class="btn btn-danger btn-sm">Delete</a>
+          <div>
+            <span th:each="role, stat : ${user.getAuthoritySet()}">
+                <span th:text="${role.getAuthority()}"></span><span th:if="${!stat.last}">, </span>
+            </span>
+          </div>
         </td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>jane_smith</td>
-        <td>jane@example.com</td>
         <td>
-          <a href="#" class="btn btn-primary btn-sm">Edit</a>
-          <a href="#" class="btn btn-danger btn-sm">Delete</a>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-
-
-  <div>
-    <h2>Manage Posts</h2>
-    <table class="table">
-      <thead>
-      <tr>
-        <th>ID</th>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Date</th>
-        <th>Actions</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>1</td>
-        <td>First Post</td>
-        <td>john_doe</td>
-        <td>2024-08-16</td>
-        <td>
-          <a href="#" class="btn btn-primary btn-sm">Edit</a>
-          <a href="#" class="btn btn-danger btn-sm">Delete</a>
-        </td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>Another Post</td>
-        <td>jane_smith</td>
-        <td>2024-08-16</td>
-        <td>
-          <a href="#" class="btn btn-primary btn-sm">Edit</a>
-          <a href="#" class="btn btn-danger btn-sm">Delete</a>
+          <a th:href="@{/users/role/{id}(id=${user.id})}" class="btn btn-primary btn-sm">Edit Roles</a>
+          <a th:if="${user.isEnabled()}" th:href="@{/users/ban/{id}(id=${user.id})}" class="btn btn-warning btn-sm">Ban</a>
+          <a th:if="${!user.isEnabled()}" th:href="@{/users/unban/{id}(id=${user.id})}" class="btn btn-success btn-sm">Unban</a>
         </td>
       </tr>
       </tbody>
     </table>
-  </div>
 
-  <div>
-    <h2>Admin Search</h2>
-    <form action="/admin/search" method="get" class="mb-4">
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search..." name="query">
-        <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="submit">Search</button>
-        </div>
-      </div>
-    </form>
-    <div>
-      <h3>Search Results</h3>
-      <ul class="list-group">
-        <li class="list-group-item">
-          <a href="#">Search Result 1</a>
+    <nav aria-label="Page navigation">
+      <ul class="pagination">
+        <li th:if="${currentPage > 0}" class="page-item">
+          <a class="page-link" th:href="@{/manage-users(page=${currentPage - 1}, size=${users.size}, username=${username})}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
         </li>
-        <li class="list-group-item">
-          <a href="#">Search Result 2</a>
+        <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}" class="page-item" th:classappend="${i == currentPage} ? 'active'">
+          <a class="page-link" th:text="${i + 1}" th:href="@{/manage-users(page=${i}, size=${users.size}, username=${username})}"></a>
+        </li>
+        <li th:if="${currentPage + 1 < totalPages}" class="page-item">
+          <a class="page-link" th:href="@{/manage-users(page=${currentPage + 1}, size=${users.size}, username=${username})}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
         </li>
       </ul>
-    </div>
+    </nav>
   </div>
 </div>
+
 <script src="/js/dropdown.js"></script>
 <script src="/js/infiniteScroll.js"></script>
 <script src="/js/routeStyleSwitcher.js"></script>
 <script src="/js/upvote.js"></script>
-
 
 </body>
 </html>

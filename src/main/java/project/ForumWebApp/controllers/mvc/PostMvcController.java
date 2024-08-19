@@ -92,7 +92,10 @@ public class PostMvcController {
 
         return "advancedSearchResults";
     }
-
+    @ModelAttribute("loggedInUser")
+    public ApplicationUser addUserToModel() {
+        return authContextManager.getLoggedInUser();
+    }
 
 
     @GetMapping("/post")

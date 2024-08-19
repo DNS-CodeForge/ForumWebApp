@@ -125,8 +125,11 @@ public class ApplicationUser implements UserDetails {
     @Override
     @Schema(description = "Indicates whether the user is enabled", defaultValue = "true")
     public boolean isEnabled() {
-        return true;
+        return getAuthorities().stream()
+                .noneMatch(authority -> authority.getAuthority().equals("BANNED"));
     }
+
+
     @PreRemove
     private void preRemove() {
         this.authorities.clear();

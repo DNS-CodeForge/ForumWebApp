@@ -40,6 +40,7 @@ public class AuthenticationController {
     public ResponseEntity<CustomResponse> addUser(
             @Parameter(description = "Registration details") @RequestBody RegistrationDTO registrationDTO) {
         var user = authenticationService.registerUser(registrationDTO);
+;
         var response = new CustomResponse();
         response.getData().put("user", user);
         return ResponseEntity.ok(response);

@@ -41,7 +41,8 @@
                 <input type="hidden" name="creatorName" th:value="${#authentication.getName()}"/>
                 <div class="buttons" id="buttons">
                     <button type="button" id="cancel-button">Cancel</button>
-                    <button type="submit">Submit</button>
+                    <button th:if="${loggedInUser != null and loggedInUser.isEnabled()}" type="submit">Submit</button>
+                    <button th:unless="${loggedInUser != null and loggedInUser.isEnabled()}" type="reset">Banned</button>
                 </div>
             </div>
         </form>

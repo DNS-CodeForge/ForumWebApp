@@ -13,6 +13,8 @@ import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import project.ForumWebApp.config.security.AuthContextManager;
+import project.ForumWebApp.constants.ValidationConstants;
 import project.ForumWebApp.models.ApplicationUser;
 import project.ForumWebApp.models.Role;
 import project.ForumWebApp.models.DTOs.user.RegistrationDTO;
@@ -95,11 +98,52 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUsername(name)
                 .orElseThrow(() -> new EntityNotFoundException(USER_WITH_PROVIDED_USERNAME_DOES_NOT_EXIST));
     }
+    @Override
+    public Page<ApplicationUser> getAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
 
     @Override
     public List<ApplicationUser> getAllUsers() {
         return userRepository.findAll();
     }
+
+    public List<ApplicationUser> findUserByUsername(String username) {
+        return userRepository.findByUsernameContaining(username);
+    }
+    public Page<ApplicationUser> findUserByUsername(String username, Pageable pageable) {
+        return userRepository.findByUsernameContaining(username, pageable);
+    }
+    public Page<ApplicationUser> findUsersByUsernameAndRole(String username, String role, Pageable pageable) {
+        if (username != null && !username.isEmpty() && role != null && !role.isEmpty()) {
+            return userRepository.findByUsernameContainingAndAuthorityContaining(username, role, pageable);
+        } else if (username != null && !username.isEmpty()) {
+            return userRepository.findByUsernameContaining(username, pageable);
+        } else if (role != null && !role.isEmpty()) {
+            return userRepository.findByAuthorityContaining(role, pageable);
+        } else {
+            return userRepository.findAll(pageable);
+        }
+    }
+
+    @Override
+    public ApplicationUser findByID(int id) {
+
+        return userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(USER_WITH_PROVIDED_ID_DOES_NOT_EXIST));
+    }
+
+    @Override
+    public void updateUserProfileImage(String imageUrl) {
+        ApplicationUser user = authContextManager.getLoggedInUser();
+        if (imageUrl.isEmpty())
+        {
+            imageUrl = ValidationConstants.DEFAULT_PHOTO_URL;
+        }
+        user.setPhotoUrl(imageUrl);
+        userRepository.save(user);
+    }
+
 
     @Override
     @Transactional
