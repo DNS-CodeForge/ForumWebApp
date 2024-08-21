@@ -12,9 +12,8 @@
 <div class="avatar-selection">
     <h2>Select Your Avatar</h2>
     <div class="avatar-grid">
-        <form th:action="@{/profile/select-avatar}" method="post">
+        <form th:action="@{/profile/select-avatar}" method="post" onsubmit="return checkAvatarSelection();">
             <input type="hidden" name="photoUrl" id="selectedAvatar" />
-
 
             <div class="avatar-card" th:onclick="selectAvatar('/images/profile/NoPhoto.png')">
                 <img src="/images/profile/NoPhoto.png" alt="Avatar" />
@@ -27,8 +26,6 @@
                 <img src="/images/profile/mwf.png" alt="Avatar" />
             </div>
 
-
-
             <div class="avatar-card" th:if="${level >= 5}" th:onclick="selectAvatar('/images/profile/nature.png')">
                 <img src="/images/profile/nature.png" alt="Nature Avatar" />
             </div>
@@ -36,7 +33,6 @@
                 <img src="/images/profile/nature.png" alt="Nature Avatar (Locked)" />
                 <div class="locked-overlay">Required Lv.5</div>
             </div>
-
 
             <div class="avatar-card" th:if="${level >= 5}" th:onclick="selectAvatar('/images/profile/robo.png')">
                 <img src="/images/profile/robo.png" alt="Robo Avatar" />
@@ -46,24 +42,31 @@
                 <div class="locked-overlay">Required Lv.5</div>
             </div>
 
-
             <div style="margin-top: 20px; text-align: center;">
-                <button type="submit" class="save-avatar-button">Save Avatar</button>
+                <button type="submit">Save Avatar</button>
                 <button type="button" class="cancel-button" onclick="goBack()">Cancel</button>
             </div>
         </form>
-    </div>
-</div>
 
-<script>
-    function selectAvatar(avatarUrl) {
-        document.getElementById("selectedAvatar").value = avatarUrl;
-    }
+        <script>
+            function selectAvatar(avatarUrl) {
+                document.getElementById("selectedAvatar").value = avatarUrl;
+            }
 
-    function goBack() {
-        window.history.back();
-    }
-</script>
+            function goBack() {
+                window.history.back();
+            }
+
+            function checkAvatarSelection() {
+                const selectedAvatar = document.getElementById("selectedAvatar").value;
+                if (selectedAvatar === "") {
+                    goBack();
+                    return false;
+                }
+                return true;
+            }
+        </script>
+
 <script src="/js/dropdown.js"></script>
 <script src="/js/logo.js"></script>
 <script src="/js/routeStyleSwitcher.js"></script>
