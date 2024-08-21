@@ -113,7 +113,7 @@ VALUES
 -- Insert admin user
 INSERT INTO users (id, username, first_name, last_name, email, password, photo_url)
 VALUES
-    (1, 'admin', 'Admin', 'Admin', 'admin@admin.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png');
+    (1, 'admin', 'Admin', 'Admin', 'admin@admin.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png');
 
 -- Insert admin role for admin user
 INSERT INTO user_role_junction (role_id, user_id)
@@ -124,34 +124,34 @@ VALUES
 -- Insert other users
 INSERT INTO users (username, first_name, last_name, email, password, photo_url)
 VALUES
-    ('jdoe', 'John', 'Doe', 'johndoe@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('asmith', 'Alice', 'Smith', 'alicesmith@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('bwilliams', 'Bob', 'Williams', 'bobwilliams@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('cjohnson', 'Carol', 'Johnson', 'caroljohnson@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('dwhite', 'David', 'White', 'davidwhite@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('emiller', 'Eva', 'Miller', 'evamiller@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('fjackson', 'Frank', 'Jackson', 'frankjackson@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('gthompson', 'Grace', 'Thompson', 'gracethompson@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('hgarcia', 'Hank', 'Garcia', 'hankgarcia@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('banneduser', 'Banned', 'User', 'banneduser@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('ijones', 'Isaac', 'Jones', 'isaacjones@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('klucas', 'Karen', 'Lucas', 'karenlucas@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('mramos', 'Michael', 'Ramos', 'michaelramos@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('nmartin', 'Nina', 'Martin', 'ninamartin@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('opatton', 'Olivia', 'Patton', 'oliviapatton@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('pbrown', 'Paul', 'Brown', 'paulbrown@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('qgreen', 'Quincy', 'Green', 'quincygreen@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('rking', 'Rachel', 'King', 'rachelking@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('slopez', 'Samuel', 'Lopez', 'samuellopez@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('tallen', 'Theresa', 'Allen', 'theresaallen@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('ubaker', 'Ulysses', 'Baker', 'ulyssesbaker@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('vcarter', 'Valerie', 'Carter', 'valeriecarter@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('wbell', 'Walter', 'Bell', 'walterbell@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('xmoore', 'Xander', 'Moore', 'xandermoore@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('ybryant', 'Yasmin', 'Bryant', 'yasminbryant@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('zpowell', 'Zane', 'Powell', 'zanepowell@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('jgreen', 'John', 'Green', 'johngreen@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png'),
-    ('kblack', 'Kevin', 'Black', 'kevinblack@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/NoPhoto.png');
+    ('jdoe', 'John', 'Doe', 'johndoe@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('asmith', 'Alice', 'Smith', 'alicesmith@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('bwilliams', 'Bob', 'Williams', 'bobwilliams@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('cjohnson', 'Carol', 'Johnson', 'caroljohnson@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('dwhite', 'David', 'White', 'davidwhite@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('emiller', 'Eva', 'Miller', 'evamiller@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('fjackson', 'Frank', 'Jackson', 'frankjackson@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('gthompson', 'Grace', 'Thompson', 'gracethompson@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('hgarcia', 'Hank', 'Garcia', 'hankgarcia@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('banneduser', 'Banned', 'User', 'banneduser@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('ijones', 'Isaac', 'Jones', 'isaacjones@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('klucas', 'Karen', 'Lucas', 'karenlucas@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('mramos', 'Michael', 'Ramos', 'michaelramos@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('nmartin', 'Nina', 'Martin', 'ninamartin@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('opatton', 'Olivia', 'Patton', 'oliviapatton@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('pbrown', 'Paul', 'Brown', 'paulbrown@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('qgreen', 'Quincy', 'Green', 'quincygreen@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('rking', 'Rachel', 'King', 'rachelking@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('slopez', 'Samuel', 'Lopez', 'samuellopez@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('tallen', 'Theresa', 'Allen', 'theresaallen@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('ubaker', 'Ulysses', 'Baker', 'ulyssesbaker@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('vcarter', 'Valerie', 'Carter', 'valeriecarter@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('wbell', 'Walter', 'Bell', 'walterbell@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('xmoore', 'Xander', 'Moore', 'xandermoore@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('ybryant', 'Yasmin', 'Bryant', 'yasminbryant@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('zpowell', 'Zane', 'Powell', 'zanepowell@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('jgreen', 'John', 'Green', 'johngreen@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png'),
+    ('kblack', 'Kevin', 'Black', 'kevinblack@example.com', '$2a$10$4FyOuu59z.W4TFCxyPU2Se9i.cnyrU1eHroCpGJPJXUra8re64Oly', '/images/profile/NoPhoto.png');
 
 -- Insert roles for other users
 INSERT INTO user_role_junction (role_id, user_id)

@@ -251,15 +251,19 @@ public class UserMvcController {
 
         return "redirect:/manage-users";
     }
-    @PostMapping("/profile/update-image")
-    public String updateProfileImage(@RequestParam("imageUrl") String imageUrl, RedirectAttributes redirectAttributes) {
-        try {
-            userService.updateUserProfileImage(imageUrl);
-            redirectAttributes.addFlashAttribute("successMessage", "Profile image updated successfully!");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Failed to update profile image. Please try again.");
-        }
-        return "redirect:/profile/info";
+
+    @GetMapping("profile/select-avatar")
+    public String showAvatarSelection(Model model) {
+        model.addAttribute("level", levelService.getLevelById(authContextManager.getId()).getCurrentLevel());
+
+        return "profile/select-avatar";
+    }
+    @PostMapping("profile/select-avatar")
+    public String selectAvatar(@RequestParam("photoUrl") String photoUrl) {
+
+        userService.updateUserProfileImage(photoUrl);
+
+        return "redirect:/profile/edit";
     }
 
 

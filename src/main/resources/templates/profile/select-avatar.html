@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: headFragment('Select Avatar')}"></head>
+<head><link th:href="@{/css/select-avatar.css}" rel="stylesheet"/></head>
+
+<body>
+
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+<div th:insert="~{fragments/sidebar :: sidebar}"></div>
+
+<div class="avatar-selection">
+    <h2>Select Your Avatar</h2>
+    <div class="avatar-grid">
+        <form th:action="@{/profile/select-avatar}" method="post">
+            <input type="hidden" name="photoUrl" id="selectedAvatar" />
+
+
+            <div class="avatar-card" th:onclick="selectAvatar('/images/profile/NoPhoto.png')">
+                <img src="/images/profile/NoPhoto.png" alt="Avatar" />
+            </div>
+            <div class="avatar-card" th:onclick="selectAvatar('/images/profile/bwm.png')">
+                <img src="/images/profile/bwm.png" alt="Avatar" />
+            </div>
+
+            <div class="avatar-card" th:onclick="selectAvatar('/images/profile/mwf.png')">
+                <img src="/images/profile/mwf.png" alt="Avatar" />
+            </div>
+
+
+
+            <div class="avatar-card" th:if="${level >= 5}" th:onclick="selectAvatar('/images/profile/nature.png')">
+                <img src="/images/profile/nature.png" alt="Nature Avatar" />
+            </div>
+            <div class="avatar-card locked" th:unless="${level >= 5}">
+                <img src="/images/profile/nature.png" alt="Nature Avatar (Locked)" />
+                <div class="locked-overlay">Required Lv.5</div>
+            </div>
+
+
+            <div class="avatar-card" th:if="${level >= 5}" th:onclick="selectAvatar('/images/profile/robo.png')">
+                <img src="/images/profile/robo.png" alt="Robo Avatar" />
+            </div>
+            <div class="avatar-card locked" th:unless="${level >= 5}">
+                <img src="/images/profile/robo.png" alt="Robo Avatar (Locked)" />
+                <div class="locked-overlay">Required Lv.5</div>
+            </div>
+
+
+            <div style="margin-top: 20px; text-align: center;">
+                <button type="submit" class="save-avatar-button">Save Avatar</button>
+                <button type="button" class="cancel-button" onclick="goBack()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function selectAvatar(avatarUrl) {
+        document.getElementById("selectedAvatar").value = avatarUrl;
+    }
+
+    function goBack() {
+        window.history.back();
+    }
+</script>
+<script src="/js/dropdown.js"></script>
+<script src="/js/logo.js"></script>
+<script src="/js/routeStyleSwitcher.js"></script>
+
+</body>
+</html>

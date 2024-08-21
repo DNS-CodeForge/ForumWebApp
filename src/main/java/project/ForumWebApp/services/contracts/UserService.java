@@ -19,6 +19,7 @@ public interface UserService extends UserDetailsService {
 
     UpdateUserDTO updateUserInfo(UpdateUserDTO updateUserDTO);
 
+
     RegistrationDTO viewUserInfo();
 
     ApplicationUser getUserById(int id);

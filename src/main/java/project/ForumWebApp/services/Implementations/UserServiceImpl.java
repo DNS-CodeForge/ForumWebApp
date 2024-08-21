@@ -80,6 +80,8 @@ public class UserServiceImpl implements UserService {
     }
 
 
+
+
     @Override
     public RegistrationDTO viewUserInfo() {
         ApplicationUser user = authContextManager.getLoggedInUser();

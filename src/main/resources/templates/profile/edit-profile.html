@@ -12,8 +12,8 @@
     <form th:action="@{/profile/edit}" th:object="${userProfile}" method="post" class="edit-profile">
 
         <div class="edit-profile image">
-                <img src="/images/NoPhoto.png" alt="Profile Picture" class="profile-photo"/>
-                <button type="">Edit image</button>
+                <img th:src="${loggedInUser.photoUrl}" alt="Profile Picture" class="profile-photo"/>
+            <a href="/profile/select-avatar" class="edit-avatar-button">Edit Avatar</a>
         </div>
 
         <div class="edit-profile fields">
