@@ -1,4 +1,15 @@
 # ForumWebApp
+## Project Setup
+Before running the ForumWebApp, you need to set up the database. Follow these steps:
+
+1. **Run the `dbCreation.sql` script**: This script will generate the necessary database tables and relationships for the ForumWebApp. Make sure your database is properly configured and connected before executing the script.
+
+2. **Mock Profiles**: The application comes with pre-configured mock profiles, including an admin account.
+  - **Admin Username**: `admin`
+  - **Password for all users (including admin)**: `password`
+
+With the database setup and mock profiles in place, you can proceed with running the application and accessing the various endpoints.
+
 
 ## Project Description
 ForumWebApp is a forum system where users can create posts, add comments, and like the content they like or dislike.
