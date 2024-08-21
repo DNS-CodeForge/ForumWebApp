@@ -16,10 +16,15 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import org.springframework.web.util.UriComponentsBuilder;
+
 import project.ForumWebApp.config.security.AuthContextManager;
 import project.ForumWebApp.exceptions.AuthorizationException;
 import project.ForumWebApp.models.ApplicationUser;
@@ -28,9 +33,7 @@ import project.ForumWebApp.models.DTOs.CommentDTO;
 import project.ForumWebApp.models.DTOs.post.PostCreateDTO;
 import project.ForumWebApp.models.DTOs.post.PostDTO;
 import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
-
 import project.ForumWebApp.models.DTOs.post.PostUpdateDTO;
-import project.ForumWebApp.models.Post;
 import project.ForumWebApp.services.contracts.CommentService;
 import project.ForumWebApp.services.contracts.LikeService;
 import project.ForumWebApp.services.contracts.PostService;

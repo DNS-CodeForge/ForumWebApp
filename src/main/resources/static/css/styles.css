@@ -433,6 +433,7 @@ button {
     display: flex;
     flex-direction: column;
     height: 150px;
+    min-width: 800px;
     background: linear-gradient(to right, #E5E4E2, #ffffff);
     padding: 15px;
     border-left: 5px solid #393E46;
@@ -448,6 +449,16 @@ button {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     background: lightgray;
     border-left: 5px solid #393E46;
+}
+
+
+.post-title {
+    display: flex;
+}
+
+.post-title span {
+    margin-left: auto;
+    color: gray;
 }
 
 .post-title a {
