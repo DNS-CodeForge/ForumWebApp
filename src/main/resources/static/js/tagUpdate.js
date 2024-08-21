@@ -11,7 +11,7 @@ document.getElementById('addTagButton').addEventListener('click', function() {
 
         const hiddenTagInput = document.createElement('input');
         hiddenTagInput.type = 'hidden';
-        hiddenTagInput.name = 'tagNames';
+        hiddenTagInput.name = 'tags';
         hiddenTagInput.value = tagInput.value.trim();
 
 
@@ -27,5 +27,17 @@ document.getElementById('addTagButton').addEventListener('click', function() {
             tagContainer.removeChild(hiddenTagInput);
         });
     }
-})
-
+});
+document.addEventListener('DOMContentLoaded', function() {
+    const tags = document.querySelectorAll('#tagContainer .tag-bubble'); // Select all tags
+    tags.forEach(function(tagElement) {
+        const hiddenInput = tagElement.nextElementSibling;
+        attachTagRemoveListener(tagElement, hiddenInput);
+    });
+});
+function attachTagRemoveListener(tagElement, hiddenInput) {
+    tagElement.addEventListener('click', function() {
+        tagElement.remove();
+        hiddenInput.remove();
+    });
+}

@@ -14,7 +14,11 @@ import project.ForumWebApp.constants.ValidationConstants;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "DTO for updating an existing post")
+
 public class PostUpdateDTO {
+
+    @Schema(description = "ID of the post", example = "1")
+    private Integer id;
 
     @NotBlank(message = ValidationConstants.NOT_BLANK_MESSAGE)
     @Size(

@@ -1,0 +1,163 @@
+@import 'styles.css';
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.post-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.post-container h1 {
+    font-size: 2rem;
+    color: #444;
+    margin-bottom: 20px;
+}
+
+
+.post-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+    color: #555;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+    border-color: #66afe9;
+    outline: none;
+}
+
+textarea {
+    resize: vertical;
+    height: 150px;
+}
+
+/* Tag Input Styles */
+.adding-tag-container {
+    display: flex;
+    align-items: center;
+}
+
+#tagInput {
+    flex: 1;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px;
+}
+
+#addTagButton {
+    padding: 10px 15px;
+    font-size: 1rem;
+    background-color: #a2c7ef;
+    color: #fff;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#addTagButton:hover {
+    background-color: #4c51bf;
+}
+
+#tagContainer {
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tag-bubble {
+    background-color: #a2c7ef;
+    color: #2d3748;
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 20px;
+    display: inline-block;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.tag-bubble:hover {
+    background-color: #f18686;
+    color: #fff;
+}
+
+
+.error {
+    color: #e53e3e;
+    margin-top: 5px;
+    font-size: 0.9rem;
+}
+
+
+button[type="submit"] {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #424542;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #a2c7ef;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .post-container {
+        padding: 15px;
+    }
+
+    .post-container h1 {
+        font-size: 1.75rem;
+    }
+
+    .adding-tag-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #tagInput {
+        border-radius: 4px;
+        margin-bottom: 10px;
+    }
+
+    #addTagButton {
+        border-radius: 4px;
+    }
+}

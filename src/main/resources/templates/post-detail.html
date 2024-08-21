@@ -13,54 +13,88 @@
             <input type="hidden" id="csrfHeader" th:value="${_csrf.headerName}"/>
         </div>
 
-        
-    <div class="post-detail-container">
-        <h1 th:text="${post.title}"></h1>
-        <p th:text="${post.description}"></p>
-        <div class="post-actions">
-            <div class="post-action">
-                <img src="/images/up-arrow.png"
-                     class="icon like-icon upvote-icon"
-                     th:attr="data-post-id=${post.id}">
-                <p th:text="${#lists.size(post.likes)}" th:id="'like-count-' + ${post.id}"></p>
+        <div class="post-detail-container">
+            <h1 th:text="${post.title}"></h1>
+            <div class="post-metadata post-actions">
+                <div class="post-metadata-top">
+                    <div class="post-metadata-bottom">
+                        <span><strong>Author:</strong> <span th:text="${author}"></span></span>
+                        <div></div>
+                        <span class="created-date"><strong>Created on:</strong> <span
+                                th:text="${#dates.format(post.createdDate, 'dd MMM yyyy HH:mm')}"></span></span>
+                    </div>
+                    <div class="tags">
+
+                            <span th:each= "tag : ${post.tags}" class="tag-bubble" th:text="${tag.name}"></span>
+
+                    </div>
+                </div>
             </div>
-            <div class="post-action">
-                <img src="/images/comment.png" alt="Comment" class="icon comment-icon">
+
+
+
+            <p th:text="${post.description}"></p>
+
+
+            <div class="post-actions">
+                <div class="post-action">
+                    <img src="/images/up-arrow.png"
+                         class="icon like-icon upvote-icon"
+                         th:attr="data-post-id=${post.id}">
+                    <p th:text="${#lists.size(post.likes)}" th:id="'like-count-' + ${post.id}"></p>
+                </div>
+                <div class="post-action">
+                    <img src="/images/comment.png" alt="Comment" class="icon comment-icon">
+                </div>
+                <div class="post-action" th:if="${isOwner == true}">
+                    <img src="/images/delete.png" alt="Delete" class="icon delete-icon delete-post"
+                         th:attr="data-post-id=${post.id}">
+                </div>
+                <div class="post-action" th:if="${isOwner == true}">
+                    <a th:href="@{/post/edit/{id}(id=${post.id})}">
+                        <img src="/images/edit.png" alt="Edit" class="icon edit-icon edit-post">
+                    </a>
+                </div>
             </div>
-            <div class="post-action" th:if="${isOwner == true}">
-                <img src="/images/delete.png" alt="Delete" class="icon delete-icon delete-post" th:attr="data-post-id=${post.id}">
+
+
+            <!-- Comments Section -->
+            <div class="comments-section add-comment">
+                <form th:if="${#authentication.name != 'anonymousUser'}"
+                      th:action="@{/posts/{id}/comments(id=${post.id})}"
+                      method="post">
+                    <div class="commenting-section">
+                            <textarea name="content" id="comment-textarea"
+                                      placeholder="Write your comment here..."></textarea>
+                        <input type="hidden" name="creatorName" th:value="${#authentication.getName()}"/>
+                        <div class="buttons" id="buttons">
+                            <button type="button" id="cancel-button">Cancel</button>
+                            <button th:if="${loggedInUser != null and loggedInUser.isEnabled()}" type="submit">
+                                Submit
+                            </button>
+                            <button th:unless="${loggedInUser != null and loggedInUser.isEnabled()}" type="reset">
+                                Banned
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <ul class="comments">
+                    <h2>Comments</h2>
+                    <li class="comment" th:each="comment : ${comments}">
+                        <div class="comment-item">
+                            <h3><strong th:text="${comment.creatorName}"></strong></h3>
+                            <p th:text="${comment.content}"></p>
+                        </div>
+                    </li>
+                </ul>
             </div>
-            <div class="post-action" th:if="${isOwner == true}">
-                <img src="/images/edit.png" alt="Edit" class="icon edit-icon edit-post" th:attr="data-post-id=${post.id}">
-            </div>
+
         </div>
     </div>
-
-    <div  class="comments-section add-comment">
-        <form th:if="${#authentication.name != 'anonymousUser'}" th:action="@{/posts/{id}/comments(id=${post.id})}" method="post">
-            <div class="commenting-section">
-                <textarea name="content" id="comment-textarea" placeholder="Write your comment here..."></textarea>
-                <input type="hidden" name="creatorName" th:value="${#authentication.getName()}"/>
-                <div class="buttons" id="buttons">
-                    <button type="button" id="cancel-button">Cancel</button>
-                    <button th:if="${loggedInUser != null and loggedInUser.isEnabled()}" type="submit">Submit</button>
-                    <button th:unless="${loggedInUser != null and loggedInUser.isEnabled()}" type="reset">Banned</button>
-                </div>
-            </div>
-        </form>
-
-        <ul class="comments">
-        <h2>Comments</h2>
-            <li class="comment" th:each="comment : ${comments}">
-                <div class="comment-item">
-                    <h3><strong th:text="${comment.creatorName}"></strong></h3>
-                    <p th:text="${comment.content}"></p>
-                </div>
-            </li>
-        </ul>
-    </div>
-    </div>
 </div>
+
+
 <script src="/js/upvote.js"></script>
 <script src="/js/dropdown.js"></script>
 <script src="/js/comment.js"></script>

@@ -1,5 +1,6 @@
 package project.ForumWebApp.controllers.mvc;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,12 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import org.springframework.web.util.UriComponentsBuilder;
@@ -33,6 +29,8 @@ import project.ForumWebApp.models.DTOs.post.PostCreateDTO;
 import project.ForumWebApp.models.DTOs.post.PostDTO;
 import project.ForumWebApp.models.DTOs.post.PostSummaryDTO;
 
+import project.ForumWebApp.models.DTOs.post.PostUpdateDTO;
+import project.ForumWebApp.models.Post;
 import project.ForumWebApp.services.contracts.CommentService;
 import project.ForumWebApp.services.contracts.LikeService;
 import project.ForumWebApp.services.contracts.PostService;
@@ -45,6 +43,7 @@ public class PostMvcController {
 
     private final AuthContextManager authContextManager;
     private final LikeService likeService;
+    private final ModelMapper modelMapper;
 
     public PostMvcController(PostService postService, CommentService commentService, ModelMapper modelMapper, AuthContextManager authContextManager, LikeService likeService) {
         this.postService = postService;
@@ -52,6 +51,7 @@ public class PostMvcController {
 
         this.authContextManager = authContextManager;
         this.likeService = likeService;
+        this.modelMapper = modelMapper;
     }
     @GetMapping("/search")
     public String loadSearchFormAndSearch(
@@ -111,13 +111,49 @@ public class PostMvcController {
                              RedirectAttributes redirectAttributes,
                              Model model) {
         if (bindingResult.hasErrors()) {
-
             return "create-post";
         }
+
 
         postService.createPost(postCreateDTO);
         redirectAttributes.addFlashAttribute("message", "Post created successfully!");
         return "redirect:/home";
+    }
+    @PreAuthorize("@postServiceImpl.isOwner(#postId)")
+    @GetMapping("/post/edit/{id}")
+    public String showEditPostPage(@PathVariable("id") int postId, Model model) {
+        PostDTO post = postService.getPost(postId);
+        model.addAttribute("post", post);
+        return "edit-post";
+    }
+
+    @PreAuthorize("@postServiceImpl.isOwner(#postId)")
+    @PostMapping("/post/edit/{id}")
+    public String updatePost(@PathVariable("id") int postId,
+                             @Valid @ModelAttribute("post") PostUpdateDTO post,
+                             BindingResult bindingResult,
+                             RedirectAttributes redirectAttributes,
+                             Model model) {
+
+        if (bindingResult.hasErrors()) {
+            var postEr = modelMapper.map(post, PostUpdateDTO.class);
+
+            model.addAttribute("post", postEr);
+            return "edit-post";
+        }
+
+        try {
+            if (post.getTags() == null) {
+                post.setTags(new ArrayList<>());
+            }
+
+            postService.updatePost(postId, post);
+
+            redirectAttributes.addFlashAttribute("successMessage", "Post updated successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to update the post. Please try again.");
+        }
+        return "redirect:/posts/" + postId;
     }
 
     @GetMapping("/posts/{id}")
@@ -133,6 +169,7 @@ public class PostMvcController {
             model.addAttribute("post", post);
             model.addAttribute("comments", commentService.getCommentsByPostId(id));
             model.addAttribute("isOwner", isOwner);
+            model.addAttribute("author", post.getUser().getUsername());
             return "post-detail";
 
         } catch (Exception e) {
